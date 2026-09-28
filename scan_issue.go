@@ -19,7 +19,7 @@ func (c *Client) ScanIssueCreate(ctx context.Context, body vampy.ScanIssueCreate
 }
 
 // ScanIssuesFilter Filter scan issues by params
-func (c *Client) ScanIssuesFilter(ctx context.Context, offset *int, limit *int, order *string, body vampy.ScanIssueFilter) (vampy.InlineResponse20011, error) {
+func (c *Client) ScanIssuesFilter(ctx context.Context, offset *int, limit *int, order *string, body vampy.ScanIssueFilter) (vampy.Page[vampy.ScanIssueWithFPScore], error) {
 	path := "/scan_issues/filter/"
 	q := url.Values{}
 	if offset != nil {
@@ -31,7 +31,7 @@ func (c *Client) ScanIssuesFilter(ctx context.Context, offset *int, limit *int, 
 	if order != nil {
 		q.Set("order", *order)
 	}
-	var out vampy.InlineResponse20011
+	var out vampy.Page[vampy.ScanIssueWithFPScore]
 	if err := c.doJSON(ctx, "POST", path, q, body, &out); err != nil {
 		return out, err
 	}

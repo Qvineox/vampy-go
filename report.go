@@ -9,7 +9,7 @@ import (
 )
 
 // ReportsListGet Get paginated list of reports
-func (c *Client) ReportsListGet(ctx context.Context, spaceID string, offset *int, limit *int, order *string, search *string, fileFormat *vampy.ReportFileFormat, status *vampy.ReportStatus) (vampy.InlineResponse20026, error) {
+func (c *Client) ReportsListGet(ctx context.Context, spaceID string, offset *int, limit *int, order *string, search *string, fileFormat *vampy.ReportFileFormat, status *vampy.ReportStatus) (vampy.Page[vampy.Report], error) {
 	path := fmt.Sprintf("/spaces/%s/reports/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if offset != nil {
@@ -30,7 +30,7 @@ func (c *Client) ReportsListGet(ctx context.Context, spaceID string, offset *int
 	if status != nil {
 		q.Set("status", string(*status))
 	}
-	var out vampy.InlineResponse20026
+	var out vampy.Page[vampy.Report]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

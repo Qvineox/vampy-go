@@ -9,7 +9,7 @@ import (
 )
 
 // FindingsGet Paginated entrypoint for getting Findings
-func (c *Client) FindingsGet(ctx context.Context, offset *int, limit *int, spaceID *string, engagementID *string, repositoryID *string, repositoryBranchID *string, scanIssueID *string, statuses []string, parsers []string) (vampy.InlineResponse20016, error) {
+func (c *Client) FindingsGet(ctx context.Context, offset *int, limit *int, spaceID *string, engagementID *string, repositoryID *string, repositoryBranchID *string, scanIssueID *string, statuses []string, parsers []string) (vampy.Page[vampy.Finding], error) {
 	path := "/findings/"
 	q := url.Values{}
 	if offset != nil {
@@ -39,7 +39,7 @@ func (c *Client) FindingsGet(ctx context.Context, offset *int, limit *int, space
 	for _, v := range parsers {
 		q.Add("parsers", v)
 	}
-	var out vampy.InlineResponse20016
+	var out vampy.Page[vampy.Finding]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

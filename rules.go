@@ -9,7 +9,7 @@ import (
 )
 
 // RulesListGet Rule: List of rules
-func (c *Client) RulesListGet(ctx context.Context, spaceID string, offset *int, limit *int, source *vampy.RulesEngineCreationSource, search *string, hasWarnings *bool) (vampy.InlineResponse20017, error) {
+func (c *Client) RulesListGet(ctx context.Context, spaceID string, offset *int, limit *int, source *vampy.RulesEngineCreationSource, search *string, hasWarnings *bool) (vampy.Page[vampy.RuleShort], error) {
 	path := fmt.Sprintf("/spaces/%s/rules/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if offset != nil {
@@ -27,7 +27,7 @@ func (c *Client) RulesListGet(ctx context.Context, spaceID string, offset *int, 
 	if hasWarnings != nil {
 		q.Set("hasWarnings", strconv.FormatBool(*hasWarnings))
 	}
-	var out vampy.InlineResponse20017
+	var out vampy.Page[vampy.RuleShort]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

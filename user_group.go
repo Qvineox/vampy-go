@@ -9,7 +9,7 @@ import (
 )
 
 // GetUserGroups Get a list of user groups
-func (c *Client) GetUserGroups(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, roleID *string, ldapConfigID *string, excludeLDAPConfigID *string, oidcConfigID *string, excludeOIDCConfigID *string) (vampy.InlineResponse2005, error) {
+func (c *Client) GetUserGroups(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, roleID *string, ldapConfigID *string, excludeLDAPConfigID *string, oidcConfigID *string, excludeOIDCConfigID *string) (vampy.Page[vampy.UserGroup], error) {
 	path := fmt.Sprintf("/spaces/%s/user_groups/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if limit != nil {
@@ -39,7 +39,7 @@ func (c *Client) GetUserGroups(ctx context.Context, spaceID string, limit *int, 
 	if excludeOIDCConfigID != nil {
 		q.Set("excludeOIDCConfigID", *excludeOIDCConfigID)
 	}
-	var out vampy.InlineResponse2005
+	var out vampy.Page[vampy.UserGroup]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -83,7 +83,7 @@ func (c *Client) PatchUserGroup(ctx context.Context, userGroupID string, body va
 }
 
 // GetUserGroupRelations Get relations attached to user group
-func (c *Client) GetUserGroupRelations(ctx context.Context, userGroupID string, relationType vampy.UserGroupRelationType, isMapped *bool, search *string, limit *int, offset *int) (vampy.InlineResponse2006, error) {
+func (c *Client) GetUserGroupRelations(ctx context.Context, userGroupID string, relationType vampy.UserGroupRelationType, isMapped *bool, search *string, limit *int, offset *int) (vampy.Page[vampy.UserGroupRelation], error) {
 	path := fmt.Sprintf("/user_groups/%s/relations/", url.PathEscape(userGroupID))
 	q := url.Values{}
 	q.Set("relationType", string(relationType))
@@ -99,7 +99,7 @@ func (c *Client) GetUserGroupRelations(ctx context.Context, userGroupID string, 
 	if offset != nil {
 		q.Set("offset", strconv.Itoa(*offset))
 	}
-	var out vampy.InlineResponse2006
+	var out vampy.Page[vampy.UserGroupRelation]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

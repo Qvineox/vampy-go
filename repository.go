@@ -9,7 +9,7 @@ import (
 )
 
 // RepositoryListGet Get list of available repositories
-func (c *Client) RepositoryListGet(ctx context.Context, limit *int, offset *int, spaceID *string, productID *string, order *string, search *string, requiredPermission *string, ids *string) (vampy.InlineResponse20012, error) {
+func (c *Client) RepositoryListGet(ctx context.Context, limit *int, offset *int, spaceID *string, productID *string, order *string, search *string, requiredPermission *string, ids *string) (vampy.Page[vampy.Repository], error) {
 	path := "/repositories/"
 	q := url.Values{}
 	if limit != nil {
@@ -36,7 +36,7 @@ func (c *Client) RepositoryListGet(ctx context.Context, limit *int, offset *int,
 	if ids != nil {
 		q.Set("ids", *ids)
 	}
-	var out vampy.InlineResponse20012
+	var out vampy.Page[vampy.Repository]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -90,7 +90,7 @@ func (c *Client) RepositoryPatch(ctx context.Context, repositoryID string, body 
 }
 
 // RepositoryUserGroupsGet Get user groups attached to repository
-func (c *Client) RepositoryUserGroupsGet(ctx context.Context, repositoryID string, offset *int, limit *int, search *string) (vampy.InlineResponse20010, error) {
+func (c *Client) RepositoryUserGroupsGet(ctx context.Context, repositoryID string, offset *int, limit *int, search *string) (vampy.Page[vampy.UserGroupPermission], error) {
 	path := fmt.Sprintf("/repositories/%s/user_groups/", url.PathEscape(repositoryID))
 	q := url.Values{}
 	if offset != nil {
@@ -102,7 +102,7 @@ func (c *Client) RepositoryUserGroupsGet(ctx context.Context, repositoryID strin
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse20010
+	var out vampy.Page[vampy.UserGroupPermission]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -154,7 +154,7 @@ func (c *Client) RepositoryVCSUnlink(ctx context.Context, repositoryID string) (
 }
 
 // RepositoryBranchListGet Get list of repository branches
-func (c *Client) RepositoryBranchListGet(ctx context.Context, spaceID string, limit *int, offset *int, search *string, order *string, ids *string, repositoryID *string, productID *string, isEmpty *bool) (vampy.InlineResponse20013, error) {
+func (c *Client) RepositoryBranchListGet(ctx context.Context, spaceID string, limit *int, offset *int, search *string, order *string, ids *string, repositoryID *string, productID *string, isEmpty *bool) (vampy.Page[vampy.RepositoryBranchList], error) {
 	path := fmt.Sprintf("/spaces/%s/repository_branches/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if limit != nil {
@@ -181,7 +181,7 @@ func (c *Client) RepositoryBranchListGet(ctx context.Context, spaceID string, li
 	if isEmpty != nil {
 		q.Set("isEmpty", strconv.FormatBool(*isEmpty))
 	}
-	var out vampy.InlineResponse20013
+	var out vampy.Page[vampy.RepositoryBranchList]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

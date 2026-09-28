@@ -164,9 +164,9 @@ func (c *Client) LDAPConfigPatch(ctx context.Context, body vampy.LDAPAuthenticat
 }
 
 // LDAPConfigTest Test LDAP authentication config without creation
-func (c *Client) LDAPConfigTest(ctx context.Context, body vampy.LDAPAuthenticationConfig) (vampy.InlineResponse20024, error) {
+func (c *Client) LDAPConfigTest(ctx context.Context, body vampy.LDAPAuthenticationConfig) (vampy.Page[vampy.LDAPUser], error) {
 	path := "/service/ldap/test/"
-	var out vampy.InlineResponse20024
+	var out vampy.Page[vampy.LDAPUser]
 	if err := c.doJSON(ctx, "POST", path, nil, body, &out); err != nil {
 		return out, err
 	}
@@ -353,7 +353,7 @@ func (c *Client) GetParsers(ctx context.Context) ([]vampy.ParserInList, error) {
 }
 
 // BackgroundTasksListGet Paginated list of current tasks execution
-func (c *Client) BackgroundTasksListGet(ctx context.Context, offset *int, limit *int) (vampy.InlineResponse20025, error) {
+func (c *Client) BackgroundTasksListGet(ctx context.Context, offset *int, limit *int) (vampy.Page[vampy.BackgroundTask], error) {
 	path := "/service/background_tasks/"
 	q := url.Values{}
 	if offset != nil {
@@ -362,7 +362,7 @@ func (c *Client) BackgroundTasksListGet(ctx context.Context, offset *int, limit 
 	if limit != nil {
 		q.Set("limit", strconv.Itoa(*limit))
 	}
-	var out vampy.InlineResponse20025
+	var out vampy.Page[vampy.BackgroundTask]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -432,7 +432,7 @@ func (c *Client) FPClassifierTrainingDataStats(ctx context.Context, spaceID stri
 }
 
 // FPClassifierSnapshotList Get FP classifier snapshots list
-func (c *Client) FPClassifierSnapshotList(ctx context.Context, spaceID string, scannerType *vampy.ScannerType, offset *int, limit *int, TestTotalCount *int) (vampy.InlineResponse20029, error) {
+func (c *Client) FPClassifierSnapshotList(ctx context.Context, spaceID string, scannerType *vampy.ScannerType, offset *int, limit *int, TestTotalCount *int) (vampy.Page[vampy.FPClassifierSnapshot], error) {
 	path := fmt.Sprintf("/service/fp_classifier/%s/snapshots/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if scannerType != nil {
@@ -447,7 +447,7 @@ func (c *Client) FPClassifierSnapshotList(ctx context.Context, spaceID string, s
 	if TestTotalCount != nil {
 		q.Set("_test_total_count", strconv.Itoa(*TestTotalCount))
 	}
-	var out vampy.InlineResponse20029
+	var out vampy.Page[vampy.FPClassifierSnapshot]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

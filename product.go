@@ -9,7 +9,7 @@ import (
 )
 
 // ProductListGet Get list of available products.
-func (c *Client) ProductListGet(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, repositoryID *string, ids *string) (vampy.InlineResponse2007, error) {
+func (c *Client) ProductListGet(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, repositoryID *string, ids *string) (vampy.Page[vampy.Product], error) {
 	path := fmt.Sprintf("/spaces/%s/products/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if limit != nil {
@@ -30,7 +30,7 @@ func (c *Client) ProductListGet(ctx context.Context, spaceID string, limit *int,
 	if ids != nil {
 		q.Set("ids", *ids)
 	}
-	var out vampy.InlineResponse2007
+	var out vampy.Page[vampy.Product]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -74,7 +74,7 @@ func (c *Client) ProductPatch(ctx context.Context, productID string, body vampy.
 }
 
 // ProductUserGroupsGet Get user groups attached to product
-func (c *Client) ProductUserGroupsGet(ctx context.Context, productID string, offset *int, limit *int, search *string) (vampy.InlineResponse20010, error) {
+func (c *Client) ProductUserGroupsGet(ctx context.Context, productID string, offset *int, limit *int, search *string) (vampy.Page[vampy.UserGroupPermission], error) {
 	path := fmt.Sprintf("/products/%s/user_groups/", url.PathEscape(productID))
 	q := url.Values{}
 	if offset != nil {
@@ -86,7 +86,7 @@ func (c *Client) ProductUserGroupsGet(ctx context.Context, productID string, off
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse20010
+	var out vampy.Page[vampy.UserGroupPermission]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

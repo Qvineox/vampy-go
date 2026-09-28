@@ -9,7 +9,7 @@ import (
 )
 
 // ScanPipelinesGet Get scan pipelines
-func (c *Client) ScanPipelinesGet(ctx context.Context, spaceID string, productID *string, repositoryID *string, order *string, status []string, scanningTool []string, initiatorType []string, scanPipelineType []string, relationType []string, createdLte *string, createdGte *string, offset *int, limit *int) (vampy.InlineResponse20027, error) {
+func (c *Client) ScanPipelinesGet(ctx context.Context, spaceID string, productID *string, repositoryID *string, order *string, status []string, scanningTool []string, initiatorType []string, scanPipelineType []string, relationType []string, createdLte *string, createdGte *string, offset *int, limit *int) (vampy.Page[vampy.ScanPipeline], error) {
 	path := fmt.Sprintf("/spaces/%s/scan_pipelines/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if productID != nil {
@@ -48,7 +48,7 @@ func (c *Client) ScanPipelinesGet(ctx context.Context, spaceID string, productID
 	if limit != nil {
 		q.Set("limit", strconv.Itoa(*limit))
 	}
-	var out vampy.InlineResponse20027
+	var out vampy.Page[vampy.ScanPipeline]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -66,7 +66,7 @@ func (c *Client) ScanPipelineDetailsGet(ctx context.Context, scanPipelineID stri
 }
 
 // ScanPipelineJobsGet Get scan pipeline jobs
-func (c *Client) ScanPipelineJobsGet(ctx context.Context, scanPipelineID string, order *string, status []string, scanningTool []string, relationType []string, offset *int, limit *int) (vampy.InlineResponse20028, error) {
+func (c *Client) ScanPipelineJobsGet(ctx context.Context, scanPipelineID string, order *string, status []string, scanningTool []string, relationType []string, offset *int, limit *int) (vampy.Page[vampy.ScanPipelineJob], error) {
 	path := fmt.Sprintf("/scan_pipelines/%s/jobs/", url.PathEscape(scanPipelineID))
 	q := url.Values{}
 	if order != nil {
@@ -87,7 +87,7 @@ func (c *Client) ScanPipelineJobsGet(ctx context.Context, scanPipelineID string,
 	if limit != nil {
 		q.Set("limit", strconv.Itoa(*limit))
 	}
-	var out vampy.InlineResponse20028
+	var out vampy.Page[vampy.ScanPipelineJob]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

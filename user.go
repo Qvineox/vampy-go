@@ -35,7 +35,7 @@ func (c *Client) UserRegistration(ctx context.Context, body vampy.UserRegistrati
 }
 
 // SpaceUsersGet Get all registered users from a server
-func (c *Client) SpaceUsersGet(ctx context.Context, spaceID string, returnUsersType *string, groupID *string, offset *int, limit *int, search *string, excludeGroupID *string) (vampy.InlineResponse2001, error) {
+func (c *Client) SpaceUsersGet(ctx context.Context, spaceID string, returnUsersType *string, groupID *string, offset *int, limit *int, search *string, excludeGroupID *string) (vampy.Page[vampy.UserAdmin], error) {
 	path := fmt.Sprintf("/spaces/%s/users/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if returnUsersType != nil {
@@ -56,7 +56,7 @@ func (c *Client) SpaceUsersGet(ctx context.Context, spaceID string, returnUsersT
 	if excludeGroupID != nil {
 		q.Set("excludeGroupID", *excludeGroupID)
 	}
-	var out vampy.InlineResponse2001
+	var out vampy.Page[vampy.UserAdmin]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

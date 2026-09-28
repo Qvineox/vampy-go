@@ -9,7 +9,7 @@ import (
 )
 
 // ExtV1ProductListGet Get Products List
-func (c *Client) ExtV1ProductListGet(ctx context.Context, limit *int, offset *int, order *string, search *string, repository *string, ids *string) (vampy.InlineResponse2007, error) {
+func (c *Client) ExtV1ProductListGet(ctx context.Context, limit *int, offset *int, order *string, search *string, repository *string, ids *string) (vampy.Page[vampy.Product], error) {
 	path := "/ext/v1/products/"
 	q := url.Values{}
 	if limit != nil {
@@ -30,7 +30,7 @@ func (c *Client) ExtV1ProductListGet(ctx context.Context, limit *int, offset *in
 	if ids != nil {
 		q.Set("ids", *ids)
 	}
-	var out vampy.InlineResponse2007
+	var out vampy.Page[vampy.Product]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -58,7 +58,7 @@ func (c *Client) ExtV1RepositoryBranchesSync(ctx context.Context, body vampy.Rep
 }
 
 // ExtV1RepositoryListGet Get Repositories List
-func (c *Client) ExtV1RepositoryListGet(ctx context.Context, limit *int, offset *int, product *string, artifact *string, order *string, search *string, ids *string) (vampy.InlineResponse20012, error) {
+func (c *Client) ExtV1RepositoryListGet(ctx context.Context, limit *int, offset *int, product *string, artifact *string, order *string, search *string, ids *string) (vampy.Page[vampy.Repository], error) {
 	path := "/ext/v1/repositories/"
 	q := url.Values{}
 	if limit != nil {
@@ -82,7 +82,7 @@ func (c *Client) ExtV1RepositoryListGet(ctx context.Context, limit *int, offset 
 	if ids != nil {
 		q.Set("ids", *ids)
 	}
-	var out vampy.InlineResponse20012
+	var out vampy.Page[vampy.Repository]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -251,7 +251,7 @@ func (c *Client) ExtV1GetBackgroundTasksDetails(ctx context.Context, taskID stri
 }
 
 // ExtV1ScanIssuesExport Export scan issues
-func (c *Client) ExtV1ScanIssuesExport(ctx context.Context, payload *vampy.ExportPayload, formatter *vampy.ExportFormatter, order *string, spaceID *string, search *string, statuses *string, severities *string, products *string, repositories *string, repositoryBranches *string, scanners *string, scannerTypes *string, hasSolution *bool, includeComments *bool) (vampy.InlineResponse20030, error) {
+func (c *Client) ExtV1ScanIssuesExport(ctx context.Context, payload *vampy.ExportPayload, formatter *vampy.ExportFormatter, order *string, spaceID *string, search *string, statuses *string, severities *string, products *string, repositories *string, repositoryBranches *string, scanners *string, scannerTypes *string, hasSolution *bool, includeComments *bool) (vampy.Page[vampy.ScanIssueExport], error) {
 	path := "/ext/v1/scan_issues/export/"
 	q := url.Values{}
 	if payload != nil {
@@ -296,7 +296,7 @@ func (c *Client) ExtV1ScanIssuesExport(ctx context.Context, payload *vampy.Expor
 	if includeComments != nil {
 		q.Set("includeComments", strconv.FormatBool(*includeComments))
 	}
-	var out vampy.InlineResponse20030
+	var out vampy.Page[vampy.ScanIssueExport]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -304,7 +304,7 @@ func (c *Client) ExtV1ScanIssuesExport(ctx context.Context, payload *vampy.Expor
 }
 
 // ExtV1ScanProfilesListGet Get Scan Profiles List
-func (c *Client) ExtV1ScanProfilesListGet(ctx context.Context, limit *int, offset *int, order *string, search *string) (vampy.InlineResponse20019, error) {
+func (c *Client) ExtV1ScanProfilesListGet(ctx context.Context, limit *int, offset *int, order *string, search *string) (vampy.Page[vampy.OrchestrationScanProfile], error) {
 	path := "/ext/v1/info/scan_profiles/"
 	q := url.Values{}
 	if limit != nil {
@@ -319,7 +319,7 @@ func (c *Client) ExtV1ScanProfilesListGet(ctx context.Context, limit *int, offse
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse20019
+	var out vampy.Page[vampy.OrchestrationScanProfile]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -327,7 +327,7 @@ func (c *Client) ExtV1ScanProfilesListGet(ctx context.Context, limit *int, offse
 }
 
 // ExtV1QualityGatesListGet Get list of available Quality Gates
-func (c *Client) ExtV1QualityGatesListGet(ctx context.Context, limit *int, offset *int, order *string, search *string) (vampy.InlineResponse20031, error) {
+func (c *Client) ExtV1QualityGatesListGet(ctx context.Context, limit *int, offset *int, order *string, search *string) (vampy.Page[vampy.QualityGate], error) {
 	path := "/ext/v1/info/quality_gates/"
 	q := url.Values{}
 	if limit != nil {
@@ -342,7 +342,7 @@ func (c *Client) ExtV1QualityGatesListGet(ctx context.Context, limit *int, offse
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse20031
+	var out vampy.Page[vampy.QualityGate]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

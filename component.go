@@ -9,7 +9,7 @@ import (
 )
 
 // ComponentsListGet Get list of available components
-func (c *Client) ComponentsListGet(ctx context.Context, limit *int, offset *int, spaceID *string, productID *string, ids *string, order *string, search *string) (vampy.InlineResponse20014, error) {
+func (c *Client) ComponentsListGet(ctx context.Context, limit *int, offset *int, spaceID *string, productID *string, ids *string, order *string, search *string) (vampy.Page[vampy.ComponentShort], error) {
 	path := "/components/"
 	q := url.Values{}
 	if limit != nil {
@@ -33,7 +33,7 @@ func (c *Client) ComponentsListGet(ctx context.Context, limit *int, offset *int,
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse20014
+	var out vampy.Page[vampy.ComponentShort]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -57,7 +57,7 @@ func (c *Client) ComponentPatch(ctx context.Context, componentID string, body va
 }
 
 // ComponentVersionsListGet Get list of available components' versions
-func (c *Client) ComponentVersionsListGet(ctx context.Context, limit *int, offset *int, spaceID *string, repositoryID *string, componentID *string, productID *string, ids *string, order *string, search *string, skipAggregations *bool) (vampy.InlineResponse20015, error) {
+func (c *Client) ComponentVersionsListGet(ctx context.Context, limit *int, offset *int, spaceID *string, repositoryID *string, componentID *string, productID *string, ids *string, order *string, search *string, skipAggregations *bool) (vampy.Page[vampy.ComponentVersion], error) {
 	path := "/component_versions/"
 	q := url.Values{}
 	if limit != nil {
@@ -90,7 +90,7 @@ func (c *Client) ComponentVersionsListGet(ctx context.Context, limit *int, offse
 	if skipAggregations != nil {
 		q.Set("skipAggregations", strconv.FormatBool(*skipAggregations))
 	}
-	var out vampy.InlineResponse20015
+	var out vampy.Page[vampy.ComponentVersion]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

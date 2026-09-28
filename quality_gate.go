@@ -62,7 +62,7 @@ func (c *Client) QualityGatePatch(ctx context.Context, qualityGateID string, bod
 }
 
 // QualityGateResultListGet Get list of available Quality Gate Results.
-func (c *Client) QualityGateResultListGet(ctx context.Context, qualityGateID string, limit *int, offset *int, order *string, relationType *vampy.QualityGateRelationType, statuses *string, search *string) (vampy.InlineResponse2009, error) {
+func (c *Client) QualityGateResultListGet(ctx context.Context, qualityGateID string, limit *int, offset *int, order *string, relationType *vampy.QualityGateRelationType, statuses *string, search *string) (vampy.Page[vampy.QualityGateResult], error) {
 	path := fmt.Sprintf("/quality_gates/%s/results/", url.PathEscape(qualityGateID))
 	q := url.Values{}
 	if limit != nil {
@@ -83,7 +83,7 @@ func (c *Client) QualityGateResultListGet(ctx context.Context, qualityGateID str
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse2009
+	var out vampy.Page[vampy.QualityGateResult]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

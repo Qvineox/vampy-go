@@ -72,7 +72,7 @@ func (c *Client) IntegrationsVCSPatch(ctx context.Context, vcsIntegration vampy.
 }
 
 // IntegrationsVCSRepositoriesGet Get VCS integration's repositories
-func (c *Client) IntegrationsVCSRepositoriesGet(ctx context.Context, vcsIntegration vampy.VCSIntegration, integrationID string, offset *int, limit *int, query *string) (vampy.InlineResponse2002, error) {
+func (c *Client) IntegrationsVCSRepositoriesGet(ctx context.Context, vcsIntegration vampy.VCSIntegration, integrationID string, offset *int, limit *int, query *string) (vampy.Page[vampy.ExternalRepository], error) {
 	path := fmt.Sprintf("/integrations/%s/%s/repositories/", url.PathEscape(string(vcsIntegration)), url.PathEscape(integrationID))
 	q := url.Values{}
 	if offset != nil {
@@ -84,7 +84,7 @@ func (c *Client) IntegrationsVCSRepositoriesGet(ctx context.Context, vcsIntegrat
 	if query != nil {
 		q.Set("query", *query)
 	}
-	var out vampy.InlineResponse2002
+	var out vampy.Page[vampy.ExternalRepository]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -619,7 +619,7 @@ func (c *Client) DefectDojoIntegrationPatch(ctx context.Context, integrationID s
 }
 
 // DefectDojoIntegrationGetProducts Get list of products from Defect Dojo
-func (c *Client) DefectDojoIntegrationGetProducts(ctx context.Context, integrationID string, limit *int, offset *int, search *string) (vampy.InlineResponse2003, error) {
+func (c *Client) DefectDojoIntegrationGetProducts(ctx context.Context, integrationID string, limit *int, offset *int, search *string) (vampy.Page[vampy.DefectDojoProduct], error) {
 	path := fmt.Sprintf("/integrations/defect_dojo/%s/products/", url.PathEscape(integrationID))
 	q := url.Values{}
 	if limit != nil {
@@ -631,7 +631,7 @@ func (c *Client) DefectDojoIntegrationGetProducts(ctx context.Context, integrati
 	if search != nil {
 		q.Set("search", *search)
 	}
-	var out vampy.InlineResponse2003
+	var out vampy.Page[vampy.DefectDojoProduct]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -761,7 +761,7 @@ func (c *Client) IntegrationsArtifactPatch(ctx context.Context, integrationID st
 }
 
 // IntegrationsArtifactExternalArtifactsGet Get integration's artifacts
-func (c *Client) IntegrationsArtifactExternalArtifactsGet(ctx context.Context, integrationID string, offset *int, limit *int, query *string) (vampy.InlineResponse2004, error) {
+func (c *Client) IntegrationsArtifactExternalArtifactsGet(ctx context.Context, integrationID string, offset *int, limit *int, query *string) (vampy.Page[vampy.ExternalArtifact], error) {
 	path := fmt.Sprintf("/integrations/artifact/%s/items/", url.PathEscape(integrationID))
 	q := url.Values{}
 	if offset != nil {
@@ -773,7 +773,7 @@ func (c *Client) IntegrationsArtifactExternalArtifactsGet(ctx context.Context, i
 	if query != nil {
 		q.Set("query", *query)
 	}
-	var out vampy.InlineResponse2004
+	var out vampy.Page[vampy.ExternalArtifact]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

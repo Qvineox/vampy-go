@@ -9,7 +9,7 @@ import (
 )
 
 // CommentListGet Paginated list of comments
-func (c *Client) CommentListGet(ctx context.Context, scanIssueID string, offset *int, limit *int, userID *string, exportRecordID *string, commentType *vampy.CommentType, includeAssociatedIssues *bool) (vampy.InlineResponse20021, error) {
+func (c *Client) CommentListGet(ctx context.Context, scanIssueID string, offset *int, limit *int, userID *string, exportRecordID *string, commentType *vampy.CommentType, includeAssociatedIssues *bool) (vampy.Page[vampy.CommentDetails], error) {
 	path := fmt.Sprintf("/scan_issues/%s/comments/", url.PathEscape(scanIssueID))
 	q := url.Values{}
 	if offset != nil {
@@ -30,7 +30,7 @@ func (c *Client) CommentListGet(ctx context.Context, scanIssueID string, offset 
 	if includeAssociatedIssues != nil {
 		q.Set("includeAssociatedIssues", strconv.FormatBool(*includeAssociatedIssues))
 	}
-	var out vampy.InlineResponse20021
+	var out vampy.Page[vampy.CommentDetails]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

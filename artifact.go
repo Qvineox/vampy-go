@@ -9,7 +9,7 @@ import (
 )
 
 // ArtifactsListGet Get artifacts list
-func (c *Client) ArtifactsListGet(ctx context.Context, spaceID string, productID *string, order *string, search *string, offset *int, limit *int) (vampy.InlineResponse20022, error) {
+func (c *Client) ArtifactsListGet(ctx context.Context, spaceID string, productID *string, order *string, search *string, offset *int, limit *int) (vampy.Page[vampy.Artifact], error) {
 	path := fmt.Sprintf("/spaces/%s/artifacts/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if productID != nil {
@@ -27,7 +27,7 @@ func (c *Client) ArtifactsListGet(ctx context.Context, spaceID string, productID
 	if limit != nil {
 		q.Set("limit", strconv.Itoa(*limit))
 	}
-	var out vampy.InlineResponse20022
+	var out vampy.Page[vampy.Artifact]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -71,7 +71,7 @@ func (c *Client) ArtifactVersionsSync(ctx context.Context, spaceID string, body 
 }
 
 // ArtifactsVersionsGet Get artifact versions
-func (c *Client) ArtifactsVersionsGet(ctx context.Context, artifactID string, search *string, offset *int, limit *int, order *string) (vampy.InlineResponse20023, error) {
+func (c *Client) ArtifactsVersionsGet(ctx context.Context, artifactID string, search *string, offset *int, limit *int, order *string) (vampy.Page[vampy.ArtifactVersion], error) {
 	path := fmt.Sprintf("/artifacts/%s/versions/", url.PathEscape(artifactID))
 	q := url.Values{}
 	if search != nil {
@@ -86,7 +86,7 @@ func (c *Client) ArtifactsVersionsGet(ctx context.Context, artifactID string, se
 	if order != nil {
 		q.Set("order", *order)
 	}
-	var out vampy.InlineResponse20023
+	var out vampy.Page[vampy.ArtifactVersion]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

@@ -6,9 +6,9 @@ import (
 )
 
 // SessionPost Logs in and returns the authentication cookie.
-func (c *Client) SessionPost(ctx context.Context, body vampy.LoginRequest) (vampy.InlineResponse200, error) {
+func (c *Client) SessionPost(ctx context.Context, body vampy.LoginRequest) (vampy.LoginResult, error) {
 	path := "/session/"
-	var out vampy.InlineResponse200
+	var out vampy.LoginResult
 	if err := c.doJSON(ctx, "POST", path, nil, body, &out); err != nil {
 		return out, err
 	}

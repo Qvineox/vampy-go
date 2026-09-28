@@ -9,7 +9,7 @@ import (
 )
 
 // AssetListGet Get list of available assets.
-func (c *Client) AssetListGet(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, productID *string, parentID *string) (vampy.InlineResponse2008, error) {
+func (c *Client) AssetListGet(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, productID *string, parentID *string) (vampy.Page[vampy.Asset], error) {
 	path := fmt.Sprintf("/spaces/%s/assets/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if limit != nil {
@@ -30,7 +30,7 @@ func (c *Client) AssetListGet(ctx context.Context, spaceID string, limit *int, o
 	if parentID != nil {
 		q.Set("parentID", *parentID)
 	}
-	var out vampy.InlineResponse2008
+	var out vampy.Page[vampy.Asset]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}

@@ -29,7 +29,7 @@ func (c *Client) RunOrchestrationBatch(ctx context.Context, spaceID string, body
 }
 
 // OrchestrationScanHistory Get history of scans
-func (c *Client) OrchestrationScanHistory(ctx context.Context, spaceID string, offset *int, limit *int, repositoryID *string, repositoryBranchID *string, productID *string, artifactID *string, artifactVersionID *string, assetID *string) (vampy.InlineResponse20018, error) {
+func (c *Client) OrchestrationScanHistory(ctx context.Context, spaceID string, offset *int, limit *int, repositoryID *string, repositoryBranchID *string, productID *string, artifactID *string, artifactVersionID *string, assetID *string) (vampy.Page[vampy.OrchestrationScanDetail], error) {
 	path := fmt.Sprintf("/spaces/%s/orchestration/scan_history/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if offset != nil {
@@ -56,7 +56,7 @@ func (c *Client) OrchestrationScanHistory(ctx context.Context, spaceID string, o
 	if assetID != nil {
 		q.Set("assetID", *assetID)
 	}
-	var out vampy.InlineResponse20018
+	var out vampy.Page[vampy.OrchestrationScanDetail]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -64,7 +64,7 @@ func (c *Client) OrchestrationScanHistory(ctx context.Context, spaceID string, o
 }
 
 // GetOrchestrationProfiles List of orchestration profiles
-func (c *Client) GetOrchestrationProfiles(ctx context.Context, spaceID string, availableForRepositoryID *string, availableForProductID *string, availableForArtifactVersionID *string, availableForArtifactID *string, availableForAssetID *string, offset *int, limit *int) (vampy.InlineResponse20019, error) {
+func (c *Client) GetOrchestrationProfiles(ctx context.Context, spaceID string, availableForRepositoryID *string, availableForProductID *string, availableForArtifactVersionID *string, availableForArtifactID *string, availableForAssetID *string, offset *int, limit *int) (vampy.Page[vampy.OrchestrationScanProfile], error) {
 	path := fmt.Sprintf("/spaces/%s/orchestration/profiles/", url.PathEscape(spaceID))
 	q := url.Values{}
 	if availableForRepositoryID != nil {
@@ -88,7 +88,7 @@ func (c *Client) GetOrchestrationProfiles(ctx context.Context, spaceID string, a
 	if limit != nil {
 		q.Set("limit", strconv.Itoa(*limit))
 	}
-	var out vampy.InlineResponse20019
+	var out vampy.Page[vampy.OrchestrationScanProfile]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -148,7 +148,7 @@ func (c *Client) UpdateOrchestrationProfile(ctx context.Context, scanProfileID s
 }
 
 // GetOrchestrationProfileRelations Get information about orchestration profile relations
-func (c *Client) GetOrchestrationProfileRelations(ctx context.Context, scanProfileID string, relationType vampy.OrchestrationScanProfileRelationType, offset *int, limit *int) (vampy.InlineResponse20020, error) {
+func (c *Client) GetOrchestrationProfileRelations(ctx context.Context, scanProfileID string, relationType vampy.OrchestrationScanProfileRelationType, offset *int, limit *int) (vampy.Page[vampy.OrchestrationScanProfileRelation], error) {
 	path := fmt.Sprintf("/orchestration/profiles/%s/relations/", url.PathEscape(scanProfileID))
 	q := url.Values{}
 	q.Set("relationType", string(relationType))
@@ -158,7 +158,7 @@ func (c *Client) GetOrchestrationProfileRelations(ctx context.Context, scanProfi
 	if limit != nil {
 		q.Set("limit", strconv.Itoa(*limit))
 	}
-	var out vampy.InlineResponse20020
+	var out vampy.Page[vampy.OrchestrationScanProfileRelation]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
