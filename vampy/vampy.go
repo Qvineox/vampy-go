@@ -20,7 +20,7 @@ type ArtifactDelete any
 
 type ArtifactDetail struct {
 	Artifact
-	LastOrchestrationScan OrchestrationScanDetail `json:"lastOrchestrationScan,omitempty"`
+	LastOrchestrationScan *OrchestrationScanDetail `json:"lastOrchestrationScan,omitempty"`
 }
 
 type ArtifactEdit any
@@ -31,10 +31,10 @@ type ArtifactImportTask any
 
 type Artifact struct {
 	ArtifactShort
-	ScanIssuesStat        ProductScanIssuesStat   `json:"scanIssuesStat,omitempty"`
-	VersionsCount         int                     `json:"versionsCount,omitempty"`
-	Integration           SpaceIntegration        `json:"integration,omitempty"`
-	LastOrchestrationScan OrchestrationScanDetail `json:"lastOrchestrationScan,omitempty"`
+	ScanIssuesStat        *ProductScanIssuesStat   `json:"scanIssuesStat,omitempty"`
+	VersionsCount         int                      `json:"versionsCount,omitempty"`
+	Integration           *SpaceIntegration        `json:"integration,omitempty"`
+	LastOrchestrationScan *OrchestrationScanDetail `json:"lastOrchestrationScan,omitempty"`
 }
 
 type ArtifactShort any
@@ -1030,7 +1030,7 @@ type JiraMetaInfoResponseExternalStatuses struct {
 	Name string `json:"name"`
 }
 
-type JiraMetaInfoResponseIssuetypes struct {
+type JiraMetaInfoResponseIssueTypes struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
@@ -1040,7 +1040,7 @@ type JiraMetaInfoResponseIssuetypes struct {
 type JiraMetaInfoResponseProjects struct {
 	Key        string                           `json:"key"`
 	Name       string                           `json:"name"`
-	Issuetypes []JiraMetaInfoResponseIssuetypes `json:"issuetypes,omitempty"`
+	IssueTypes []JiraMetaInfoResponseIssueTypes `json:"issuetypes,omitempty"`
 }
 
 type JiraSearchIssuesResponse any
@@ -1050,9 +1050,9 @@ type JiraSearchResponse any
 type JiraWebhookRequest any
 
 type JiraWebhookRequestComment struct {
-	ID     string                          `json:"id,omitempty"`
-	Body   string                          `json:"body,omitempty"`
-	Author JiraWebhookRequestCommentAuthor `json:"author,omitempty"`
+	ID     string                           `json:"id,omitempty"`
+	Body   string                           `json:"body,omitempty"`
+	Author *JiraWebhookRequestCommentAuthor `json:"author,omitempty"`
 }
 
 type JiraWebhookRequestCommentAuthor struct {
@@ -1071,7 +1071,7 @@ type JiraWebhookRequestIssue struct {
 }
 
 type JiraWebhookRequestIssueFields struct {
-	Status JiraWebhookRequestIssueFieldsStatus `json:"status,omitempty"`
+	Status *JiraWebhookRequestIssueFieldsStatus `json:"status,omitempty"`
 }
 
 type JiraWebhookRequestIssueFieldsStatus struct {
