@@ -3,42 +3,66 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
+
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // OIDCRedirect Redirect to OIDC authorize URL
-func (c *Client) OIDCRedirect(ctx context.Context, provider vampy.OIDCProvider, postAuthURL *string) (vampy.OIDCRedirect, error) {
-	path := fmt.Sprintf("/oidc/%s/redirect/", url.PathEscape(string(provider)))
+func (c *Client) OIDCRedirect(ctx context.Context, opts OIDCRedirectOptions) (vampy.OIDCRedirect, error) {
+	path := fmt.Sprintf("/oidc/%s/redirect/", url.PathEscape(string(opts.Provider)))
 	q := url.Values{}
-	if postAuthURL != nil {
-		q.Set("postAuthURL", *postAuthURL)
+
+	if opts.PostAuthURL != nil {
+		q.Set("postAuthURL", *opts.PostAuthURL)
 	}
+
 	var out vampy.OIDCRedirect
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type OIDCRedirectOptions struct {
+	Provider    vampy.OIDCProvider
+	PostAuthURL *string
+}
+
 // OIDCCallback OIDC authorize user and redirect to post auth URL
-func (c *Client) OIDCCallback(ctx context.Context, provider vampy.OIDCProvider, postAuthURL *string, state *string, sessionState *string, iss *string, code *string) error {
-	path := fmt.Sprintf("/oidc/%s/callback/", url.PathEscape(string(provider)))
+func (c *Client) OIDCCallback(ctx context.Context, opts OIDCCallbackOptions) error {
+	path := fmt.Sprintf("/oidc/%s/callback/", url.PathEscape(string(opts.Provider)))
 	q := url.Values{}
-	if postAuthURL != nil {
-		q.Set("postAuthURL", *postAuthURL)
+
+	if opts.PostAuthURL != nil {
+		q.Set("postAuthURL", *opts.PostAuthURL)
 	}
-	if state != nil {
-		q.Set("state", *state)
+
+	if opts.State != nil {
+		q.Set("state", *opts.State)
 	}
-	if sessionState != nil {
-		q.Set("session_state", *sessionState)
+
+	if opts.SessionState != nil {
+		q.Set("session_state", *opts.SessionState)
 	}
-	if iss != nil {
-		q.Set("iss", *iss)
+
+	if opts.Iss != nil {
+		q.Set("iss", *opts.Iss)
 	}
-	if code != nil {
-		q.Set("code", *code)
+
+	if opts.Code != nil {
+		q.Set("code", *opts.Code)
 	}
+
 	return c.doJSON(ctx, "GET", path, q, nil, nil)
+}
+
+type OIDCCallbackOptions struct {
+	Provider     vampy.OIDCProvider
+	PostAuthURL  *string
+	State        *string
+	SessionState *string
+	Iss          *string
+	Code         *string
 }

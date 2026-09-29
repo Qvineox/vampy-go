@@ -3,72 +3,110 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
 	"strconv"
+
+	"github.com/google/uuid"
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // AssetListGet Get list of available assets.
-func (c *Client) AssetListGet(ctx context.Context, spaceID string, limit *int, offset *int, order *string, search *string, productID *string, parentID *string) (vampy.Page[vampy.Asset], error) {
-	path := fmt.Sprintf("/spaces/%s/assets/", url.PathEscape(spaceID))
+func (c *Client) AssetListGet(ctx context.Context, opts AssetListGetOptions) (vampy.Page[vampy.Asset], error) {
+	path := fmt.Sprintf("/spaces/%s/assets/", url.PathEscape(c.spaceID.String()))
 	q := url.Values{}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	if opts.Order != nil {
+		q.Set("order", *opts.Order)
 	}
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
+
+	if opts.Search != nil {
+		q.Set("search", *opts.Search)
 	}
-	if order != nil {
-		q.Set("order", *order)
+
+	if opts.ProductID != nil {
+		q.Set("productID", opts.ProductID.String())
 	}
-	if search != nil {
-		q.Set("search", *search)
+
+	if opts.ParentID != nil {
+		q.Set("parentID", opts.ParentID.String())
 	}
-	if productID != nil {
-		q.Set("productID", *productID)
-	}
-	if parentID != nil {
-		q.Set("parentID", *parentID)
-	}
+
 	var out vampy.Page[vampy.Asset]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type AssetListGetOptions struct {
+	Order     *string
+	Search    *string
+	ProductID *uuid.UUID
+	ParentID  *uuid.UUID
+
+	vampy.Paging
 }
 
 // AssetPost Create asset
-func (c *Client) AssetPost(ctx context.Context, spaceID string, body vampy.AssetCreate) (vampy.AssetDetails, error) {
-	path := fmt.Sprintf("/spaces/%s/assets/", url.PathEscape(spaceID))
+func (c *Client) AssetPost(ctx context.Context, opts AssetPostOptions) (vampy.AssetDetails, error) {
+	path := fmt.Sprintf("/spaces/%s/assets/", url.PathEscape(c.spaceID.String()))
+
 	var out vampy.AssetDetails
-	if err := c.doJSON(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type AssetPostOptions struct {
+	Body vampy.AssetCreate
+}
+
 // AssetGet Get detailed information about Asset
-func (c *Client) AssetGet(ctx context.Context, assetID string) (vampy.AssetDetails, error) {
-	path := fmt.Sprintf("/assets/%s/", url.PathEscape(assetID))
+func (c *Client) AssetGet(ctx context.Context, opts AssetGetOptions) (vampy.AssetDetails, error) {
+	path := fmt.Sprintf("/assets/%s/", url.PathEscape(opts.AssetID.String()))
+
 	var out vampy.AssetDetails
 	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type AssetGetOptions struct {
+	AssetID uuid.UUID
 }
 
 // AssetDelete Delete asset instance and related data.
-func (c *Client) AssetDelete(ctx context.Context, assetID string) error {
-	path := fmt.Sprintf("/assets/%s/", url.PathEscape(assetID))
+func (c *Client) AssetDelete(ctx context.Context, opts AssetDeleteOptions) error {
+	path := fmt.Sprintf("/assets/%s/", url.PathEscape(opts.AssetID.String()))
+
 	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
 }
 
+type AssetDeleteOptions struct {
+	AssetID uuid.UUID
+}
+
 // AssetPatch Change asset data.
-func (c *Client) AssetPatch(ctx context.Context, assetID string, body vampy.AssetPatch) (vampy.AssetDetails, error) {
-	path := fmt.Sprintf("/assets/%s/", url.PathEscape(assetID))
+func (c *Client) AssetPatch(ctx context.Context, opts AssetPatchOptions) (vampy.AssetDetails, error) {
+	path := fmt.Sprintf("/assets/%s/", url.PathEscape(opts.AssetID.String()))
+
 	var out vampy.AssetDetails
-	if err := c.doJSON(ctx, "PATCH", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type AssetPatchOptions struct {
+	AssetID uuid.UUID
+	Body    vampy.AssetPatch
 }

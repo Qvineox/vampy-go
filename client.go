@@ -13,7 +13,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"uuid"
+
+	"github.com/google/uuid"
 )
 
 // Client is a Vampy ASPM API client.
@@ -57,7 +58,7 @@ func WithAccessToken(token string) Option {
 	return func(c *Client) error { c.accessToken = token; return nil }
 }
 
-// WithSpaceUUID sets the default Vampy space UUID for all interactions
+// WithSpaceUUID sets the default Vampy space UUID for all interactions.
 func WithSpaceUUID(id uuid.UUID) Option {
 	return func(c *Client) error { c.spaceID = id; return nil }
 }

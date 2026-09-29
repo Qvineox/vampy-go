@@ -3,99 +3,154 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
 	"strconv"
+
+	"github.com/google/uuid"
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // QualityGateListGet Get list of available Quality Gates
-func (c *Client) QualityGateListGet(ctx context.Context, spaceID string, order *string, search *string) ([]vampy.QualityGate, error) {
-	path := fmt.Sprintf("/spaces/%s/quality_gates/", url.PathEscape(spaceID))
+func (c *Client) QualityGateListGet(ctx context.Context, opts QualityGateListGetOptions) ([]vampy.QualityGate, error) {
+	path := fmt.Sprintf("/spaces/%s/quality_gates/", url.PathEscape(c.spaceID.String()))
 	q := url.Values{}
-	if order != nil {
-		q.Set("order", *order)
+
+	if opts.Order != nil {
+		q.Set("order", *opts.Order)
 	}
-	if search != nil {
-		q.Set("search", *search)
+
+	if opts.Search != nil {
+		q.Set("search", *opts.Search)
 	}
+
 	var out []vampy.QualityGate
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type QualityGateListGetOptions struct {
+	Order  *string
+	Search *string
 }
 
 // QualityGatePost Create Quality Gate.
-func (c *Client) QualityGatePost(ctx context.Context, spaceID string, body vampy.QualityGate) (vampy.QualityGate, error) {
-	path := fmt.Sprintf("/spaces/%s/quality_gates/", url.PathEscape(spaceID))
+func (c *Client) QualityGatePost(ctx context.Context, opts QualityGatePostOptions) (vampy.QualityGate, error) {
+	path := fmt.Sprintf("/spaces/%s/quality_gates/", url.PathEscape(c.spaceID.String()))
+
 	var out vampy.QualityGate
-	if err := c.doJSON(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type QualityGatePostOptions struct {
+	Body vampy.QualityGate
+}
+
 // QualityGateDetailsGet Get detailed information about Quality Gate.
-func (c *Client) QualityGateDetailsGet(ctx context.Context, qualityGateID string) (vampy.QualityGate, error) {
-	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(qualityGateID))
+func (c *Client) QualityGateDetailsGet(ctx context.Context, opts QualityGateDetailsGetOptions) (vampy.QualityGate, error) {
+	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(opts.QualityGateID.String()))
+
 	var out vampy.QualityGate
 	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type QualityGateDetailsGetOptions struct {
+	QualityGateID uuid.UUID
 }
 
 // QualityGateDelete Delete Quality Gate instance and related results.
-func (c *Client) QualityGateDelete(ctx context.Context, qualityGateID string) error {
-	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(qualityGateID))
+func (c *Client) QualityGateDelete(ctx context.Context, opts QualityGateDeleteOptions) error {
+	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(opts.QualityGateID.String()))
+
 	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
 }
 
+type QualityGateDeleteOptions struct {
+	QualityGateID uuid.UUID
+}
+
 // QualityGatePatch Change Quality Gate data.
-func (c *Client) QualityGatePatch(ctx context.Context, qualityGateID string, body vampy.QualityGateEdit) (vampy.QualityGate, error) {
-	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(qualityGateID))
+func (c *Client) QualityGatePatch(ctx context.Context, opts QualityGatePatchOptions) (vampy.QualityGate, error) {
+	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(opts.QualityGateID.String()))
+
 	var out vampy.QualityGate
-	if err := c.doJSON(ctx, "PATCH", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type QualityGatePatchOptions struct {
+	QualityGateID uuid.UUID
+	Body          vampy.QualityGateEdit
+}
+
 // QualityGateResultListGet Get list of available Quality Gate Results.
-func (c *Client) QualityGateResultListGet(ctx context.Context, qualityGateID string, limit *int, offset *int, order *string, relationType *vampy.QualityGateRelationType, statuses *string, search *string) (vampy.Page[vampy.QualityGateResult], error) {
-	path := fmt.Sprintf("/quality_gates/%s/results/", url.PathEscape(qualityGateID))
+func (c *Client) QualityGateResultListGet(ctx context.Context, opts QualityGateResultListGetOptions) (vampy.Page[vampy.QualityGateResult], error) {
+	path := fmt.Sprintf("/quality_gates/%s/results/", url.PathEscape(opts.QualityGateID.String()))
 	q := url.Values{}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	if opts.Order != nil {
+		q.Set("order", *opts.Order)
 	}
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
+
+	if opts.RelationType != nil {
+		q.Set("relationType", string(*opts.RelationType))
 	}
-	if order != nil {
-		q.Set("order", *order)
+
+	if opts.Statuses != nil {
+		q.Set("statuses", *opts.Statuses)
 	}
-	if relationType != nil {
-		q.Set("relationType", string(*relationType))
+
+	if opts.Search != nil {
+		q.Set("search", *opts.Search)
 	}
-	if statuses != nil {
-		q.Set("statuses", *statuses)
-	}
-	if search != nil {
-		q.Set("search", *search)
-	}
+
 	var out vampy.Page[vampy.QualityGateResult]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type QualityGateResultListGetOptions struct {
+	QualityGateID uuid.UUID
+	Order         *string
+	RelationType  *vampy.QualityGateRelationType
+	Statuses      *string
+	Search        *string
+
+	vampy.Paging
+}
+
 // QualityGateResultGetDetails Get Quality Gate Result details.
-func (c *Client) QualityGateResultGetDetails(ctx context.Context, qualityGateID string, qualityGateResultID string) (vampy.QualityGateResultDetails, error) {
-	path := fmt.Sprintf("/quality_gates/%s/results/%s/", url.PathEscape(qualityGateID), url.PathEscape(qualityGateResultID))
+func (c *Client) QualityGateResultGetDetails(ctx context.Context, opts QualityGateResultGetDetailsOptions) (vampy.QualityGateResultDetails, error) {
+	path := fmt.Sprintf("/quality_gates/%s/results/%s/", url.PathEscape(opts.QualityGateID.String()), url.PathEscape(opts.QualityGateResultID.String()))
+
 	var out vampy.QualityGateResultDetails
 	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type QualityGateResultGetDetailsOptions struct {
+	QualityGateID       uuid.UUID
+	QualityGateResultID uuid.UUID
 }

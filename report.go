@@ -3,52 +3,77 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
 	"strconv"
+
+	"github.com/google/uuid"
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // ReportsListGet Get paginated list of reports
-func (c *Client) ReportsListGet(ctx context.Context, spaceID string, offset *int, limit *int, order *string, search *string, fileFormat *vampy.ReportFileFormat, status *vampy.ReportStatus) (vampy.Page[vampy.Report], error) {
-	path := fmt.Sprintf("/spaces/%s/reports/", url.PathEscape(spaceID))
+func (c *Client) ReportsListGet(ctx context.Context, opts ReportsListGetOptions) (vampy.Page[vampy.Report], error) {
+	path := fmt.Sprintf("/spaces/%s/reports/", url.PathEscape(c.spaceID.String()))
 	q := url.Values{}
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	if opts.Order != nil {
+		q.Set("order", *opts.Order)
 	}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
+
+	if opts.Search != nil {
+		q.Set("search", *opts.Search)
 	}
-	if order != nil {
-		q.Set("order", *order)
+
+	if opts.FileFormat != nil {
+		q.Set("fileFormat", string(*opts.FileFormat))
 	}
-	if search != nil {
-		q.Set("search", *search)
+
+	if opts.Status != nil {
+		q.Set("status", string(*opts.Status))
 	}
-	if fileFormat != nil {
-		q.Set("fileFormat", string(*fileFormat))
-	}
-	if status != nil {
-		q.Set("status", string(*status))
-	}
+
 	var out vampy.Page[vampy.Report]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type ReportsListGetOptions struct {
+	Order      *string
+	Search     *string
+	FileFormat *vampy.ReportFileFormat
+	Status     *vampy.ReportStatus
+
+	vampy.Paging
+}
+
 // ReportGet Get report details
-func (c *Client) ReportGet(ctx context.Context, reportID string) (vampy.Report, error) {
-	path := fmt.Sprintf("/reports/%s/", url.PathEscape(reportID))
+func (c *Client) ReportGet(ctx context.Context, opts ReportGetOptions) (vampy.Report, error) {
+	path := fmt.Sprintf("/reports/%s/", url.PathEscape(opts.ReportID.String()))
+
 	var out vampy.Report
 	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type ReportGetOptions struct {
+	ReportID uuid.UUID
+}
+
 // ReportDownload Get report file
-func (c *Client) ReportDownload(ctx context.Context, reportID string) ([]byte, error) {
-	path := fmt.Sprintf("/reports/%s/download/", url.PathEscape(reportID))
+func (c *Client) ReportDownload(ctx context.Context, opts ReportDownloadOptions) ([]byte, error) {
+	path := fmt.Sprintf("/reports/%s/download/", url.PathEscape(opts.ReportID.String()))
+
 	return c.doBinary(ctx, "GET", path, nil, nil)
+}
+
+type ReportDownloadOptions struct {
+	ReportID uuid.UUID
 }

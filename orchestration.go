@@ -3,227 +3,352 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
 	"strconv"
+
+	"github.com/google/uuid"
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // RunOrchestration Run orchestration
-func (c *Client) RunOrchestration(ctx context.Context, spaceID string, body vampy.OrchestrationRunBody) (vampy.OrchestrationRunResult, error) {
-	path := fmt.Sprintf("/spaces/%s/orchestration/run/", url.PathEscape(spaceID))
+func (c *Client) RunOrchestration(ctx context.Context, opts RunOrchestrationOptions) (vampy.OrchestrationRunResult, error) {
+	path := fmt.Sprintf("/spaces/%s/orchestration/run/", url.PathEscape(c.spaceID.String()))
+
 	var out vampy.OrchestrationRunResult
-	if err := c.doMultipart(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type RunOrchestrationOptions struct {
+	Body vampy.OrchestrationRunBody
 }
 
 // RunOrchestrationBatch Run orchestration batch
-func (c *Client) RunOrchestrationBatch(ctx context.Context, spaceID string, body vampy.OrchestrationRunBatchBody) (vampy.OrchestrationRunBatchResult, error) {
-	path := fmt.Sprintf("/spaces/%s/orchestration/run_batch/", url.PathEscape(spaceID))
+func (c *Client) RunOrchestrationBatch(ctx context.Context, opts RunOrchestrationBatchOptions) (vampy.OrchestrationRunBatchResult, error) {
+	path := fmt.Sprintf("/spaces/%s/orchestration/run_batch/", url.PathEscape(c.spaceID.String()))
+
 	var out vampy.OrchestrationRunBatchResult
-	if err := c.doMultipart(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type RunOrchestrationBatchOptions struct {
+	Body vampy.OrchestrationRunBatchBody
+}
+
 // OrchestrationScanHistory Get history of scans
-func (c *Client) OrchestrationScanHistory(ctx context.Context, spaceID string, offset *int, limit *int, repositoryID *string, repositoryBranchID *string, productID *string, artifactID *string, artifactVersionID *string, assetID *string) (vampy.Page[vampy.OrchestrationScanDetail], error) {
-	path := fmt.Sprintf("/spaces/%s/orchestration/scan_history/", url.PathEscape(spaceID))
+func (c *Client) OrchestrationScanHistory(ctx context.Context, opts OrchestrationScanHistoryOptions) (vampy.Page[vampy.OrchestrationScanDetail], error) {
+	path := fmt.Sprintf("/spaces/%s/orchestration/scan_history/", url.PathEscape(c.spaceID.String()))
 	q := url.Values{}
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	if opts.RepositoryID != nil {
+		q.Set("repositoryID", opts.RepositoryID.String())
 	}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
+
+	if opts.RepositoryBranchID != nil {
+		q.Set("repositoryBranchID", opts.RepositoryBranchID.String())
 	}
-	if repositoryID != nil {
-		q.Set("repositoryID", *repositoryID)
+
+	if opts.ProductID != nil {
+		q.Set("productID", opts.ProductID.String())
 	}
-	if repositoryBranchID != nil {
-		q.Set("repositoryBranchID", *repositoryBranchID)
+
+	if opts.ArtifactID != nil {
+		q.Set("artifactID", opts.ArtifactID.String())
 	}
-	if productID != nil {
-		q.Set("productID", *productID)
+
+	if opts.ArtifactVersionID != nil {
+		q.Set("artifactVersionID", opts.ArtifactVersionID.String())
 	}
-	if artifactID != nil {
-		q.Set("artifactID", *artifactID)
+
+	if opts.AssetID != nil {
+		q.Set("assetID", opts.AssetID.String())
 	}
-	if artifactVersionID != nil {
-		q.Set("artifactVersionID", *artifactVersionID)
-	}
-	if assetID != nil {
-		q.Set("assetID", *assetID)
-	}
+
 	var out vampy.Page[vampy.OrchestrationScanDetail]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type OrchestrationScanHistoryOptions struct {
+	RepositoryID       *uuid.UUID
+	RepositoryBranchID *uuid.UUID
+	ProductID          *uuid.UUID
+	ArtifactID         *uuid.UUID
+	ArtifactVersionID  *uuid.UUID
+	AssetID            *uuid.UUID
+
+	vampy.Paging
+}
+
 // GetOrchestrationProfiles List of orchestration profiles
-func (c *Client) GetOrchestrationProfiles(ctx context.Context, spaceID string, availableForRepositoryID *string, availableForProductID *string, availableForArtifactVersionID *string, availableForArtifactID *string, availableForAssetID *string, offset *int, limit *int) (vampy.Page[vampy.OrchestrationScanProfile], error) {
-	path := fmt.Sprintf("/spaces/%s/orchestration/profiles/", url.PathEscape(spaceID))
+func (c *Client) GetOrchestrationProfiles(ctx context.Context, opts GetOrchestrationProfilesOptions) (vampy.Page[vampy.OrchestrationScanProfile], error) {
+	path := fmt.Sprintf("/spaces/%s/orchestration/profiles/", url.PathEscape(c.spaceID.String()))
 	q := url.Values{}
-	if availableForRepositoryID != nil {
-		q.Set("availableForRepositoryID", *availableForRepositoryID)
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	if opts.AvailableForRepositoryID != nil {
+		q.Set("availableForRepositoryID", opts.AvailableForRepositoryID.String())
 	}
-	if availableForProductID != nil {
-		q.Set("availableForProductID", *availableForProductID)
+
+	if opts.AvailableForProductID != nil {
+		q.Set("availableForProductID", opts.AvailableForProductID.String())
 	}
-	if availableForArtifactVersionID != nil {
-		q.Set("availableForArtifactVersionID", *availableForArtifactVersionID)
+
+	if opts.AvailableForArtifactVersionID != nil {
+		q.Set("availableForArtifactVersionID", opts.AvailableForArtifactVersionID.String())
 	}
-	if availableForArtifactID != nil {
-		q.Set("availableForArtifactID", *availableForArtifactID)
+
+	if opts.AvailableForArtifactID != nil {
+		q.Set("availableForArtifactID", opts.AvailableForArtifactID.String())
 	}
-	if availableForAssetID != nil {
-		q.Set("availableForAssetID", *availableForAssetID)
+
+	if opts.AvailableForAssetID != nil {
+		q.Set("availableForAssetID", opts.AvailableForAssetID.String())
 	}
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
-	}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
-	}
+
 	var out vampy.Page[vampy.OrchestrationScanProfile]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type GetOrchestrationProfilesOptions struct {
+	AvailableForRepositoryID      *uuid.UUID
+	AvailableForProductID         *uuid.UUID
+	AvailableForArtifactVersionID *uuid.UUID
+	AvailableForArtifactID        *uuid.UUID
+	AvailableForAssetID           *uuid.UUID
+
+	vampy.Paging
 }
 
 // CreateOrchestrationProfile Create orchestration profile
-func (c *Client) CreateOrchestrationProfile(ctx context.Context, spaceID string, body vampy.OrchestrationScanProfile) (vampy.OrchestrationScanProfile, error) {
-	path := fmt.Sprintf("/spaces/%s/orchestration/profiles/", url.PathEscape(spaceID))
+func (c *Client) CreateOrchestrationProfile(ctx context.Context, opts CreateOrchestrationProfileOptions) (vampy.OrchestrationScanProfile, error) {
+	path := fmt.Sprintf("/spaces/%s/orchestration/profiles/", url.PathEscape(c.spaceID.String()))
+
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type CreateOrchestrationProfileOptions struct {
+	Body vampy.OrchestrationScanProfile
+}
+
 // GetOrchestrationProfile Get information about orchestration profile
-func (c *Client) GetOrchestrationProfile(ctx context.Context, scanProfileID string, availableForRepositoryID *string, availableForProductID *string, availableForArtifactVersionID *string, availableForArtifactID *string, availableForAssetID *string) (vampy.OrchestrationScanProfile, error) {
-	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(scanProfileID))
+func (c *Client) GetOrchestrationProfile(ctx context.Context, opts GetOrchestrationProfileOptions) (vampy.OrchestrationScanProfile, error) {
+	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(opts.ScanProfileID.String()))
 	q := url.Values{}
-	if availableForRepositoryID != nil {
-		q.Set("availableForRepositoryID", *availableForRepositoryID)
+
+	if opts.AvailableForRepositoryID != nil {
+		q.Set("availableForRepositoryID", opts.AvailableForRepositoryID.String())
 	}
-	if availableForProductID != nil {
-		q.Set("availableForProductID", *availableForProductID)
+
+	if opts.AvailableForProductID != nil {
+		q.Set("availableForProductID", opts.AvailableForProductID.String())
 	}
-	if availableForArtifactVersionID != nil {
-		q.Set("availableForArtifactVersionID", *availableForArtifactVersionID)
+
+	if opts.AvailableForArtifactVersionID != nil {
+		q.Set("availableForArtifactVersionID", opts.AvailableForArtifactVersionID.String())
 	}
-	if availableForArtifactID != nil {
-		q.Set("availableForArtifactID", *availableForArtifactID)
+
+	if opts.AvailableForArtifactID != nil {
+		q.Set("availableForArtifactID", opts.AvailableForArtifactID.String())
 	}
-	if availableForAssetID != nil {
-		q.Set("availableForAssetID", *availableForAssetID)
+
+	if opts.AvailableForAssetID != nil {
+		q.Set("availableForAssetID", opts.AvailableForAssetID.String())
 	}
+
 	var out vampy.OrchestrationScanProfile
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type GetOrchestrationProfileOptions struct {
+	ScanProfileID                 uuid.UUID
+	AvailableForRepositoryID      *uuid.UUID
+	AvailableForProductID         *uuid.UUID
+	AvailableForArtifactVersionID *uuid.UUID
+	AvailableForArtifactID        *uuid.UUID
+	AvailableForAssetID           *uuid.UUID
 }
 
 // DeleteOrchestrationProfile Delete orchestration profile
-func (c *Client) DeleteOrchestrationProfile(ctx context.Context, scanProfileID string) error {
-	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(scanProfileID))
+func (c *Client) DeleteOrchestrationProfile(ctx context.Context, opts DeleteOrchestrationProfileOptions) error {
+	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(opts.ScanProfileID.String()))
+
 	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
 }
 
+type DeleteOrchestrationProfileOptions struct {
+	ScanProfileID uuid.UUID
+}
+
 // UpdateOrchestrationProfile Patch orchestration profile
-func (c *Client) UpdateOrchestrationProfile(ctx context.Context, scanProfileID string, body vampy.OrchestrationScanProfile) (vampy.OrchestrationScanProfile, error) {
-	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(scanProfileID))
+func (c *Client) UpdateOrchestrationProfile(ctx context.Context, opts UpdateOrchestrationProfileOptions) (vampy.OrchestrationScanProfile, error) {
+	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(opts.ScanProfileID.String()))
+
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "PATCH", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type UpdateOrchestrationProfileOptions struct {
+	ScanProfileID uuid.UUID
+	Body          vampy.OrchestrationScanProfile
+}
+
 // GetOrchestrationProfileRelations Get information about orchestration profile relations
-func (c *Client) GetOrchestrationProfileRelations(ctx context.Context, scanProfileID string, relationType vampy.OrchestrationScanProfileRelationType, offset *int, limit *int) (vampy.Page[vampy.OrchestrationScanProfileRelation], error) {
-	path := fmt.Sprintf("/orchestration/profiles/%s/relations/", url.PathEscape(scanProfileID))
+func (c *Client) GetOrchestrationProfileRelations(ctx context.Context, opts GetOrchestrationProfileRelationsOptions) (vampy.Page[vampy.OrchestrationScanProfileRelation], error) {
+	path := fmt.Sprintf("/orchestration/profiles/%s/relations/", url.PathEscape(opts.ScanProfileID.String()))
 	q := url.Values{}
-	q.Set("relationType", string(relationType))
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
-	}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
-	}
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	q.Set("relationType", string(opts.RelationType))
+
 	var out vampy.Page[vampy.OrchestrationScanProfileRelation]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type GetOrchestrationProfileRelationsOptions struct {
+	ScanProfileID uuid.UUID
+	RelationType  vampy.OrchestrationScanProfileRelationType
+
+	vampy.Paging
 }
 
 // DeleteScannerConfig Delete scanner config from profile
-func (c *Client) DeleteScannerConfig(ctx context.Context, scanProfileID string, body vampy.OrchestrationScannerConfigDelete) (vampy.OrchestrationScanProfile, error) {
-	path := fmt.Sprintf("/orchestration/profiles/%s/delete_scanner_config/", url.PathEscape(scanProfileID))
+func (c *Client) DeleteScannerConfig(ctx context.Context, opts DeleteScannerConfigOptions) (vampy.OrchestrationScanProfile, error) {
+	path := fmt.Sprintf("/orchestration/profiles/%s/delete_scanner_config/", url.PathEscape(opts.ScanProfileID.String()))
+
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type DeleteScannerConfigOptions struct {
+	ScanProfileID uuid.UUID
+	Body          vampy.OrchestrationScannerConfigDelete
+}
+
 // GetOrchestrationScannersInfo Get a list of available scanners with their parameters
-func (c *Client) GetOrchestrationScannersInfo(ctx context.Context, availableForRepositoryID *string, availableForProductID *string, availableForArtifactVersionID *string, availableForArtifactID *string, availableForAssetID *string) ([]vampy.OrchestrationScannerInfo, error) {
+func (c *Client) GetOrchestrationScannersInfo(ctx context.Context, opts GetOrchestrationScannersInfoOptions) ([]vampy.OrchestrationScannerInfo, error) {
 	path := "/orchestration/scanners/"
 	q := url.Values{}
-	if availableForRepositoryID != nil {
-		q.Set("availableForRepositoryID", *availableForRepositoryID)
+
+	if opts.AvailableForRepositoryID != nil {
+		q.Set("availableForRepositoryID", opts.AvailableForRepositoryID.String())
 	}
-	if availableForProductID != nil {
-		q.Set("availableForProductID", *availableForProductID)
+
+	if opts.AvailableForProductID != nil {
+		q.Set("availableForProductID", opts.AvailableForProductID.String())
 	}
-	if availableForArtifactVersionID != nil {
-		q.Set("availableForArtifactVersionID", *availableForArtifactVersionID)
+
+	if opts.AvailableForArtifactVersionID != nil {
+		q.Set("availableForArtifactVersionID", opts.AvailableForArtifactVersionID.String())
 	}
-	if availableForArtifactID != nil {
-		q.Set("availableForArtifactID", *availableForArtifactID)
+
+	if opts.AvailableForArtifactID != nil {
+		q.Set("availableForArtifactID", opts.AvailableForArtifactID.String())
 	}
-	if availableForAssetID != nil {
-		q.Set("availableForAssetID", *availableForAssetID)
+
+	if opts.AvailableForAssetID != nil {
+		q.Set("availableForAssetID", opts.AvailableForAssetID.String())
 	}
+
 	var out []vampy.OrchestrationScannerInfo
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type GetOrchestrationScannersInfoOptions struct {
+	AvailableForRepositoryID      *uuid.UUID
+	AvailableForProductID         *uuid.UUID
+	AvailableForArtifactVersionID *uuid.UUID
+	AvailableForArtifactID        *uuid.UUID
+	AvailableForAssetID           *uuid.UUID
 }
 
 // UploadScannerConfig Upload scanner config file
-func (c *Client) UploadScannerConfig(ctx context.Context, body vampy.OrchestrationUploadScannerConfigBody) (vampy.OrchestrationScannerConfigFileInfo, error) {
+func (c *Client) UploadScannerConfig(ctx context.Context, opts UploadScannerConfigOptions) (vampy.OrchestrationScannerConfigFileInfo, error) {
 	path := "/orchestration/upload_scanner_config/"
+
 	var out vampy.OrchestrationScannerConfigFileInfo
-	if err := c.doMultipart(ctx, "POST", path, nil, body, &out); err != nil {
+	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
 }
 
+type UploadScannerConfigOptions struct {
+	Body vampy.OrchestrationUploadScannerConfigBody
+}
+
 // DownloadScannerConfig Download scanner config file
-func (c *Client) DownloadScannerConfig(ctx context.Context, scanner vampy.ScannerWithConfigFiles, filePath *string, fileName *string, default_ *bool) ([]byte, error) {
+func (c *Client) DownloadScannerConfig(ctx context.Context, opts DownloadScannerConfigOptions) ([]byte, error) {
 	path := "/orchestration/download_scanner_config/"
 	q := url.Values{}
-	q.Set("scanner", string(scanner))
-	if filePath != nil {
-		q.Set("filePath", *filePath)
+
+	q.Set("scanner", string(opts.Scanner))
+
+	if opts.FilePath != nil {
+		q.Set("filePath", *opts.FilePath)
 	}
-	if fileName != nil {
-		q.Set("fileName", *fileName)
+
+	if opts.FileName != nil {
+		q.Set("fileName", *opts.FileName)
 	}
-	if default_ != nil {
-		q.Set("default", strconv.FormatBool(*default_))
+
+	if opts.Default != nil {
+		q.Set("default", strconv.FormatBool(*opts.Default))
 	}
+
 	return c.doBinary(ctx, "GET", path, q, nil)
+}
+
+type DownloadScannerConfigOptions struct {
+	Scanner  vampy.ScannerWithConfigFiles
+	FilePath *string
+	FileName *string
+	Default  *bool
 }
