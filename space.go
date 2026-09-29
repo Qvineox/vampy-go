@@ -2,6 +2,7 @@ package vampy_go
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/qvineox/vampy-go/vampy"
 )
@@ -11,7 +12,7 @@ func (c *Client) SpacesGet(ctx context.Context) ([]vampy.Space, error) {
 	path := "/spaces/"
 
 	var out []vampy.Space
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -23,7 +24,7 @@ func (c *Client) SpaceCreate(ctx context.Context, opts SpaceCreateOptions) (vamp
 	path := "/spaces/"
 
 	var out vampy.Space
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 

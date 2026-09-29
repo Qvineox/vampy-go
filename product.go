@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -36,7 +37,7 @@ func (c *Client) ProductListGet(ctx context.Context, opts ProductListGetOptions)
 	}
 
 	var out vampy.Page[vampy.Product]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -57,7 +58,7 @@ func (c *Client) ProductPost(ctx context.Context, opts ProductPostOptions) (vamp
 	path := fmt.Sprintf("/spaces/%s/products/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.Product
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -73,7 +74,7 @@ func (c *Client) ProductDetailsGet(ctx context.Context, opts ProductDetailsGetOp
 	path := fmt.Sprintf("/products/%s/", url.PathEscape(opts.ProductID.String()))
 
 	var out vampy.ProductDetail
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -88,7 +89,7 @@ type ProductDetailsGetOptions struct {
 func (c *Client) ProductDelete(ctx context.Context, opts ProductDeleteOptions) error {
 	path := fmt.Sprintf("/products/%s/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type ProductDeleteOptions struct {
@@ -100,7 +101,7 @@ func (c *Client) ProductPatch(ctx context.Context, opts ProductPatchOptions) (va
 	path := fmt.Sprintf("/products/%s/", url.PathEscape(opts.ProductID.String()))
 
 	var out vampy.Product
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -125,7 +126,7 @@ func (c *Client) ProductUserGroupsGet(ctx context.Context, opts ProductUserGroup
 	}
 
 	var out vampy.Page[vampy.UserGroupPermission]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -143,7 +144,7 @@ type ProductUserGroupsGetOptions struct {
 func (c *Client) ProductUsersSet(ctx context.Context, opts ProductUsersSetOptions) error {
 	path := fmt.Sprintf("/products/%s/users/set/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ProductUsersSetOptions struct {
@@ -155,7 +156,7 @@ type ProductUsersSetOptions struct {
 func (c *Client) ProductUsersUnset(ctx context.Context, opts ProductUsersUnsetOptions) error {
 	path := fmt.Sprintf("/products/%s/users/unset/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ProductUsersUnsetOptions struct {
@@ -167,7 +168,7 @@ type ProductUsersUnsetOptions struct {
 func (c *Client) ProductUserGroupsSet(ctx context.Context, opts ProductUserGroupsSetOptions) error {
 	path := fmt.Sprintf("/products/%s/user_groups/set/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ProductUserGroupsSetOptions struct {
@@ -179,7 +180,7 @@ type ProductUserGroupsSetOptions struct {
 func (c *Client) ProductUserGroupsUnset(ctx context.Context, opts ProductUserGroupsUnsetOptions) error {
 	path := fmt.Sprintf("/products/%s/user_groups/unset/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ProductUserGroupsUnsetOptions struct {
@@ -191,7 +192,7 @@ type ProductUserGroupsUnsetOptions struct {
 func (c *Client) ProductRelationsCreate(ctx context.Context, opts ProductRelationsCreateOptions) error {
 	path := fmt.Sprintf("/products/%s/relations/create/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ProductRelationsCreateOptions struct {
@@ -203,7 +204,7 @@ type ProductRelationsCreateOptions struct {
 func (c *Client) ProductRelationsDelete(ctx context.Context, opts ProductRelationsDeleteOptions) error {
 	path := fmt.Sprintf("/products/%s/relations/delete/", url.PathEscape(opts.ProductID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ProductRelationsDeleteOptions struct {

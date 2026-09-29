@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -36,7 +37,7 @@ func (c *Client) ReportsListGet(ctx context.Context, opts ReportsListGetOptions)
 	}
 
 	var out vampy.Page[vampy.Report]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -57,7 +58,7 @@ func (c *Client) ReportGet(ctx context.Context, opts ReportGetOptions) (vampy.Re
 	path := fmt.Sprintf("/reports/%s/", url.PathEscape(opts.ReportID.String()))
 
 	var out vampy.Report
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -72,7 +73,7 @@ type ReportGetOptions struct {
 func (c *Client) ReportDownload(ctx context.Context, opts ReportDownloadOptions) ([]byte, error) {
 	path := fmt.Sprintf("/reports/%s/download/", url.PathEscape(opts.ReportID.String()))
 
-	return c.doBinary(ctx, "GET", path, nil, nil)
+	return c.doBinary(ctx, http.MethodGet, path, nil, nil)
 }
 
 type ReportDownloadOptions struct {

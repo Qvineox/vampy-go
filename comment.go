@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -36,7 +37,7 @@ func (c *Client) CommentListGet(ctx context.Context, opts CommentListGetOptions)
 	}
 
 	var out vampy.Page[vampy.CommentDetails]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -58,7 +59,7 @@ func (c *Client) CommentPost(ctx context.Context, opts CommentPostOptions) (vamp
 	path := fmt.Sprintf("/scan_issues/%s/comments/", url.PathEscape(opts.ScanIssueID.String()))
 
 	var out vampy.CommentDetails
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -75,7 +76,7 @@ func (c *Client) CommentDetailsGet(ctx context.Context, opts CommentDetailsGetOp
 	path := fmt.Sprintf("/comments/%s/", url.PathEscape(opts.CommentID.String()))
 
 	var out vampy.CommentDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -95,7 +96,7 @@ func (c *Client) CommentDelete(ctx context.Context, opts CommentDeleteOptions) e
 		q.Set("force", strconv.FormatBool(*opts.Force))
 	}
 
-	return c.doJSON(ctx, "DELETE", path, q, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, q, nil, nil)
 }
 
 type CommentDeleteOptions struct {
@@ -108,7 +109,7 @@ func (c *Client) CommentPatch(ctx context.Context, opts CommentPatchOptions) (va
 	path := fmt.Sprintf("/comments/%s/", url.PathEscape(opts.CommentID.String()))
 
 	var out vampy.CommentDetails
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -125,7 +126,7 @@ func (c *Client) CommentSync(ctx context.Context, opts CommentSyncOptions) (vamp
 	path := fmt.Sprintf("/comments/%s/sync/", url.PathEscape(opts.CommentID.String()))
 
 	var out vampy.CommentDetails
-	if err := c.doJSON(ctx, "POST", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 

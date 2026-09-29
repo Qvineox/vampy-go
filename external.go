@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -36,7 +37,7 @@ func (c *Client) ExtV1ProductListGet(ctx context.Context, opts ExtV1ProductListG
 	}
 
 	var out vampy.Page[vampy.Product]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -57,7 +58,7 @@ func (c *Client) ExtV1ArtifactVersionsSync(ctx context.Context, opts ExtV1Artifa
 	path := "/ext/v1/artifacts/versions/sync/"
 
 	var out vampy.ArtifactVersionSyncResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -73,7 +74,7 @@ func (c *Client) ExtV1RepositoryBranchesSync(ctx context.Context, opts ExtV1Repo
 	path := "/ext/v1/repositories/branches/sync/"
 
 	var out vampy.RepositoryBranchSyncResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -113,7 +114,7 @@ func (c *Client) ExtV1RepositoryListGet(ctx context.Context, opts ExtV1Repositor
 	}
 
 	var out vampy.Page[vampy.Repository]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -135,7 +136,7 @@ func (c *Client) ExtV1ScanUploadPost(ctx context.Context, opts ExtV1ScanUploadPo
 	path := "/ext/v1/scan_uploads/"
 
 	var out vampy.ScanUpload
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -172,7 +173,7 @@ func (c *Client) ExtV1QualityGateGet(ctx context.Context, opts ExtV1QualityGateG
 	}
 
 	var out vampy.QualityGateResultDetails
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -192,7 +193,7 @@ func (c *Client) ExtV1RunOrchestration(ctx context.Context, opts ExtV1RunOrchest
 	path := "/ext/v1/orchestration/run/"
 
 	var out vampy.OrchestrationRunResult
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -208,7 +209,7 @@ func (c *Client) ExtV1RunScan(ctx context.Context, opts ExtV1RunScanOptions) (va
 	path := "/ext/v1/scan/"
 
 	var out vampy.OrchestrationRunResult
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -244,7 +245,7 @@ func (c *Client) ExtV1ScanPipelineListGet(ctx context.Context, opts ExtV1ScanPip
 	}
 
 	var out vampy.ScanPipelineListExtResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -265,7 +266,7 @@ func (c *Client) ExtV1ScanPipelinePost(ctx context.Context, opts ExtV1ScanPipeli
 	path := "/ext/v1/scan/pipelines/"
 
 	var out vampy.ScanPipelineCreateExtResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -281,7 +282,7 @@ func (c *Client) ExtV1ScanPipelineDetailsGet(ctx context.Context, opts ExtV1Scan
 	path := fmt.Sprintf("/ext/v1/scan/pipelines/%s/", url.PathEscape(opts.PipelineID))
 
 	var out vampy.ScanPipelineDetailsExt
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -297,7 +298,7 @@ func (c *Client) ExtV1ScanPipelineStatusGet(ctx context.Context, opts ExtV1ScanP
 	path := fmt.Sprintf("/ext/v1/scan/pipelines/%s/status/", url.PathEscape(opts.PipelineID))
 
 	var out vampy.ScanPipelineStatusExt
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -312,7 +313,7 @@ type ExtV1ScanPipelineStatusGetOptions struct {
 func (c *Client) ExtV1ScanPipelineFinish(ctx context.Context, opts ExtV1ScanPipelineFinishOptions) error {
 	path := fmt.Sprintf("/ext/v1/scan/pipelines/%s/finish/", url.PathEscape(opts.PipelineID))
 
-	return c.doJSON(ctx, "POST", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, nil, nil)
 }
 
 type ExtV1ScanPipelineFinishOptions struct {
@@ -324,7 +325,7 @@ func (c *Client) ExtV1GetParsers(ctx context.Context) ([]vampy.ParserInList, err
 	path := "/ext/v1/scanners/"
 
 	var out []vampy.ParserInList
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -336,7 +337,7 @@ func (c *Client) ExtV1GetScannersUpload(ctx context.Context) ([]vampy.ParserInLi
 	path := "/ext/v1/info/scanners/upload/"
 
 	var out []vampy.ParserInList
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -348,7 +349,7 @@ func (c *Client) ExtV1GetScannersOrchestration(ctx context.Context) ([]vampy.Sca
 	path := "/ext/v1/info/scanners/orchestration/"
 
 	var out []vampy.ScannerExternal
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -360,7 +361,7 @@ func (c *Client) ExtV1GetBackgroundTasksDetails(ctx context.Context, opts ExtV1G
 	path := fmt.Sprintf("/ext/v1/background_tasks/%s/", url.PathEscape(opts.TaskID.String()))
 
 	var out vampy.BackgroundTaskDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -433,7 +434,7 @@ func (c *Client) ExtV1ScanIssuesExport(ctx context.Context, opts ExtV1ScanIssues
 	}
 
 	var out vampy.Page[vampy.ScanIssueExport]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -474,7 +475,7 @@ func (c *Client) ExtV1ScanProfilesListGet(ctx context.Context, opts ExtV1ScanPro
 	}
 
 	var out vampy.Page[vampy.OrchestrationScanProfile]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -505,7 +506,7 @@ func (c *Client) ExtV1QualityGatesListGet(ctx context.Context, opts ExtV1Quality
 	}
 
 	var out vampy.Page[vampy.QualityGate]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -524,7 +525,7 @@ func (c *Client) ExtV1ImportDefectDojo(ctx context.Context, opts ExtV1ImportDefe
 	path := "/ext/v1/import/defect_dojo/"
 
 	var out vampy.DefectDojoImportResponse
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 

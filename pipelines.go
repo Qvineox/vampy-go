@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -60,7 +61,7 @@ func (c *Client) ScanPipelinesGet(ctx context.Context, opts ScanPipelinesGetOpti
 	}
 
 	var out vampy.Page[vampy.ScanPipeline]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -87,7 +88,7 @@ func (c *Client) ScanPipelineDetailsGet(ctx context.Context, opts ScanPipelineDe
 	path := fmt.Sprintf("/scan_pipelines/%s/", url.PathEscape(opts.ScanPipelineID.String()))
 
 	var out vampy.ScanPipelineDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -123,7 +124,7 @@ func (c *Client) ScanPipelineJobsGet(ctx context.Context, opts ScanPipelineJobsG
 	}
 
 	var out vampy.Page[vampy.ScanPipelineJob]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 

@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/qvineox/vampy-go/vampy"
@@ -13,7 +14,7 @@ func (c *Client) SBOMImport(ctx context.Context, opts SBOMImportOptions) (vampy.
 	path := fmt.Sprintf("/space/%s/sbom/import/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.SBOMImport
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -28,7 +29,7 @@ type SBOMImportOptions struct {
 func (c *Client) SBOMExport(ctx context.Context, opts SBOMExportOptions) ([]byte, error) {
 	path := fmt.Sprintf("/space/%s/sbom/export/", url.PathEscape(c.spaceID.String()))
 
-	return c.doBinary(ctx, "POST", path, nil, opts.Body)
+	return c.doBinary(ctx, http.MethodPost, path, nil, opts.Body)
 }
 
 type SBOMExportOptions struct {

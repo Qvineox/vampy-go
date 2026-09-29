@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -16,7 +17,7 @@ func (c *Client) ScanIssueCreate(ctx context.Context, opts ScanIssueCreateOption
 	path := "/scan_issues/"
 
 	var out vampy.ScanIssueCreateResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -40,7 +41,7 @@ func (c *Client) ScanIssuesFilter(ctx context.Context, opts ScanIssuesFilterOpti
 	}
 
 	var out vampy.Page[vampy.ScanIssueWithFPScore]
-	if err := c.doJSON(ctx, "POST", path, q, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, q, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -108,7 +109,7 @@ func (c *Client) ScanIssuesAsyncExport(ctx context.Context, opts ScanIssuesAsync
 	}
 
 	var out vampy.Report
-	if err := c.doJSON(ctx, "POST", path, q, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, q, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -136,7 +137,7 @@ func (c *Client) ScanIssuesExportMeta(ctx context.Context, opts ScanIssuesExport
 	path := "/scan_issues/export/meta/"
 
 	var out vampy.CSVExportMeta
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -152,7 +153,7 @@ func (c *Client) ScanIssueSearchDuplicates(ctx context.Context, opts ScanIssueSe
 	path := "/scan_issues/search_duplicates/"
 
 	var out vampy.ScanIssueDuplicatesSearchResult
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -167,7 +168,7 @@ type ScanIssueSearchDuplicatesOptions struct {
 func (c *Client) ScanIssuesDelete(ctx context.Context, opts ScanIssuesDeleteOptions) error {
 	path := "/scan_issues/delete/"
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ScanIssuesDeleteOptions struct {
@@ -179,7 +180,7 @@ func (c *Client) ScanIssueSchemasGet(ctx context.Context) ([]vampy.ScanIssues, e
 	path := "/scan_issues/schemas/"
 
 	var out []vampy.ScanIssues
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -191,7 +192,7 @@ func (c *Client) ScanIssueDetailsGet(ctx context.Context, opts ScanIssueDetailsG
 	path := fmt.Sprintf("/scan_issues/%s/", url.PathEscape(opts.ScanIssueID.String()))
 
 	var out vampy.ScanIssueDetail
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -207,7 +208,7 @@ func (c *Client) ScanIssueStatusChangesGet(ctx context.Context, opts ScanIssueSt
 	path := fmt.Sprintf("/scan_issues/%s/status_changes/", url.PathEscape(opts.ScanIssueID.String()))
 
 	var out []vampy.ScanIssueStatusChangeEntry
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -228,7 +229,7 @@ func (c *Client) ScanIssueChangesGet(ctx context.Context, opts ScanIssueChangesG
 	}
 
 	var out []vampy.ScanIssueChangeEntry
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -245,7 +246,7 @@ func (c *Client) ScanIssueAIRequestPost(ctx context.Context, opts ScanIssueAIReq
 	path := fmt.Sprintf("/scan_issues/%s/ai_requests/", url.PathEscape(opts.ScanIssueID.String()))
 
 	var out vampy.ScanIssueAIRequestResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -261,7 +262,7 @@ type ScanIssueAIRequestPostOptions struct {
 func (c *Client) ScanIssueAIRequestCancel(ctx context.Context, opts ScanIssueAIRequestCancelOptions) error {
 	path := fmt.Sprintf("/scan_issues/%s/ai_requests/cancel/", url.PathEscape(opts.ScanIssueID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ScanIssueAIRequestCancelOptions struct {
@@ -274,7 +275,7 @@ func (c *Client) ScanIssueAIRequestDetailsGet(ctx context.Context, opts ScanIssu
 	path := fmt.Sprintf("/scan_issues/%s/ai_requests/%s/", url.PathEscape(opts.ScanIssueID.String()), url.PathEscape(opts.AIRequestID.String()))
 
 	var out vampy.ScanIssueAIRequestResponse
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -291,7 +292,7 @@ func (c *Client) ScanIssueAIRequestApply(ctx context.Context, opts ScanIssueAIRe
 	path := fmt.Sprintf("/scan_issues/%s/ai_requests/%s/apply/", url.PathEscape(opts.ScanIssueID.String()), url.PathEscape(opts.AIRequestID.String()))
 
 	var out vampy.ScanIssueAIRequestResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -309,7 +310,7 @@ func (c *Client) ScanIssuesUpdate(ctx context.Context, opts ScanIssuesUpdateOpti
 	path := "/scan_issues/update/"
 
 	var out any
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 

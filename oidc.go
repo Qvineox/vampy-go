@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/qvineox/vampy-go/vampy"
@@ -18,7 +19,7 @@ func (c *Client) OIDCRedirect(ctx context.Context, opts OIDCRedirectOptions) (va
 	}
 
 	var out vampy.OIDCRedirect
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -55,7 +56,7 @@ func (c *Client) OIDCCallback(ctx context.Context, opts OIDCCallbackOptions) err
 		q.Set("code", *opts.Code)
 	}
 
-	return c.doJSON(ctx, "GET", path, q, nil, nil)
+	return c.doJSON(ctx, http.MethodGet, path, q, nil, nil)
 }
 
 type OIDCCallbackOptions struct {

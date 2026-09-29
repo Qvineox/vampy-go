@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -48,7 +49,7 @@ func (c *Client) FindingsGet(ctx context.Context, opts FindingsGetOptions) (vamp
 	}
 
 	var out vampy.Page[vampy.Finding]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -72,7 +73,7 @@ func (c *Client) FindingCardGet(ctx context.Context, opts FindingCardGetOptions)
 	path := fmt.Sprintf("/findings/%s/", url.PathEscape(opts.FindingID.String()))
 
 	var out vampy.FindingCard
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 

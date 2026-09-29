@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"uuid"
@@ -15,7 +16,7 @@ func (c *Client) BotUserList(ctx context.Context) ([]vampy.BotUser, error) {
 	path := "/bot_users/"
 
 	var out []vampy.BotUser
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -27,7 +28,7 @@ func (c *Client) BotUserRegistration(ctx context.Context, opts BotUserRegistrati
 	path := "/bot_users/"
 
 	var out vampy.BotUserToken
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -43,7 +44,7 @@ func (c *Client) BotUserDelete(ctx context.Context, opts BotUserDeleteOptions) (
 	path := fmt.Sprintf("/bot_users/%s/", url.PathEscape(opts.UserID.String()))
 
 	var out []vampy.BotUser
-	if err := c.doJSON(ctx, "DELETE", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodDelete, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -59,7 +60,7 @@ func (c *Client) BotUserPatchToken(ctx context.Context, opts BotUserPatchTokenOp
 	path := fmt.Sprintf("/bot_users/%s/token/", url.PathEscape(opts.UserID.String()))
 
 	var out vampy.BotUserToken
-	if err := c.doJSON(ctx, "PATCH", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 

@@ -2,6 +2,7 @@ package vampy_go
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/qvineox/vampy-go/vampy"
 )
@@ -11,7 +12,7 @@ func (c *Client) LicenseGet(ctx context.Context) (vampy.License, error) {
 	path := "/license/"
 
 	var out vampy.License
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -22,7 +23,7 @@ func (c *Client) LicenseGet(ctx context.Context) (vampy.License, error) {
 func (c *Client) LicensePost(ctx context.Context, opts LicensePostOptions) error {
 	path := "/license/"
 
-	return c.doMultipart(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type LicensePostOptions struct {
@@ -33,7 +34,7 @@ type LicensePostOptions struct {
 func (c *Client) LicenseDelete(ctx context.Context) error {
 	path := "/license/"
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 // LicenseInformation Get information about all restrictions
@@ -41,7 +42,7 @@ func (c *Client) LicenseInformation(ctx context.Context) (vampy.LicenseInformati
 	path := "/license/information/"
 
 	var out vampy.LicenseInformation
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 

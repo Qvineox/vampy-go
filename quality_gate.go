@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -25,7 +26,7 @@ func (c *Client) QualityGateListGet(ctx context.Context, opts QualityGateListGet
 	}
 
 	var out []vampy.QualityGate
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -42,7 +43,7 @@ func (c *Client) QualityGatePost(ctx context.Context, opts QualityGatePostOption
 	path := fmt.Sprintf("/spaces/%s/quality_gates/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.QualityGate
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -58,7 +59,7 @@ func (c *Client) QualityGateDetailsGet(ctx context.Context, opts QualityGateDeta
 	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(opts.QualityGateID.String()))
 
 	var out vampy.QualityGate
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -73,7 +74,7 @@ type QualityGateDetailsGetOptions struct {
 func (c *Client) QualityGateDelete(ctx context.Context, opts QualityGateDeleteOptions) error {
 	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(opts.QualityGateID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type QualityGateDeleteOptions struct {
@@ -85,7 +86,7 @@ func (c *Client) QualityGatePatch(ctx context.Context, opts QualityGatePatchOpti
 	path := fmt.Sprintf("/quality_gates/%s/", url.PathEscape(opts.QualityGateID.String()))
 
 	var out vampy.QualityGate
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -122,7 +123,7 @@ func (c *Client) QualityGateResultListGet(ctx context.Context, opts QualityGateR
 	}
 
 	var out vampy.Page[vampy.QualityGateResult]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -144,7 +145,7 @@ func (c *Client) QualityGateResultGetDetails(ctx context.Context, opts QualityGa
 	path := fmt.Sprintf("/quality_gates/%s/results/%s/", url.PathEscape(opts.QualityGateID.String()), url.PathEscape(opts.QualityGateResultID.String()))
 
 	var out vampy.QualityGateResultDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 

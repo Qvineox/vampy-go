@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -25,7 +26,7 @@ func (c *Client) SpaceIntegrationsListGet(ctx context.Context, opts SpaceIntegra
 	}
 
 	var out []vampy.SpaceIntegrationWithMeta
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -42,7 +43,7 @@ func (c *Client) SpaceIntegrationsCreate(ctx context.Context, opts SpaceIntegrat
 	path := fmt.Sprintf("/spaces/%s/integrations/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.SpaceIntegration
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -58,7 +59,7 @@ func (c *Client) GetBitbucketApplicationInfo(ctx context.Context, opts GetBitbuc
 	path := "/integrations/bitbucket/info/"
 
 	var out vampy.BitbucketApplicationInfoResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -74,7 +75,7 @@ func (c *Client) IntegrationsVCSGet(ctx context.Context, opts IntegrationsVCSGet
 	path := fmt.Sprintf("/integrations/%s/%s/", url.PathEscape(string(opts.VCSIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationVCS
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -90,7 +91,7 @@ type IntegrationsVCSGetOptions struct {
 func (c *Client) IntegrationsVCSDelete(ctx context.Context, opts IntegrationsVCSDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/%s/%s/", url.PathEscape(string(opts.VCSIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type IntegrationsVCSDeleteOptions struct {
@@ -103,7 +104,7 @@ func (c *Client) IntegrationsVCSPatch(ctx context.Context, opts IntegrationsVCSP
 	path := fmt.Sprintf("/integrations/%s/%s/", url.PathEscape(string(opts.VCSIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationVCS
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -129,7 +130,7 @@ func (c *Client) IntegrationsVCSRepositoriesGet(ctx context.Context, opts Integr
 	}
 
 	var out vampy.Page[vampy.ExternalRepository]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -149,7 +150,7 @@ func (c *Client) IntegrationsVCSInfo(ctx context.Context, opts IntegrationsVCSIn
 	path := fmt.Sprintf("/integrations/vcs/%s/info/", url.PathEscape(string(opts.VCSIntegration)))
 
 	var out vampy.VCSIntegrationInfoResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -166,7 +167,7 @@ func (c *Client) IntegrationsVCSMeta(ctx context.Context, opts IntegrationsVCSMe
 	path := fmt.Sprintf("/integrations/vcs/%s/%s/meta/", url.PathEscape(string(opts.VCSIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.VCSIntegrationInfoResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -184,7 +185,7 @@ func (c *Client) GetJiraApplicationVersion(ctx context.Context, opts GetJiraAppl
 	path := "/integrations/jira/info/"
 
 	var out vampy.JiraApplicationInfoResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -200,7 +201,7 @@ func (c *Client) TaskTrackerGetInfo(ctx context.Context, opts TaskTrackerGetInfo
 	path := fmt.Sprintf("/integrations/task_tracker/%s/info/", url.PathEscape(string(opts.TaskTrackerIntegration)))
 
 	var out vampy.TaskTrackerInfoResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -226,7 +227,7 @@ func (c *Client) JiraIntegrationsMeta(ctx context.Context, opts JiraIntegrations
 	}
 
 	var out vampy.JiraMetaInfoResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -257,7 +258,7 @@ func (c *Client) TaskTrackerIntegrationGetMeta(ctx context.Context, opts TaskTra
 	}
 
 	var out vampy.TaskTrackerMetaInfoResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -277,7 +278,7 @@ func (c *Client) JiraIntegrationGet(ctx context.Context, opts JiraIntegrationGet
 	path := fmt.Sprintf("/integrations/jira/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.JiraIntegration
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -292,7 +293,7 @@ type JiraIntegrationGetOptions struct {
 func (c *Client) JiraIntegrationDelete(ctx context.Context, opts JiraIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/jira/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type JiraIntegrationDeleteOptions struct {
@@ -304,7 +305,7 @@ func (c *Client) JiraIntegrationPatch(ctx context.Context, opts JiraIntegrationP
 	path := fmt.Sprintf("/integrations/jira/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.JiraIntegration
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -321,7 +322,7 @@ func (c *Client) TaskTrackerIntegrationGet(ctx context.Context, opts TaskTracker
 	path := fmt.Sprintf("/integrations/task_tracker/%s/%s/", url.PathEscape(string(opts.TaskTrackerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.TaskTrackerIntegration
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -337,7 +338,7 @@ type TaskTrackerIntegrationGetOptions struct {
 func (c *Client) TaskTrackerIntegrationDelete(ctx context.Context, opts TaskTrackerIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/task_tracker/%s/%s/", url.PathEscape(string(opts.TaskTrackerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type TaskTrackerIntegrationDeleteOptions struct {
@@ -350,7 +351,7 @@ func (c *Client) TaskTrackerIntegrationPatch(ctx context.Context, opts TaskTrack
 	path := fmt.Sprintf("/integrations/task_tracker/%s/%s/", url.PathEscape(string(opts.TaskTrackerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.TaskTrackerIntegration
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -377,7 +378,7 @@ func (c *Client) SearchItemsJira(ctx context.Context, opts SearchItemsJiraOption
 	}
 
 	var out []vampy.JiraSearchResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -405,7 +406,7 @@ func (c *Client) TaskTrackerSearchItems(ctx context.Context, opts TaskTrackerSea
 	}
 
 	var out []vampy.TaskTrackerSearchResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -428,7 +429,7 @@ func (c *Client) SearchIssuesJira(ctx context.Context, opts SearchIssuesJiraOpti
 	q.Set("query", opts.Query)
 
 	var out []vampy.JiraSearchIssuesResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -448,7 +449,7 @@ func (c *Client) TaskTrackerSearchIssues(ctx context.Context, opts TaskTrackerSe
 	q.Set("query", opts.Query)
 
 	var out []vampy.TaskTrackerIssueExport
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -466,7 +467,7 @@ func (c *Client) KtrackerIntegrationGet(ctx context.Context, opts KtrackerIntegr
 	path := fmt.Sprintf("/integrations/ktracker/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationKTracker
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -481,7 +482,7 @@ type KtrackerIntegrationGetOptions struct {
 func (c *Client) KtrackerIntegrationDelete(ctx context.Context, opts KtrackerIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/ktracker/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type KtrackerIntegrationDeleteOptions struct {
@@ -493,7 +494,7 @@ func (c *Client) KtrackerIntegrationPatch(ctx context.Context, opts KtrackerInte
 	path := fmt.Sprintf("/integrations/ktracker/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationKTracker
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -517,7 +518,7 @@ func (c *Client) KtrackerIntegrationGetSpaces(ctx context.Context, opts Ktracker
 	}
 
 	var out []vampy.IntegrationKTrackerSpace
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -541,7 +542,7 @@ func (c *Client) KtrackerIntegrationGetCardTypes(ctx context.Context, opts Ktrac
 	}
 
 	var out []vampy.IntegrationKTrackerCardType
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -558,7 +559,7 @@ func (c *Client) ScannerIntegrationGet(ctx context.Context, opts ScannerIntegrat
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegration
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -574,7 +575,7 @@ type ScannerIntegrationGetOptions struct {
 func (c *Client) ScannerIntegrationDelete(ctx context.Context, opts ScannerIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type ScannerIntegrationDeleteOptions struct {
@@ -587,7 +588,7 @@ func (c *Client) ScannerIntegrationPatch(ctx context.Context, opts ScannerIntegr
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegration
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -605,7 +606,7 @@ func (c *Client) ScannerIntegrationMeta(ctx context.Context, opts ScannerIntegra
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/meta/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationMetaResponse
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -622,7 +623,7 @@ func (c *Client) ScannerIntegrationInfo(ctx context.Context, opts ScannerIntegra
 	path := fmt.Sprintf("/integrations/scanner/%s/info/", url.PathEscape(string(opts.ScannerIntegration)))
 
 	var out vampy.ScannerIntegrationInfoResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -639,7 +640,7 @@ func (c *Client) ScannerIntegrationFetchCLI(ctx context.Context, opts ScannerInt
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/fetch_cli/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationCLIFileInfo
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -656,7 +657,7 @@ func (c *Client) ScannerIntegrationUploadCLI(ctx context.Context, opts ScannerIn
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/upload_cli/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationCLIFileInfo
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -673,7 +674,7 @@ type ScannerIntegrationUploadCLIOptions struct {
 func (c *Client) ScannerIntegrationTestConnection(ctx context.Context, opts ScannerIntegrationTestConnectionOptions) error {
 	path := fmt.Sprintf("/integrations/scanner/%s/%s/test_connection/", url.PathEscape(string(opts.ScannerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ScannerIntegrationTestConnectionOptions struct {
@@ -687,7 +688,7 @@ func (c *Client) PtaiIntegrationGet(ctx context.Context, opts PtaiIntegrationGet
 	path := fmt.Sprintf("/integrations/ptai/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationPTAI
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -702,7 +703,7 @@ type PtaiIntegrationGetOptions struct {
 func (c *Client) PtaiIntegrationDelete(ctx context.Context, opts PtaiIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/ptai/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type PtaiIntegrationDeleteOptions struct {
@@ -714,7 +715,7 @@ func (c *Client) PtaiIntegrationPatch(ctx context.Context, opts PtaiIntegrationP
 	path := fmt.Sprintf("/integrations/ptai/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationPTAI
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -730,7 +731,7 @@ type PtaiIntegrationPatchOptions struct {
 func (c *Client) PtaiIntegrationTestConnection(ctx context.Context, opts PtaiIntegrationTestConnectionOptions) error {
 	path := fmt.Sprintf("/integrations/ptai/%s/test_connection/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type PtaiIntegrationTestConnectionOptions struct {
@@ -743,7 +744,7 @@ func (c *Client) TaskTrackerExportMeta(ctx context.Context, opts TaskTrackerExpo
 	path := fmt.Sprintf("/integrations/%s/%s/export/meta/", url.PathEscape(string(opts.IntegrationService)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScanIssueForExportResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -770,7 +771,7 @@ func (c *Client) TaskTrackerExportAsync(ctx context.Context, opts TaskTrackerExp
 	}
 
 	var out vampy.BackgroundTask
-	if err := c.doJSON(ctx, "POST", path, q, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, q, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -790,7 +791,7 @@ func (c *Client) TaskTrackerLinkIssue(ctx context.Context, opts TaskTrackerLinkI
 	path := fmt.Sprintf("/integrations/task_tracker/%s/%s/link/", url.PathEscape(string(opts.TaskTrackerIntegration)), url.PathEscape(opts.IntegrationID.String()))
 
 	var out []vampy.IssueExport
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -808,7 +809,7 @@ func (c *Client) CodeScoringIntegrationGet(ctx context.Context, opts CodeScoring
 	path := fmt.Sprintf("/integrations/code_scoring/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegration
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -823,7 +824,7 @@ type CodeScoringIntegrationGetOptions struct {
 func (c *Client) CodeScoringIntegrationDelete(ctx context.Context, opts CodeScoringIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/code_scoring/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type CodeScoringIntegrationDeleteOptions struct {
@@ -835,7 +836,7 @@ func (c *Client) CodeScoringIntegrationPatch(ctx context.Context, opts CodeScori
 	path := fmt.Sprintf("/integrations/code_scoring/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegration
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -852,7 +853,7 @@ func (c *Client) CodeScoringIntegrationMeta(ctx context.Context, opts CodeScorin
 	path := fmt.Sprintf("/integrations/code_scoring/%s/meta/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationMetaResponse
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -868,7 +869,7 @@ func (c *Client) CodeScoringIntegrationFetchCLI(ctx context.Context, opts CodeSc
 	path := fmt.Sprintf("/integrations/code_scoring/%s/fetch_cli/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationCLIFileInfo
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -884,7 +885,7 @@ func (c *Client) CodeScoringIntegrationUploadCLI(ctx context.Context, opts CodeS
 	path := fmt.Sprintf("/integrations/code_scoring/%s/upload_cli/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationCLIFileInfo
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -901,7 +902,7 @@ func (c *Client) AppScreenerIntegrationGet(ctx context.Context, opts AppScreener
 	path := fmt.Sprintf("/integrations/app_screener/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationAppScreener
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -916,7 +917,7 @@ type AppScreenerIntegrationGetOptions struct {
 func (c *Client) AppScreenerIntegrationDelete(ctx context.Context, opts AppScreenerIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/app_screener/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type AppScreenerIntegrationDeleteOptions struct {
@@ -928,7 +929,7 @@ func (c *Client) AppScreenerIntegrationPatch(ctx context.Context, opts AppScreen
 	path := fmt.Sprintf("/integrations/app_screener/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationAppScreener
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -945,7 +946,7 @@ func (c *Client) AppScreenerIntegrationUploadCLI(ctx context.Context, opts AppSc
 	path := fmt.Sprintf("/integrations/app_screener/%s/upload_cli/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegrationCLIFileInfo
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -962,7 +963,7 @@ func (c *Client) SastavIntegrationGet(ctx context.Context, opts SastavIntegratio
 	path := fmt.Sprintf("/integrations/sastav/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationSastav
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -977,7 +978,7 @@ type SastavIntegrationGetOptions struct {
 func (c *Client) SastavIntegrationDelete(ctx context.Context, opts SastavIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/sastav/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type SastavIntegrationDeleteOptions struct {
@@ -989,7 +990,7 @@ func (c *Client) SastavIntegrationPatch(ctx context.Context, opts SastavIntegrat
 	path := fmt.Sprintf("/integrations/sastav/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationSastav
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -1006,7 +1007,7 @@ func (c *Client) DefectDojoIntegrationGet(ctx context.Context, opts DefectDojoIn
 	path := fmt.Sprintf("/integrations/defect_dojo/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationDefectDojo
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1021,7 +1022,7 @@ type DefectDojoIntegrationGetOptions struct {
 func (c *Client) DefectDojoIntegrationDelete(ctx context.Context, opts DefectDojoIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/defect_dojo/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type DefectDojoIntegrationDeleteOptions struct {
@@ -1033,7 +1034,7 @@ func (c *Client) DefectDojoIntegrationPatch(ctx context.Context, opts DefectDojo
 	path := fmt.Sprintf("/integrations/defect_dojo/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationDefectDojo
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -1058,7 +1059,7 @@ func (c *Client) DefectDojoIntegrationGetProducts(ctx context.Context, opts Defe
 	}
 
 	var out vampy.Page[vampy.DefectDojoProduct]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1077,7 +1078,7 @@ func (c *Client) DefectDojoIntegrationGetStatuses(ctx context.Context, opts Defe
 	path := fmt.Sprintf("/integrations/defect_dojo/%s/statuses/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out []vampy.DefectDojoStatusMapping
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1093,7 +1094,7 @@ func (c *Client) DefectDojoIntegrationImport(ctx context.Context, opts DefectDoj
 	path := fmt.Sprintf("/integrations/defect_dojo/%s/import/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.DefectDojoImportResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -1110,7 +1111,7 @@ func (c *Client) AIIntegrationGet(ctx context.Context, opts AIIntegrationGetOpti
 	path := fmt.Sprintf("/integrations/ai/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationAI
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1125,7 +1126,7 @@ type AIIntegrationGetOptions struct {
 func (c *Client) AIIntegrationDelete(ctx context.Context, opts AIIntegrationDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/ai/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type AIIntegrationDeleteOptions struct {
@@ -1137,7 +1138,7 @@ func (c *Client) AIIntegrationPatch(ctx context.Context, opts AIIntegrationPatch
 	path := fmt.Sprintf("/integrations/ai/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.ScannerIntegration
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -1154,7 +1155,7 @@ func (c *Client) AIIntegrationFetchModels(ctx context.Context, opts AIIntegratio
 	path := fmt.Sprintf("/integrations/ai/%s/fetch_models/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationAI
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1170,7 +1171,7 @@ func (c *Client) AIIntegrationAllModels(ctx context.Context) ([]vampy.Integratio
 	path := "/integrations/ai/models/"
 
 	var out []vampy.IntegrationAIModel
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1187,7 +1188,7 @@ func (c *Client) AIIntegrationAppliedModels(ctx context.Context, opts AIIntegrat
 	}
 
 	var out []vampy.IntegrationAIModel
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1203,7 +1204,7 @@ func (c *Client) AIIntegrationVendors(ctx context.Context) ([]vampy.IntegrationA
 	path := "/integrations/ai/vendors/"
 
 	var out []vampy.IntegrationAIVendor
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1214,7 +1215,7 @@ func (c *Client) AIIntegrationVendors(ctx context.Context) ([]vampy.IntegrationA
 func (c *Client) IntegrationWebhookHandlerPost(ctx context.Context, opts IntegrationWebhookHandlerPostOptions) error {
 	path := fmt.Sprintf("/integrations/servers/%s/webhook/", url.PathEscape(opts.Token.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type IntegrationWebhookHandlerPostOptions struct {
@@ -1227,7 +1228,7 @@ func (c *Client) IntegrationsArtifactDetailsGet(ctx context.Context, opts Integr
 	path := fmt.Sprintf("/integrations/artifact/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationArtifact
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -1242,7 +1243,7 @@ type IntegrationsArtifactDetailsGetOptions struct {
 func (c *Client) IntegrationsArtifactDelete(ctx context.Context, opts IntegrationsArtifactDeleteOptions) error {
 	path := fmt.Sprintf("/integrations/artifact/%s/", url.PathEscape(opts.IntegrationID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type IntegrationsArtifactDeleteOptions struct {
@@ -1254,7 +1255,7 @@ func (c *Client) IntegrationsArtifactPatch(ctx context.Context, opts Integration
 	path := fmt.Sprintf("/integrations/artifact/%s/", url.PathEscape(opts.IntegrationID.String()))
 
 	var out vampy.IntegrationArtifact
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -1279,7 +1280,7 @@ func (c *Client) IntegrationsArtifactExternalArtifactsGet(ctx context.Context, o
 	}
 
 	var out vampy.Page[vampy.ExternalArtifact]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 

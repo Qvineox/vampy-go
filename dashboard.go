@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -21,7 +22,7 @@ func (c *Client) GlobalDashboardGet(ctx context.Context, opts GlobalDashboardGet
 	}
 
 	var out vampy.Dashboard
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -50,7 +51,7 @@ func (c *Client) GlobalDashboardCardGet(ctx context.Context, opts GlobalDashboar
 	}
 
 	var out vampy.Dashboard
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -74,7 +75,7 @@ func (c *Client) ProductDashboardGet(ctx context.Context, opts ProductDashboardG
 	}
 
 	var out vampy.Dashboard
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -104,7 +105,7 @@ func (c *Client) ProductDashboardCardGet(ctx context.Context, opts ProductDashbo
 	}
 
 	var out vampy.Dashboard
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -137,7 +138,7 @@ func (c *Client) RepositoryDashboardGet(ctx context.Context, opts RepositoryDash
 	}
 
 	var out vampy.Dashboard
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -177,7 +178,7 @@ func (c *Client) RepositoryDashboardCardGet(ctx context.Context, opts Repository
 	}
 
 	var out vampy.Dashboard
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 

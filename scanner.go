@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"uuid"
@@ -15,7 +16,7 @@ func (c *Client) ScanUploadPost(ctx context.Context, opts ScanUploadPostOptions)
 	path := "/scan_uploads/"
 
 	var out vampy.ScanUpload
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -30,7 +31,7 @@ type ScanUploadPostOptions struct {
 func (c *Client) ScanUploadDownload(ctx context.Context, opts ScanUploadDownloadOptions) ([]byte, error) {
 	path := fmt.Sprintf("/scan_uploads/%s/download/", url.PathEscape(opts.ScanUploadID.String()))
 
-	return c.doBinary(ctx, "GET", path, nil, nil)
+	return c.doBinary(ctx, http.MethodGet, path, nil, nil)
 }
 
 type ScanUploadDownloadOptions struct {
@@ -41,7 +42,7 @@ type ScanUploadDownloadOptions struct {
 func (c *Client) ScanUploadBulkDownload(ctx context.Context, opts ScanUploadBulkDownloadOptions) ([]byte, error) {
 	path := "/scan_uploads/bulk_download/"
 
-	return c.doBinary(ctx, "POST", path, nil, opts.Body)
+	return c.doBinary(ctx, http.MethodPost, path, nil, opts.Body)
 }
 
 type ScanUploadBulkDownloadOptions struct {

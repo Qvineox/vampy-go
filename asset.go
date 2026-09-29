@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -36,7 +37,7 @@ func (c *Client) AssetListGet(ctx context.Context, opts AssetListGetOptions) (va
 	}
 
 	var out vampy.Page[vampy.Asset]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -57,7 +58,7 @@ func (c *Client) AssetPost(ctx context.Context, opts AssetPostOptions) (vampy.As
 	path := fmt.Sprintf("/spaces/%s/assets/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.AssetDetails
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -73,7 +74,7 @@ func (c *Client) AssetGet(ctx context.Context, opts AssetGetOptions) (vampy.Asse
 	path := fmt.Sprintf("/assets/%s/", url.PathEscape(opts.AssetID.String()))
 
 	var out vampy.AssetDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -88,7 +89,7 @@ type AssetGetOptions struct {
 func (c *Client) AssetDelete(ctx context.Context, opts AssetDeleteOptions) error {
 	path := fmt.Sprintf("/assets/%s/", url.PathEscape(opts.AssetID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type AssetDeleteOptions struct {
@@ -100,7 +101,7 @@ func (c *Client) AssetPatch(ctx context.Context, opts AssetPatchOptions) (vampy.
 	path := fmt.Sprintf("/assets/%s/", url.PathEscape(opts.AssetID.String()))
 
 	var out vampy.AssetDetails
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 

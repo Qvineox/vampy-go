@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -16,7 +17,7 @@ func (c *Client) RunOrchestration(ctx context.Context, opts RunOrchestrationOpti
 	path := fmt.Sprintf("/spaces/%s/orchestration/run/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.OrchestrationRunResult
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -32,7 +33,7 @@ func (c *Client) RunOrchestrationBatch(ctx context.Context, opts RunOrchestratio
 	path := fmt.Sprintf("/spaces/%s/orchestration/run_batch/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.OrchestrationRunBatchResult
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -76,7 +77,7 @@ func (c *Client) OrchestrationScanHistory(ctx context.Context, opts Orchestratio
 	}
 
 	var out vampy.Page[vampy.OrchestrationScanDetail]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -123,7 +124,7 @@ func (c *Client) GetOrchestrationProfiles(ctx context.Context, opts GetOrchestra
 	}
 
 	var out vampy.Page[vampy.OrchestrationScanProfile]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -145,7 +146,7 @@ func (c *Client) CreateOrchestrationProfile(ctx context.Context, opts CreateOrch
 	path := fmt.Sprintf("/spaces/%s/orchestration/profiles/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -182,7 +183,7 @@ func (c *Client) GetOrchestrationProfile(ctx context.Context, opts GetOrchestrat
 	}
 
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -202,7 +203,7 @@ type GetOrchestrationProfileOptions struct {
 func (c *Client) DeleteOrchestrationProfile(ctx context.Context, opts DeleteOrchestrationProfileOptions) error {
 	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(opts.ScanProfileID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type DeleteOrchestrationProfileOptions struct {
@@ -214,7 +215,7 @@ func (c *Client) UpdateOrchestrationProfile(ctx context.Context, opts UpdateOrch
 	path := fmt.Sprintf("/orchestration/profiles/%s/", url.PathEscape(opts.ScanProfileID.String()))
 
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -237,7 +238,7 @@ func (c *Client) GetOrchestrationProfileRelations(ctx context.Context, opts GetO
 	q.Set("relationType", string(opts.RelationType))
 
 	var out vampy.Page[vampy.OrchestrationScanProfileRelation]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -256,7 +257,7 @@ func (c *Client) DeleteScannerConfig(ctx context.Context, opts DeleteScannerConf
 	path := fmt.Sprintf("/orchestration/profiles/%s/delete_scanner_config/", url.PathEscape(opts.ScanProfileID.String()))
 
 	var out vampy.OrchestrationScanProfile
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -294,7 +295,7 @@ func (c *Client) GetOrchestrationScannersInfo(ctx context.Context, opts GetOrche
 	}
 
 	var out []vampy.OrchestrationScannerInfo
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -314,7 +315,7 @@ func (c *Client) UploadScannerConfig(ctx context.Context, opts UploadScannerConf
 	path := "/orchestration/upload_scanner_config/"
 
 	var out vampy.OrchestrationScannerConfigFileInfo
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -344,7 +345,7 @@ func (c *Client) DownloadScannerConfig(ctx context.Context, opts DownloadScanner
 		q.Set("default", strconv.FormatBool(*opts.Default))
 	}
 
-	return c.doBinary(ctx, "GET", path, q, nil)
+	return c.doBinary(ctx, http.MethodGet, path, q, nil)
 }
 
 type DownloadScannerConfigOptions struct {

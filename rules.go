@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -32,7 +33,7 @@ func (c *Client) RulesListGet(ctx context.Context, opts RulesListGetOptions) (va
 	}
 
 	var out vampy.Page[vampy.RuleShort]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -52,7 +53,7 @@ func (c *Client) RulesPost(ctx context.Context, opts RulesPostOptions) (vampy.Ru
 	path := fmt.Sprintf("/spaces/%s/rules/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.RuleRead
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -68,7 +69,7 @@ func (c *Client) RulesCheck(ctx context.Context, opts RulesCheckOptions) (vampy.
 	path := fmt.Sprintf("/spaces/%s/rules/check/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.RulePassedInstances
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -84,7 +85,7 @@ func (c *Client) RulesCheckAsync(ctx context.Context, opts RulesCheckAsyncOption
 	path := fmt.Sprintf("/spaces/%s/rules/check/async/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.BackgroundTask
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -100,7 +101,7 @@ func (c *Client) RulesEventsGet(ctx context.Context) ([]vampy.RulesSupportedEven
 	path := "/rules/events/"
 
 	var out []vampy.RulesSupportedEvents
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -112,7 +113,7 @@ func (c *Client) RulesDetailsGet(ctx context.Context, opts RulesDetailsGetOption
 	path := fmt.Sprintf("/rules/%s/", url.PathEscape(opts.RuleID.String()))
 
 	var out vampy.RuleRead
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -127,7 +128,7 @@ type RulesDetailsGetOptions struct {
 func (c *Client) RulesDelete(ctx context.Context, opts RulesDeleteOptions) error {
 	path := fmt.Sprintf("/rules/%s/", url.PathEscape(opts.RuleID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type RulesDeleteOptions struct {
@@ -139,7 +140,7 @@ func (c *Client) RulesPatch(ctx context.Context, opts RulesPatchOptions) (vampy.
 	path := fmt.Sprintf("/rules/%s/", url.PathEscape(opts.RuleID.String()))
 
 	var out vampy.RuleRead
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 

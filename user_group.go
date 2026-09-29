@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -48,7 +49,7 @@ func (c *Client) GetUserGroups(ctx context.Context, opts GetUserGroupsOptions) (
 	}
 
 	var out vampy.Page[vampy.UserGroup]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -72,7 +73,7 @@ func (c *Client) PostUserGroup(ctx context.Context, opts PostUserGroupOptions) (
 	path := fmt.Sprintf("/spaces/%s/user_groups/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.UserGroup
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -88,7 +89,7 @@ func (c *Client) GetUserGroup(ctx context.Context, opts GetUserGroupOptions) (va
 	path := fmt.Sprintf("/user_groups/%s/", url.PathEscape(opts.UserGroupID.String()))
 
 	var out vampy.UserGroup
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -103,7 +104,7 @@ type GetUserGroupOptions struct {
 func (c *Client) DeleteUserGroup(ctx context.Context, opts DeleteUserGroupOptions) error {
 	path := fmt.Sprintf("/user_groups/%s/", url.PathEscape(opts.UserGroupID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type DeleteUserGroupOptions struct {
@@ -115,7 +116,7 @@ func (c *Client) PatchUserGroup(ctx context.Context, opts PatchUserGroupOptions)
 	path := fmt.Sprintf("/user_groups/%s/", url.PathEscape(opts.UserGroupID.String()))
 
 	var out vampy.UserGroup
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -146,7 +147,7 @@ func (c *Client) GetUserGroupRelations(ctx context.Context, opts GetUserGroupRel
 	}
 
 	var out vampy.Page[vampy.UserGroupRelation]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -166,7 +167,7 @@ type GetUserGroupRelationsOptions struct {
 func (c *Client) UserGroupsSetRole(ctx context.Context, opts UserGroupsSetRoleOptions) error {
 	path := fmt.Sprintf("/spaces/%s/user_groups/set_role/", url.PathEscape(c.spaceID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type UserGroupsSetRoleOptions struct {
@@ -177,7 +178,7 @@ type UserGroupsSetRoleOptions struct {
 func (c *Client) UserGroupMoveUsers(ctx context.Context, opts UserGroupMoveUsersOptions) error {
 	path := fmt.Sprintf("/spaces/%s/user_groups/move_users/", url.PathEscape(c.spaceID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type UserGroupMoveUsersOptions struct {

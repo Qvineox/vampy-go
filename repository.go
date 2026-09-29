@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -44,7 +45,7 @@ func (c *Client) RepositoryListGet(ctx context.Context, opts RepositoryListGetOp
 	}
 
 	var out vampy.Page[vampy.Repository]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -67,7 +68,7 @@ func (c *Client) RepositoryCreate(ctx context.Context, opts RepositoryCreateOpti
 	path := "/repositories/"
 
 	var out vampy.Repository
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -83,7 +84,7 @@ func (c *Client) RepositoryImportFromVCS(ctx context.Context, opts RepositoryImp
 	path := "/repositories/vcs/import/"
 
 	var out vampy.RepositoryImportResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -99,7 +100,7 @@ func (c *Client) RepositoryDetailsGet(ctx context.Context, opts RepositoryDetail
 	path := fmt.Sprintf("/repositories/%s/", url.PathEscape(opts.RepositoryID.String()))
 
 	var out vampy.RepositoryDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -114,7 +115,7 @@ type RepositoryDetailsGetOptions struct {
 func (c *Client) RepositoryDelete(ctx context.Context, opts RepositoryDeleteOptions) error {
 	path := fmt.Sprintf("/repositories/%s/", url.PathEscape(opts.RepositoryID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type RepositoryDeleteOptions struct {
@@ -126,7 +127,7 @@ func (c *Client) RepositoryPatch(ctx context.Context, opts RepositoryPatchOption
 	path := fmt.Sprintf("/repositories/%s/", url.PathEscape(opts.RepositoryID.String()))
 
 	var out vampy.RepositoryDetails
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -151,7 +152,7 @@ func (c *Client) RepositoryUserGroupsGet(ctx context.Context, opts RepositoryUse
 	}
 
 	var out vampy.Page[vampy.UserGroupPermission]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -169,7 +170,7 @@ type RepositoryUserGroupsGetOptions struct {
 func (c *Client) RepositoryUsersSet(ctx context.Context, opts RepositoryUsersSetOptions) error {
 	path := fmt.Sprintf("/repositories/%s/users/set/", url.PathEscape(opts.RepositoryID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type RepositoryUsersSetOptions struct {
@@ -181,7 +182,7 @@ type RepositoryUsersSetOptions struct {
 func (c *Client) RepositoryUsersUnset(ctx context.Context, opts RepositoryUsersUnsetOptions) error {
 	path := fmt.Sprintf("/repositories/%s/users/unset/", url.PathEscape(opts.RepositoryID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type RepositoryUsersUnsetOptions struct {
@@ -193,7 +194,7 @@ type RepositoryUsersUnsetOptions struct {
 func (c *Client) RepositoryUserGroupsSet(ctx context.Context, opts RepositoryUserGroupsSetOptions) error {
 	path := fmt.Sprintf("/repositories/%s/user_groups/set/", url.PathEscape(opts.RepositoryID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type RepositoryUserGroupsSetOptions struct {
@@ -205,7 +206,7 @@ type RepositoryUserGroupsSetOptions struct {
 func (c *Client) RepositoryUserGroupsUnset(ctx context.Context, opts RepositoryUserGroupsUnsetOptions) error {
 	path := fmt.Sprintf("/repositories/%s/user_groups/unset/", url.PathEscape(opts.RepositoryID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type RepositoryUserGroupsUnsetOptions struct {
@@ -218,7 +219,7 @@ func (c *Client) RepositoryVCSLink(ctx context.Context, opts RepositoryVCSLinkOp
 	path := fmt.Sprintf("/repositories/%s/vcs/link/", url.PathEscape(opts.RepositoryID.String()))
 
 	var out vampy.RepositoryDetails
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -235,7 +236,7 @@ func (c *Client) RepositoryVCSUnlink(ctx context.Context, opts RepositoryVCSUnli
 	path := fmt.Sprintf("/repositories/%s/vcs/link/", url.PathEscape(opts.RepositoryID.String()))
 
 	var out vampy.RepositoryDetails
-	if err := c.doJSON(ctx, "DELETE", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodDelete, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -279,7 +280,7 @@ func (c *Client) RepositoryBranchListGet(ctx context.Context, opts RepositoryBra
 	}
 
 	var out vampy.Page[vampy.RepositoryBranchList]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -301,7 +302,7 @@ type RepositoryBranchListGetOptions struct {
 func (c *Client) RepositoryBranchDelete(ctx context.Context, opts RepositoryBranchDeleteOptions) error {
 	path := fmt.Sprintf("/repositories/%s/branches/%s/", url.PathEscape(opts.RepositoryID.String()), url.PathEscape(opts.BranchID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type RepositoryBranchDeleteOptions struct {

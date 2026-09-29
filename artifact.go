@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -32,7 +33,7 @@ func (c *Client) ArtifactsListGet(ctx context.Context, opts ArtifactsListGetOpti
 	}
 
 	var out vampy.Page[vampy.Artifact]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -51,7 +52,7 @@ type ArtifactsListGetOptions struct {
 func (c *Client) ArtifactsDeleteBatch(ctx context.Context, opts ArtifactsDeleteBatchOptions) error {
 	path := fmt.Sprintf("/spaces/%s/artifacts/delete/", url.PathEscape(c.spaceID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ArtifactsDeleteBatchOptions struct {
@@ -63,7 +64,7 @@ func (c *Client) ArtifactsDetailsGet(ctx context.Context, opts ArtifactsDetailsG
 	path := fmt.Sprintf("/artifacts/%s/", url.PathEscape(opts.ArtifactID.String()))
 
 	var out vampy.Artifact
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -79,7 +80,7 @@ func (c *Client) ArtifactsPatch(ctx context.Context, opts ArtifactsPatchOptions)
 	path := fmt.Sprintf("/artifacts/%s/", url.PathEscape(opts.ArtifactID.String()))
 
 	var out vampy.ArtifactDetail
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -96,7 +97,7 @@ func (c *Client) ArtifactVersionsSync(ctx context.Context, opts ArtifactVersions
 	path := fmt.Sprintf("/spaces/%s/artifacts/versions/sync/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.ArtifactVersionSyncResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -124,7 +125,7 @@ func (c *Client) ArtifactsVersionsGet(ctx context.Context, opts ArtifactsVersion
 	}
 
 	var out vampy.Page[vampy.ArtifactVersion]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -143,7 +144,7 @@ type ArtifactsVersionsGetOptions struct {
 func (c *Client) ArtifactVersionsDeleteBatch(ctx context.Context, opts ArtifactVersionsDeleteBatchOptions) error {
 	path := fmt.Sprintf("/artifacts/%s/versions/delete/", url.PathEscape(opts.ArtifactID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type ArtifactVersionsDeleteBatchOptions struct {
@@ -156,7 +157,7 @@ func (c *Client) ArtifactsImport(ctx context.Context, opts ArtifactsImportOption
 	path := fmt.Sprintf("/spaces/%s/artifacts/import/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.ArtifactImportTask
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 

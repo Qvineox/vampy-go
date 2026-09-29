@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -21,7 +22,7 @@ func (c *Client) SpaceIssueStatusList(ctx context.Context, opts SpaceIssueStatus
 	}
 
 	var out []vampy.IssueStatus
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -37,7 +38,7 @@ func (c *Client) SpaceIssueStatusCreate(ctx context.Context, opts SpaceIssueStat
 	path := fmt.Sprintf("/spaces/%s/statuses/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.IssueStatus
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -53,7 +54,7 @@ func (c *Client) SpaceIssueStatusGet(ctx context.Context, opts SpaceIssueStatusG
 	path := fmt.Sprintf("/spaces/%s/statuses/%s/", url.PathEscape(c.spaceID.String()), url.PathEscape(opts.IssueStatusName))
 
 	var out vampy.IssueStatus
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -68,7 +69,7 @@ type SpaceIssueStatusGetOptions struct {
 func (c *Client) SpaceIssueStatusDelete(ctx context.Context, opts SpaceIssueStatusDeleteOptions) error {
 	path := fmt.Sprintf("/spaces/%s/statuses/%s/", url.PathEscape(c.spaceID.String()), url.PathEscape(opts.IssueStatusName))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type SpaceIssueStatusDeleteOptions struct {
@@ -80,7 +81,7 @@ func (c *Client) SpaceIssueStatusPatch(ctx context.Context, opts SpaceIssueStatu
 	path := fmt.Sprintf("/spaces/%s/statuses/%s/", url.PathEscape(c.spaceID.String()), url.PathEscape(opts.IssueStatusName))
 
 	var out vampy.IssueStatus
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -97,7 +98,7 @@ func (c *Client) SystemSettingsGet(ctx context.Context) (vampy.SystemWideSetting
 	path := "/service/settings/"
 
 	var out vampy.SystemWideSettings
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -109,7 +110,7 @@ func (c *Client) SystemSettingsPatch(ctx context.Context, opts SystemSettingsPat
 	path := "/service/settings/"
 
 	var out vampy.SystemWideSettings
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -142,7 +143,7 @@ func (c *Client) FilterValuesGet(ctx context.Context, opts FilterValuesGetOption
 	}
 
 	var out vampy.FilterMetaResponse
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -160,7 +161,7 @@ type FilterValuesGetOptions struct {
 func (c *Client) PingGet(ctx context.Context) error {
 	path := "/service/ping/"
 
-	return c.doJSON(ctx, "GET", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodGet, path, nil, nil, nil)
 }
 
 // HealthGet Check if Vampy-dependant services is up
@@ -168,7 +169,7 @@ func (c *Client) HealthGet(ctx context.Context) (vampy.HealthResponse, error) {
 	path := "/service/health/"
 
 	var out vampy.HealthResponse
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -180,7 +181,7 @@ func (c *Client) ServerInfo(ctx context.Context) (vampy.ServerInfo, error) {
 	path := "/service/info/"
 
 	var out vampy.ServerInfo
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -192,7 +193,7 @@ func (c *Client) LDAPConfigGet(ctx context.Context) (vampy.LDAPAuthenticationCon
 	path := "/service/ldap/"
 
 	var out vampy.LDAPAuthenticationConfig
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -204,7 +205,7 @@ func (c *Client) LDAPConfigPost(ctx context.Context, opts LDAPConfigPostOptions)
 	path := "/service/ldap/"
 
 	var out vampy.LDAPAuthenticationConfig
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -219,7 +220,7 @@ type LDAPConfigPostOptions struct {
 func (c *Client) LDAPConfigDelete(ctx context.Context) error {
 	path := "/service/ldap/"
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 // LDAPConfigPatch Update LDAP authentication config
@@ -227,7 +228,7 @@ func (c *Client) LDAPConfigPatch(ctx context.Context, opts LDAPConfigPatchOption
 	path := "/service/ldap/"
 
 	var out vampy.LDAPAuthenticationConfig
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -243,7 +244,7 @@ func (c *Client) LDAPConfigTest(ctx context.Context, opts LDAPConfigTestOptions)
 	path := "/service/ldap/test/"
 
 	var out vampy.Page[vampy.LDAPUser]
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -259,7 +260,7 @@ func (c *Client) OIDCConfigList(ctx context.Context) ([]vampy.OIDCConfig, error)
 	path := "/service/oidc/"
 
 	var out []vampy.OIDCConfig
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -271,7 +272,7 @@ func (c *Client) OIDCConfigPost(ctx context.Context, opts OIDCConfigPostOptions)
 	path := "/service/oidc/"
 
 	var out vampy.OIDCConfig
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -287,7 +288,7 @@ func (c *Client) OIDCConfigGet(ctx context.Context, opts OIDCConfigGetOptions) (
 	path := fmt.Sprintf("/service/oidc/%s/", url.PathEscape(opts.ConfigID.String()))
 
 	var out vampy.OIDCConfig
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -302,7 +303,7 @@ type OIDCConfigGetOptions struct {
 func (c *Client) OIDCConfigDelete(ctx context.Context, opts OIDCConfigDeleteOptions) error {
 	path := fmt.Sprintf("/service/oidc/%s/", url.PathEscape(opts.ConfigID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type OIDCConfigDeleteOptions struct {
@@ -314,7 +315,7 @@ func (c *Client) OIDCConfigPatch(ctx context.Context, opts OIDCConfigPatchOption
 	path := fmt.Sprintf("/service/oidc/%s/", url.PathEscape(opts.ConfigID.String()))
 
 	var out vampy.OIDCConfig
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -340,7 +341,7 @@ func (c *Client) OIDCConfigDefaults(ctx context.Context, opts OIDCConfigDefaults
 	}
 
 	var out vampy.OIDCDefaults
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -358,7 +359,7 @@ func (c *Client) OIDCTestConnect(ctx context.Context, opts OIDCTestConnectOption
 	path := fmt.Sprintf("/service/oidc/%s/test_connect/", url.PathEscape(string(opts.Provider)))
 
 	var out []vampy.OIDCTestConnectResponse
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -375,7 +376,7 @@ func (c *Client) SMTPConfigGet(ctx context.Context) (vampy.SMTPConfig, error) {
 	path := "/service/smtp_config/"
 
 	var out vampy.SMTPConfig
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -387,7 +388,7 @@ func (c *Client) SMTPConfigPost(ctx context.Context, opts SMTPConfigPostOptions)
 	path := "/service/smtp_config/"
 
 	var out vampy.SMTPConfig
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -402,7 +403,7 @@ type SMTPConfigPostOptions struct {
 func (c *Client) SMTPConfigDelete(ctx context.Context) error {
 	path := "/service/smtp_config/"
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 // SMTPConfigPatch Update already an existing SMTP authentication config
@@ -410,7 +411,7 @@ func (c *Client) SMTPConfigPatch(ctx context.Context, opts SMTPConfigPatchOption
 	path := "/service/smtp_config/"
 
 	var out vampy.SMTPConfig
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -424,7 +425,7 @@ type SMTPConfigPatchOptions struct {
 func (c *Client) SendTestEmail(ctx context.Context, opts SendTestEmailOptions) error {
 	path := "/service/smtp_config/test_email/"
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type SendTestEmailOptions struct {
@@ -441,7 +442,7 @@ func (c *Client) UserRolesGet(ctx context.Context, opts UserRolesGetOptions) ([]
 	}
 
 	var out []vampy.UserRole
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -457,7 +458,7 @@ func (c *Client) UserRolesCreate(ctx context.Context, opts UserRolesCreateOption
 	path := "/service/user_roles/"
 
 	var out vampy.UserRole
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -473,7 +474,7 @@ func (c *Client) UserRolesPermissionsMeta(ctx context.Context) (vampy.UserRolePe
 	path := "/service/user_roles/permissions/meta/"
 
 	var out vampy.UserRolePermissionsMeta
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -485,7 +486,7 @@ func (c *Client) UserRolesDetailsGet(ctx context.Context, opts UserRolesDetailsG
 	path := fmt.Sprintf("/service/user_roles/%s/", url.PathEscape(opts.UserRoleID.String()))
 
 	var out vampy.UserRole
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -500,7 +501,7 @@ type UserRolesDetailsGetOptions struct {
 func (c *Client) UserRolesDelete(ctx context.Context, opts UserRolesDeleteOptions) error {
 	path := fmt.Sprintf("/service/user_roles/%s/", url.PathEscape(opts.UserRoleID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type UserRolesDeleteOptions struct {
@@ -511,7 +512,7 @@ type UserRolesDeleteOptions struct {
 func (c *Client) UserRolesPatch(ctx context.Context, opts UserRolesPatchOptions) error {
 	path := fmt.Sprintf("/service/user_roles/%s/", url.PathEscape(opts.UserRoleID.String()))
 
-	return c.doJSON(ctx, "PATCH", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, nil)
 }
 
 type UserRolesPatchOptions struct {
@@ -523,7 +524,7 @@ func (c *Client) GetParsers(ctx context.Context) ([]vampy.ParserInList, error) {
 	path := "/service/parsers/"
 
 	var out []vampy.ParserInList
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -539,7 +540,7 @@ func (c *Client) BackgroundTasksListGet(ctx context.Context, opts BackgroundTask
 	q.Set("limit", strconv.Itoa(opts.Limit))
 
 	var out vampy.Page[vampy.BackgroundTask]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -555,7 +556,7 @@ func (c *Client) BackgroundTasksDetailsGet(ctx context.Context, opts BackgroundT
 	path := fmt.Sprintf("/service/background_tasks/%s/", url.PathEscape(opts.TaskID.String()))
 
 	var out vampy.BackgroundTaskDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -571,7 +572,7 @@ func (c *Client) GetGlobalSLASetting(ctx context.Context) (vampy.SLASettingWithD
 	path := "/service/sla_config/"
 
 	var out vampy.SLASettingWithDefault
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -583,7 +584,7 @@ func (c *Client) PostGlobalSLASetting(ctx context.Context, opts PostGlobalSLASet
 	path := "/service/sla_config/"
 
 	var out vampy.SLASetting
-	if err := c.doJSON(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -598,7 +599,7 @@ type PostGlobalSLASettingOptions struct {
 func (c *Client) FPClassifierDatasetDownload(ctx context.Context) ([]byte, error) {
 	path := fmt.Sprintf("/service/fp_classifier/%s/dataset/download/", url.PathEscape(c.spaceID.String()))
 
-	return c.doBinary(ctx, "GET", path, nil, nil)
+	return c.doBinary(ctx, http.MethodGet, path, nil, nil)
 }
 
 // FPClassifierDatasetUpload Upload scan issues dataset
@@ -606,7 +607,7 @@ func (c *Client) FPClassifierDatasetUpload(ctx context.Context, opts FPClassifie
 	path := fmt.Sprintf("/service/fp_classifier/%s/dataset/upload/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.BackgroundTask
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -621,7 +622,7 @@ type FPClassifierDatasetUploadOptions struct {
 func (c *Client) FPClassifierDatasetClear(ctx context.Context) error {
 	path := fmt.Sprintf("/service/fp_classifier/%s/dataset/clear/", url.PathEscape(c.spaceID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 // FPClassifierTrainingDataStats Get accumulated training data statistics
@@ -629,7 +630,7 @@ func (c *Client) FPClassifierTrainingDataStats(ctx context.Context) ([]vampy.FPC
 	path := fmt.Sprintf("/service/fp_classifier/%s/dataset/stats/", url.PathEscape(c.spaceID.String()))
 
 	var out []vampy.FPClassifierDatasetStats
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -653,7 +654,7 @@ func (c *Client) FPClassifierSnapshotList(ctx context.Context, opts FPClassifier
 	}
 
 	var out vampy.Page[vampy.FPClassifierSnapshot]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -671,7 +672,7 @@ type FPClassifierSnapshotListOptions struct {
 func (c *Client) FPClassifierSnapshotsDownload(ctx context.Context) ([]byte, error) {
 	path := fmt.Sprintf("/service/fp_classifier/%s/snapshots/download/", url.PathEscape(c.spaceID.String()))
 
-	return c.doBinary(ctx, "GET", path, nil, nil)
+	return c.doBinary(ctx, http.MethodGet, path, nil, nil)
 }
 
 // FPClassifierSnapshotUpload Upload FP classifier model archive
@@ -679,7 +680,7 @@ func (c *Client) FPClassifierSnapshotUpload(ctx context.Context, opts FPClassifi
 	path := fmt.Sprintf("/service/fp_classifier/%s/snapshots/upload/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.BackgroundTask
-	if err := c.doMultipart(ctx, "POST", path, nil, opts.Body, &out); err != nil {
+	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -695,7 +696,7 @@ func (c *Client) FPClassifierSnapshotGet(ctx context.Context, opts FPClassifierS
 	path := fmt.Sprintf("/service/fp_classifier/snapshots/%s/", url.PathEscape(opts.SnapshotID.String()))
 
 	var out vampy.FPClassifierSnapshot
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -710,7 +711,7 @@ type FPClassifierSnapshotGetOptions struct {
 func (c *Client) FPClassifierSnapshotDelete(ctx context.Context, opts FPClassifierSnapshotDeleteOptions) error {
 	path := fmt.Sprintf("/service/fp_classifier/snapshots/%s/", url.PathEscape(opts.SnapshotID.String()))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type FPClassifierSnapshotDeleteOptions struct {
@@ -722,7 +723,7 @@ func (c *Client) FPClassifierSnapshotPatch(ctx context.Context, opts FPClassifie
 	path := fmt.Sprintf("/service/fp_classifier/snapshots/%s/", url.PathEscape(opts.SnapshotID.String()))
 
 	var out vampy.FPClassifierSnapshot
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -739,7 +740,7 @@ func (c *Client) FPClassifierSnapshotTrain(ctx context.Context, opts FPClassifie
 	path := fmt.Sprintf("/service/fp_classifier/snapshots/%s/train/", url.PathEscape(opts.SnapshotID.String()))
 
 	var out vampy.BackgroundTask
-	if err := c.doJSON(ctx, "POST", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -754,7 +755,7 @@ type FPClassifierSnapshotTrainOptions struct {
 func (c *Client) FPClassifierSnapshotDownload(ctx context.Context, opts FPClassifierSnapshotDownloadOptions) ([]byte, error) {
 	path := fmt.Sprintf("/service/fp_classifier/snapshots/%s/download/", url.PathEscape(opts.SnapshotID.String()))
 
-	return c.doBinary(ctx, "GET", path, nil, nil)
+	return c.doBinary(ctx, http.MethodGet, path, nil, nil)
 }
 
 type FPClassifierSnapshotDownloadOptions struct {
@@ -765,7 +766,7 @@ type FPClassifierSnapshotDownloadOptions struct {
 func (c *Client) FPClassifierSnapshotDatasetDownload(ctx context.Context, opts FPClassifierSnapshotDatasetDownloadOptions) ([]byte, error) {
 	path := fmt.Sprintf("/service/fp_classifier/snapshots/%s/dataset/download/", url.PathEscape(opts.SnapshotID.String()))
 
-	return c.doBinary(ctx, "GET", path, nil, nil)
+	return c.doBinary(ctx, http.MethodGet, path, nil, nil)
 }
 
 type FPClassifierSnapshotDatasetDownloadOptions struct {
@@ -777,7 +778,7 @@ func (c *Client) FPClassifierSettingsGet(ctx context.Context) (vampy.FPClassifie
 	path := fmt.Sprintf("/service/fp_classifier/%s/settings/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.FPClassifierSettings
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -789,7 +790,7 @@ func (c *Client) FPClassifierSettingsPatch(ctx context.Context, opts FPClassifie
 	path := fmt.Sprintf("/service/fp_classifier/%s/settings/", url.PathEscape(c.spaceID.String()))
 
 	var out vampy.FPClassifierSettings
-	if err := c.doJSON(ctx, "PATCH", path, nil, opts.Body, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, &out); err != nil {
 		return out, err
 	}
 
@@ -807,7 +808,7 @@ func (c *Client) FPClassifierMetricsDownload(ctx context.Context, opts FPClassif
 
 	q.Set("limit", strconv.Itoa(opts.Limit))
 
-	return c.doBinary(ctx, "GET", path, q, nil)
+	return c.doBinary(ctx, http.MethodGet, path, q, nil)
 }
 
 type FPClassifierMetricsDownloadOptions struct {

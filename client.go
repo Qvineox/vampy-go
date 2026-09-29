@@ -116,22 +116,28 @@ func (c *Client) newRequest(ctx context.Context, method, path string, query url.
 	if err != nil {
 		return nil, err
 	}
+
 	if query != nil {
 		u.RawQuery = query.Encode()
 	}
+
 	req, err := http.NewRequestWithContext(ctx, method, u.String(), body)
 	if err != nil {
 		return nil, err
 	}
+
 	if c.accessToken != "" {
 		req.Header.Set("Authorization", "Bearer "+c.accessToken)
 	}
+
 	if c.userAgent != "" {
 		req.Header.Set("User-Agent", c.userAgent)
 	}
+
 	if contentType != "" {
 		req.Header.Set("Content-Type", contentType)
 	}
+
 	return req, nil
 }
 
@@ -140,9 +146,11 @@ func (c *Client) do(req *http.Request) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	if resp.StatusCode >= 400 {
 		b, _ := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
-		resp.Body.Close()
+		_ = resp.Body.Close()
+
 		return nil, &Error{StatusCode: resp.StatusCode, Status: resp.Status, Body: b}
 	}
 	return resp, nil
@@ -157,71 +165,85 @@ func (c *Client) doJSON(ctx context.Context, method, path string, query url.Valu
 		}
 		rdr = bytes.NewReader(b)
 	}
+
 	req, err := c.newRequest(ctx, method, path, query, rdr, "application/json")
 	if err != nil {
 		return err
 	}
+
 	resp, err := c.do(req)
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+
+	defer func() { _ = resp.Body.Close() }()
 	if out == nil || resp.StatusCode == 204 {
 		return nil
 	}
+
 	return json.NewDecoder(resp.Body).Decode(out)
 }
 
 func (c *Client) doBinary(ctx context.Context, method, path string, query url.Values, body interface{}) ([]byte, error) {
-	var rdr io.Reader
+	var reader io.Reader
 	if body != nil {
 		b, err := json.Marshal(body)
 		if err != nil {
 			return nil, err
 		}
-		rdr = bytes.NewReader(b)
+
+		reader = bytes.NewReader(b)
 	}
-	req, err := c.newRequest(ctx, method, path, query, rdr, "application/json")
+
+	req, err := c.newRequest(ctx, method, path, query, reader, "application/json")
 	if err != nil {
 		return nil, err
 	}
+
 	resp, err := c.do(req)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+
+	defer func() { _ = resp.Body.Close() }()
 	return io.ReadAll(resp.Body)
 }
 
 func (c *Client) doMultipart(ctx context.Context, method, path string, query url.Values, body, out interface{}) error {
 	var buf bytes.Buffer
+
 	w := multipart.NewWriter(&buf)
 	if body != nil {
 		if err := writeMultipart(w, body); err != nil {
 			return err
 		}
 	}
-	w.Close()
+	_ = w.Close()
+
 	req, err := c.newRequest(ctx, method, path, query, &buf, w.FormDataContentType())
 	if err != nil {
 		return err
 	}
+
 	resp, err := c.do(req)
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
+
 	if out == nil || resp.StatusCode == 204 {
 		return nil
 	}
+
 	return json.NewDecoder(resp.Body).Decode(out)
 }
 
 func writeMultipart(w *multipart.Writer, body interface{}) error {
 	v := reflect.ValueOf(body)
-	if v.Kind() == reflect.Ptr {
+	if v.Kind() == reflect.Pointer {
 		v = v.Elem()
 	}
+
 	t := v.Type()
 	for i := 0; i < v.NumField(); i++ {
 		f := v.Field(i)
@@ -229,17 +251,20 @@ func writeMultipart(w *multipart.Writer, body interface{}) error {
 		if !f.CanInterface() {
 			continue
 		}
+
 		tag := ft.Tag.Get("json")
-		name := strings.Split(tag, ",")[0]
+		name, _, _ := strings.Cut(tag, ",")
 		if name == "" || name == "-" {
 			continue
 		}
-		if f.Kind() == reflect.Ptr {
+
+		if f.Kind() == reflect.Pointer {
 			if f.IsNil() {
 				continue
 			}
 			f = f.Elem()
 		}
+
 		if f.Kind() == reflect.Slice && f.Type().Elem().Kind() == reflect.Uint8 {
 			part, err := w.CreateFormFile(name, name)
 			if err != nil {
@@ -250,6 +275,7 @@ func writeMultipart(w *multipart.Writer, body interface{}) error {
 			}
 			continue
 		}
+
 		var s string
 		switch f.Kind() {
 		case reflect.String:
@@ -269,7 +295,8 @@ func writeMultipart(w *multipart.Writer, body interface{}) error {
 			}
 			s = string(b)
 		}
-		w.WriteField(name, s)
+
+		_ = w.WriteField(name, s)
 	}
 	return nil
 }

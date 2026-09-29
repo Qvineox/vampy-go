@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -40,7 +41,7 @@ func (c *Client) ComponentsListGet(ctx context.Context, opts ComponentsListGetOp
 	}
 
 	var out vampy.Page[vampy.ComponentShort]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -62,7 +63,7 @@ func (c *Client) ComponentDetailsGet(ctx context.Context, opts ComponentDetailsG
 	path := fmt.Sprintf("/components/%s/", url.PathEscape(opts.ComponentID.String()))
 
 	var out vampy.ComponentDetails
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -77,7 +78,7 @@ type ComponentDetailsGetOptions struct {
 func (c *Client) ComponentPatch(ctx context.Context, opts ComponentPatchOptions) error {
 	path := fmt.Sprintf("/components/%s/", url.PathEscape(opts.ComponentID.String()))
 
-	return c.doJSON(ctx, "PATCH", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, nil)
 }
 
 type ComponentPatchOptions struct {
@@ -126,7 +127,7 @@ func (c *Client) ComponentVersionsListGet(ctx context.Context, opts ComponentVer
 	}
 
 	var out vampy.Page[vampy.ComponentVersion]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -160,7 +161,7 @@ func (c *Client) ComponentVersionDetailsGet(ctx context.Context, opts ComponentV
 	}
 
 	var out vampy.ComponentVersionDetails
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -177,7 +178,7 @@ type ComponentVersionDetailsGetOptions struct {
 func (c *Client) ComponentVersionPatch(ctx context.Context, opts ComponentVersionPatchOptions) error {
 	path := fmt.Sprintf("/component_versions/%s/", url.PathEscape(opts.ComponentVersionID.String()))
 
-	return c.doJSON(ctx, "PATCH", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, nil)
 }
 
 type ComponentVersionPatchOptions struct {

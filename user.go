@@ -3,6 +3,7 @@ package vampy_go
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -29,7 +30,7 @@ func (c *Client) UsersGet(ctx context.Context, opts UsersGetOptions) ([]vampy.Us
 	}
 
 	var out []vampy.UserAdmin
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -46,7 +47,7 @@ type UsersGetOptions struct {
 func (c *Client) UserRegistration(ctx context.Context, opts UserRegistrationOptions) error {
 	path := "/users/"
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type UserRegistrationOptions struct {
@@ -78,7 +79,7 @@ func (c *Client) SpaceUsersGet(ctx context.Context, opts SpaceUsersGetOptions) (
 	}
 
 	var out vampy.Page[vampy.UserAdmin]
-	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -98,7 +99,7 @@ type SpaceUsersGetOptions struct {
 func (c *Client) SpaceUserRegistration(ctx context.Context, opts SpaceUserRegistrationOptions) error {
 	path := fmt.Sprintf("/spaces/%s/users/", url.PathEscape(c.spaceID.String()))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type SpaceUserRegistrationOptions struct {
@@ -109,7 +110,7 @@ func (c *Client) UserUserIDGet(ctx context.Context, opts UserUserIDGetOptions) (
 	path := fmt.Sprintf("/users/%s/", url.PathEscape(opts.UserID.String()))
 
 	var out vampy.UserAdmin
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -123,7 +124,7 @@ type UserUserIDGetOptions struct {
 func (c *Client) UsersPatch(ctx context.Context, opts UsersPatchOptions) error {
 	path := fmt.Sprintf("/users/%s/", url.PathEscape(opts.UserID.String()))
 
-	return c.doJSON(ctx, "PATCH", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPatch, path, nil, opts.Body, nil)
 }
 
 type UsersPatchOptions struct {
@@ -136,7 +137,7 @@ func (c *Client) UserCurrent(ctx context.Context) (vampy.UserShort, error) {
 	path := "/users/me/"
 
 	var out vampy.UserShort
-	if err := c.doJSON(ctx, "GET", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -146,7 +147,7 @@ func (c *Client) UserCurrent(ctx context.Context) (vampy.UserShort, error) {
 func (c *Client) UsersLogoutUser(ctx context.Context, opts UsersLogoutUserOptions) error {
 	path := fmt.Sprintf("/users/%s/logout/", url.PathEscape(opts.UserID))
 
-	return c.doJSON(ctx, "POST", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, nil, nil)
 }
 
 type UsersLogoutUserOptions struct {
@@ -157,7 +158,7 @@ func (c *Client) UsersMFAPost(ctx context.Context, opts UsersMFAPostOptions) (va
 	path := fmt.Sprintf("/users/%s/mfa/", url.PathEscape(opts.UserID))
 
 	var out vampy.UserMFA
-	if err := c.doJSON(ctx, "POST", path, nil, nil, &out); err != nil {
+	if err := c.doJSON(ctx, http.MethodPost, path, nil, nil, &out); err != nil {
 		return out, err
 	}
 
@@ -171,7 +172,7 @@ type UsersMFAPostOptions struct {
 func (c *Client) UsersMFADelete(ctx context.Context, opts UsersMFADeleteOptions) error {
 	path := fmt.Sprintf("/users/%s/mfa/", url.PathEscape(opts.UserID))
 
-	return c.doJSON(ctx, "DELETE", path, nil, nil, nil)
+	return c.doJSON(ctx, http.MethodDelete, path, nil, nil, nil)
 }
 
 type UsersMFADeleteOptions struct {
@@ -181,7 +182,7 @@ type UsersMFADeleteOptions struct {
 func (c *Client) UsersMFAConfirmPost(ctx context.Context, opts UsersMFAConfirmPostOptions) error {
 	path := fmt.Sprintf("/users/%s/mfa/confirm/", url.PathEscape(opts.UserID))
 
-	return c.doJSON(ctx, "POST", path, nil, opts.Body, nil)
+	return c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, nil)
 }
 
 type UsersMFAConfirmPostOptions struct {
