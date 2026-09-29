@@ -13,14 +13,18 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"uuid"
 )
 
 // Client is a Vampy ASPM API client.
 type Client struct {
-	baseURL     *url.URL
-	httpClient  *http.Client
+	httpClient *http.Client
+	baseURL    *url.URL
+
 	accessToken string
 	userAgent   string
+
+	spaceID uuid.UUID
 }
 
 // Option configures the Client.
@@ -33,11 +37,13 @@ func NewClient(baseURL string, opts ...Option) (*Client, error) {
 	if err != nil {
 		return nil, fmt.Errorf("vampy: invalid base URL: %w", err)
 	}
+
 	c := &Client{
 		baseURL:    u,
 		httpClient: &http.Client{},
 		userAgent:  "vampy-go",
 	}
+
 	for _, o := range opts {
 		if err := o(c); err != nil {
 			return nil, err
@@ -49,6 +55,11 @@ func NewClient(baseURL string, opts ...Option) (*Client, error) {
 // WithAccessToken sets the bearer access token sent with every request.
 func WithAccessToken(token string) Option {
 	return func(c *Client) error { c.accessToken = token; return nil }
+}
+
+// WithSpaceUUID sets the default Vampy space UUID for all interactions
+func WithSpaceUUID(id uuid.UUID) Option {
+	return func(c *Client) error { c.spaceID = id; return nil }
 }
 
 // WithHTTPClient sets a custom http.Client.

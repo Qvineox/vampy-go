@@ -3,9 +3,10 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
 	"strconv"
+
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // ArtifactsListGet Get artifacts list

@@ -3,38 +3,53 @@ package vampy_go
 import (
 	"context"
 	"fmt"
-	"github.com/qvineox/vampy-go/vampy"
 	"net/url"
 	"strconv"
+	"uuid"
+
+	"github.com/qvineox/vampy-go/vampy"
 )
 
 // CommentListGet Paginated list of comments
-func (c *Client) CommentListGet(ctx context.Context, scanIssueID string, offset *int, limit *int, userID *string, exportRecordID *string, commentType *vampy.CommentType, includeAssociatedIssues *bool) (vampy.Page[vampy.CommentDetails], error) {
-	path := fmt.Sprintf("/scan_issues/%s/comments/", url.PathEscape(scanIssueID))
+func (c *Client) CommentListGet(ctx context.Context, opts CommentListGetOptions) (vampy.Page[vampy.CommentDetails], error) {
+	path := fmt.Sprintf("/scan_issues/%s/comments/", url.PathEscape(opts.ScanIssueID.String()))
 	q := url.Values{}
-	if offset != nil {
-		q.Set("offset", strconv.Itoa(*offset))
+
+	q.Set("offset", strconv.Itoa(opts.Offset))
+	q.Set("limit", strconv.Itoa(opts.Limit))
+
+	if opts.UserID != nil {
+		q.Set("userID", *opts.UserID)
 	}
-	if limit != nil {
-		q.Set("limit", strconv.Itoa(*limit))
+
+	if opts.ExportRecordID != nil {
+		q.Set("exportRecordID", opts.ExportRecordID.String())
 	}
-	if userID != nil {
-		q.Set("userID", *userID)
+
+	if opts.CommentType != nil {
+		q.Set("commentType", string(*opts.CommentType))
 	}
-	if exportRecordID != nil {
-		q.Set("exportRecordID", *exportRecordID)
+
+	if opts.IncludeAssociatedIssues != nil {
+		q.Set("includeAssociatedIssues", strconv.FormatBool(*opts.IncludeAssociatedIssues))
 	}
-	if commentType != nil {
-		q.Set("commentType", string(*commentType))
-	}
-	if includeAssociatedIssues != nil {
-		q.Set("includeAssociatedIssues", strconv.FormatBool(*includeAssociatedIssues))
-	}
+
 	var out vampy.Page[vampy.CommentDetails]
 	if err := c.doJSON(ctx, "GET", path, q, nil, &out); err != nil {
 		return out, err
 	}
+
 	return out, nil
+}
+
+type CommentListGetOptions struct {
+	ScanIssueID             uuid.UUID
+	ExportRecordID          *uuid.UUID
+	CommentType             *vampy.CommentType
+	IncludeAssociatedIssues *bool
+	UserID                  *string
+
+	vampy.Paging
 }
 
 // CommentPost Create comment
