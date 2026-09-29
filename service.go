@@ -6,7 +6,8 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/google/uuid"
+	"uuid"
+
 	"github.com/qvineox/vampy-go/vampy"
 )
 

@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/google/uuid"
+	"uuid"
+
 	"github.com/qvineox/vampy-go/vampy"
 )
 
