@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type BitBucketWebhookRequest struct {
 	EventKey string `json:"eventKey"`
 }
@@ -27,7 +29,7 @@ const (
 )
 
 type DefectDojoImportRequest struct {
-	SpaceID         UUID                      `json:"spaceID,omitempty"`
+	SpaceID         uuid.UUID                 `json:"spaceID,omitempty"`
 	Timeout         int                       `json:"timeout,omitempty"`
 	BatchSize       int                       `json:"batchSize,omitempty"`
 	ProductIDs      []int                     `json:"productIDs,omitempty"`
@@ -37,10 +39,10 @@ type DefectDojoImportRequest struct {
 }
 
 type DefectDojoImportResponse struct {
-	TaskID           UUID `json:"taskID,omitempty"`
-	ProductsCount    int  `json:"productsCount,omitempty"`
-	EngagementsCount int  `json:"engagementsCount,omitempty"`
-	FindingsCount    int  `json:"findingsCount,omitempty"`
+	TaskID           uuid.UUID `json:"taskID,omitempty"`
+	ProductsCount    int       `json:"productsCount,omitempty"`
+	EngagementsCount int       `json:"engagementsCount,omitempty"`
+	FindingsCount    int       `json:"findingsCount,omitempty"`
 }
 
 type DefectDojoProduct struct {
@@ -102,7 +104,7 @@ type IntegrationAIModel struct {
 }
 
 type IntegrationAIModelIntegration struct {
-	ID                    UUID             `json:"id,omitempty"`
+	ID                    uuid.UUID        `json:"id,omitempty"`
 	Name                  string           `json:"name,omitempty"`
 	State                 IntegrationState `json:"state,omitempty"`
 	Vendor                string           `json:"vendor,omitempty"`
@@ -122,7 +124,7 @@ const (
 )
 
 type IntegrationAI struct {
-	ID              UUID                       `json:"id,omitempty"`
+	ID              uuid.UUID                  `json:"id,omitempty"`
 	Name            string                     `json:"name,omitempty"`
 	Hostname        string                     `json:"hostname,omitempty"`
 	Vendor          string                     `json:"vendor,omitempty"`
@@ -177,7 +179,7 @@ type IntegrationAppScreener struct {
 }
 
 type IntegrationArtifact struct {
-	ID             UUID                           `json:"id,omitempty"`
+	ID             uuid.UUID                      `json:"id,omitempty"`
 	Name           string                         `json:"name,omitempty"`
 	Hostname       string                         `json:"hostname,omitempty"`
 	Username       string                         `json:"username,omitempty"`
@@ -186,7 +188,7 @@ type IntegrationArtifact struct {
 	Service        IntegrationArtifactServiceType `json:"service,omitempty"`
 	Roles          []IntegrationRole              `json:"roles,omitempty"`
 	State          IntegrationState               `json:"state,omitempty"`
-	ServerID       UUID                           `json:"serverID,omitempty"`
+	ServerID       uuid.UUID                      `json:"serverID,omitempty"`
 	Created        string                         `json:"created,omitempty"`
 	IgnoreSSLCheck bool                           `json:"ignoreSSLCheck,omitempty"`
 }
@@ -200,14 +202,14 @@ const (
 )
 
 type IntegrationDefectDojo struct {
-	ID             UUID                      `json:"id,omitempty"`
+	ID             uuid.UUID                 `json:"id,omitempty"`
 	Name           string                    `json:"name,omitempty"`
 	Hostname       string                    `json:"hostname,omitempty"`
 	Token          string                    `json:"token,omitempty"`
 	Service        IntegrationVCSServiceType `json:"service,omitempty"`
 	Roles          []IntegrationRole         `json:"roles,omitempty"`
 	State          IntegrationState          `json:"state,omitempty"`
-	ServerID       UUID                      `json:"serverID,omitempty"`
+	ServerID       uuid.UUID                 `json:"serverID,omitempty"`
 	Created        string                    `json:"created,omitempty"`
 	IgnoreSSLCheck bool                      `json:"ignoreSSLCheck,omitempty"`
 }
@@ -224,7 +226,7 @@ type IntegrationKTrackerCardType struct {
 }
 
 type IntegrationKTracker struct {
-	ID             UUID                         `json:"id,omitempty"`
+	ID             uuid.UUID                    `json:"id,omitempty"`
 	Name           string                       `json:"name,omitempty"`
 	Hostname       string                       `json:"hostname,omitempty"`
 	Token          string                       `json:"token,omitempty"`
@@ -232,7 +234,7 @@ type IntegrationKTracker struct {
 	Service        IntegrationVCSServiceType    `json:"service,omitempty"`
 	Roles          []IntegrationRole            `json:"roles,omitempty"`
 	State          IntegrationState             `json:"state,omitempty"`
-	ServerID       UUID                         `json:"serverID,omitempty"`
+	ServerID       uuid.UUID                    `json:"serverID,omitempty"`
 	Created        string                       `json:"created,omitempty"`
 	IgnoreSSLCheck *bool                        `json:"ignoreSSLCheck,omitempty"`
 	TargetSpace    *IntegrationKTrackerSpace    `json:"targetSpace,omitempty"`
@@ -312,7 +314,7 @@ const (
 )
 
 type IntegrationVCS struct {
-	ID             UUID                      `json:"id,omitempty"`
+	ID             uuid.UUID                 `json:"id,omitempty"`
 	Name           string                    `json:"name,omitempty"`
 	Hostname       string                    `json:"hostname,omitempty"`
 	Token          string                    `json:"token,omitempty"`
@@ -321,7 +323,7 @@ type IntegrationVCS struct {
 	Service        IntegrationVCSServiceType `json:"service,omitempty"`
 	Roles          []IntegrationRole         `json:"roles,omitempty"`
 	State          IntegrationState          `json:"state,omitempty"`
-	ServerID       UUID                      `json:"serverID,omitempty"`
+	ServerID       uuid.UUID                 `json:"serverID,omitempty"`
 	Created        string                    `json:"created,omitempty"`
 	IgnoreSSLCheck *bool                     `json:"ignoreSSLCheck,omitempty"`
 	ServerCert     *string                   `json:"serverCert,omitempty"`
@@ -348,7 +350,7 @@ type JiraApplicationInfoResponse struct {
 }
 
 type JiraIntegration struct {
-	ServerID              UUID                                   `json:"serverID,omitempty"`
+	ServerID              uuid.UUID                              `json:"serverID,omitempty"`
 	Name                  string                                 `json:"name,omitempty"`
 	Service               IntegrationServiceType                 `json:"service,omitempty"`
 	Roles                 []IntegrationRole                      `json:"roles,omitempty"`
@@ -361,7 +363,7 @@ type JiraIntegration struct {
 	SyncCommentsEnabled   bool                                   `json:"syncCommentsEnabled,omitempty"`
 	BackwardStatusMapping []JiraIntegrationBackwardStatusMapping `json:"backwardStatusMapping,omitempty"`
 	FieldsDefaultValues   []JiraIntegrationFieldsDefaultValues   `json:"fieldsDefaultValues,omitempty"`
-	BotUserID             *UUID                                  `json:"botUserID,omitempty"`
+	BotUserID             *uuid.UUID                             `json:"botUserID,omitempty"`
 	Webhook               *string                                `json:"webhook,omitempty"`
 	IgnoreSSLCheck        *bool                                  `json:"ignoreSSLCheck,omitempty"`
 }
@@ -477,13 +479,13 @@ type TaskTrackerAsyncExport struct {
 }
 
 type TaskTrackerAsyncExportIssues struct {
-	ID           UUID                                                `json:"id"`
+	ID           uuid.UUID                                           `json:"id"`
 	Summary      string                                              `json:"summary"`
 	FieldsValues []TaskTrackerAsyncExportSummarizedIssueFieldsValues `json:"fieldsValues,omitempty"`
 }
 
 type TaskTrackerAsyncExportSummarizedIssue struct {
-	IDs          []UUID                                              `json:"ids,omitempty"`
+	IDs          []uuid.UUID                                         `json:"ids,omitempty"`
 	Summary      string                                              `json:"summary,omitempty"`
 	FieldsValues []TaskTrackerAsyncExportSummarizedIssueFieldsValues `json:"fieldsValues,omitempty"`
 }
@@ -494,7 +496,7 @@ type TaskTrackerAsyncExportSummarizedIssueFieldsValues struct {
 }
 
 type TaskTrackerExportMetaRequest struct {
-	ScanIssueIDs []UUID `json:"scanIssueIDs"`
+	ScanIssueIDs []uuid.UUID `json:"scanIssueIDs"`
 }
 
 type TaskTrackerInfoRequest struct {
@@ -509,7 +511,7 @@ type TaskTrackerInfoResponse struct {
 }
 
 type TaskTrackerIntegration struct {
-	ServerID              UUID                                          `json:"serverID,omitempty"`
+	ServerID              uuid.UUID                                     `json:"serverID,omitempty"`
 	Name                  string                                        `json:"name,omitempty"`
 	Service               IntegrationServiceType                        `json:"service,omitempty"`
 	Roles                 []IntegrationRole                             `json:"roles,omitempty"`
@@ -523,7 +525,7 @@ type TaskTrackerIntegration struct {
 	SyncCommentsEnabled   bool                                          `json:"syncCommentsEnabled,omitempty"`
 	BackwardStatusMapping []TaskTrackerIntegrationBackwardStatusMapping `json:"backwardStatusMapping,omitempty"`
 	FieldsDefaultValues   []JiraIntegrationFieldsDefaultValues          `json:"fieldsDefaultValues,omitempty"`
-	BotUserID             *UUID                                         `json:"botUserID,omitempty"`
+	BotUserID             *uuid.UUID                                    `json:"botUserID,omitempty"`
 	Webhook               *string                                       `json:"webhook,omitempty"`
 	IgnoreSSLCheck        *bool                                         `json:"ignoreSSLCheck,omitempty"`
 	ServerCert            *string                                       `json:"serverCert,omitempty"`
@@ -567,8 +569,8 @@ type TaskTrackerIssueExport struct {
 }
 
 type TaskTrackerLinkRequest struct {
-	ScanIssueIDs     []UUID `json:"scanIssueIDs"`
-	ExternalIssueKey string `json:"externalIssueKey"`
+	ScanIssueIDs     []uuid.UUID `json:"scanIssueIDs"`
+	ExternalIssueKey string      `json:"externalIssueKey"`
 }
 
 type TaskTrackerMetaInfoResponse struct {

@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type ReportFileFormat string
 
 const (
@@ -9,14 +11,14 @@ const (
 )
 
 type Report struct {
-	ID               UUID   `json:"id,omitempty"`
-	FileFormat       any    `json:"fileFormat,omitempty"`
-	Status           any    `json:"status,omitempty"`
-	CreatedByID      UUID   `json:"createdById,omitempty"`
-	BackgroundTaskID UUID   `json:"backgroundTaskId,omitempty"`
-	ErrorMessage     string `json:"errorMessage,omitempty"`
-	Created          string `json:"created,omitempty"`
-	Updated          string `json:"updated,omitempty"`
+	ID               uuid.UUID `json:"id,omitempty"`
+	FileFormat       any       `json:"fileFormat,omitempty"`
+	Status           any       `json:"status,omitempty"`
+	CreatedByID      uuid.UUID `json:"createdById,omitempty"`
+	BackgroundTaskID uuid.UUID `json:"backgroundTaskId,omitempty"`
+	ErrorMessage     string    `json:"errorMessage,omitempty"`
+	Created          string    `json:"created,omitempty"`
+	Updated          string    `json:"updated,omitempty"`
 }
 
 type ReportStatus string

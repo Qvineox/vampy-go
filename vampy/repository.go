@@ -1,12 +1,14 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type RepositoriesCountCardData struct {
 	SimpleCardValue
 }
 
 type RepositoryBranchList struct {
-	ID         UUID                            `json:"id,omitempty"`
+	ID         uuid.UUID                       `json:"id,omitempty"`
 	Slug       string                          `json:"slug,omitempty"`
 	Created    string                          `json:"created,omitempty"`
 	IsDefault  bool                            `json:"isDefault,omitempty"`
@@ -15,16 +17,16 @@ type RepositoryBranchList struct {
 }
 
 type RepositoryBranchListRepository struct {
-	ID   UUID   `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	Slug string `json:"slug,omitempty"`
+	ID   uuid.UUID `json:"id,omitempty"`
+	Name string    `json:"name,omitempty"`
+	Slug string    `json:"slug,omitempty"`
 }
 
 type RepositoryBranch struct {
-	ID        UUID   `json:"id,omitempty"`
-	Slug      string `json:"slug,omitempty"`
-	Created   string `json:"created,omitempty"`
-	IsDefault bool   `json:"isDefault,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	Slug      string    `json:"slug,omitempty"`
+	Created   string    `json:"created,omitempty"`
+	IsDefault bool      `json:"isDefault,omitempty"`
 }
 
 type RepositoryBranchSyncRequest struct {
@@ -50,7 +52,7 @@ type RepositoryBranchSyncSkipped struct {
 
 type RepositoryCreate struct {
 	Repository
-	ProductID *UUID `json:"productID,omitempty"`
+	ProductID *uuid.UUID `json:"productID,omitempty"`
 }
 
 type RepositoryCriticality string
@@ -86,11 +88,11 @@ type RepositoryForExternalLink struct {
 }
 
 type RepositoryImportRequest struct {
-	SpaceID                UUID     `json:"spaceID"`
-	ProductID              UUID     `json:"productID,omitempty"`
-	IntegrationID          string   `json:"integrationID"`
-	PopulateRepositoryData bool     `json:"populateRepositoryData,omitempty"`
-	ExternalIDs            []string `json:"externalIDs"`
+	SpaceID                uuid.UUID `json:"spaceID"`
+	ProductID              uuid.UUID `json:"productID,omitempty"`
+	IntegrationID          string    `json:"integrationID"`
+	PopulateRepositoryData bool      `json:"populateRepositoryData,omitempty"`
+	ExternalIDs            []string  `json:"externalIDs"`
 }
 
 type RepositoryImportResponse struct {
@@ -98,16 +100,16 @@ type RepositoryImportResponse struct {
 }
 
 type RepositoryImportResponseRepositories struct {
-	ID   UUID   `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	Slug string `json:"slug,omitempty"`
+	ID   uuid.UUID `json:"id,omitempty"`
+	Name string    `json:"name,omitempty"`
+	Slug string    `json:"slug,omitempty"`
 }
 
 type RepositoryLink struct {
-	SpaceID                UUID   `json:"spaceID"`
-	IntegrationID          string `json:"integrationID"`
-	PopulateRepositoryData bool   `json:"populateRepositoryData,omitempty"`
-	ExternalID             string `json:"externalID"`
+	SpaceID                uuid.UUID `json:"spaceID"`
+	IntegrationID          string    `json:"integrationID"`
+	PopulateRepositoryData bool      `json:"populateRepositoryData,omitempty"`
+	ExternalID             string    `json:"externalID"`
 }
 
 type RepositoryPatch struct {
@@ -115,8 +117,8 @@ type RepositoryPatch struct {
 	Name          string                `json:"name,omitempty"`
 	URL           string                `json:"url,omitempty"`
 	Description   string                `json:"description,omitempty"`
-	QualityGateID *UUID                 `json:"qualityGateID,omitempty"`
-	ScanProfileID *UUID                 `json:"scanProfileID,omitempty"`
+	QualityGateID *uuid.UUID            `json:"qualityGateID,omitempty"`
+	ScanProfileID *uuid.UUID            `json:"scanProfileID,omitempty"`
 	DefaultBranch *string               `json:"defaultBranch,omitempty"`
 }
 
@@ -138,7 +140,7 @@ const (
 )
 
 type Repository struct {
-	ID               UUID                        `json:"id,omitempty"`
+	ID               uuid.UUID                   `json:"id,omitempty"`
 	Type             RepositoryType              `json:"type,omitempty"`
 	Slug             string                      `json:"slug"`
 	Criticality      RepositoryCriticality       `json:"criticality,omitempty"`
@@ -159,7 +161,7 @@ type Repository struct {
 }
 
 type RepositoryShort struct {
-	ID          UUID                  `json:"id,omitempty"`
+	ID          uuid.UUID             `json:"id,omitempty"`
 	Type        RepositoryType        `json:"type,omitempty"`
 	Slug        string                `json:"slug,omitempty"`
 	Criticality RepositoryCriticality `json:"criticality,omitempty"`

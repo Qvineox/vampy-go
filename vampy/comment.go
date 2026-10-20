@@ -1,8 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type CommentDetails struct {
-	ID               UUID                     `json:"id,omitempty"`
+	ID               uuid.UUID                `json:"id,omitempty"`
 	Body             string                   `json:"body,omitempty"`
 	Status           CommentStatus            `json:"status,omitempty"`
 	Type             CommentType              `json:"type,omitempty"`
@@ -13,7 +15,7 @@ type CommentDetails struct {
 	ScanIssue        *ScanIssueShort          `json:"scanIssue,omitempty"`
 	ExternalUserName *string                  `json:"externalUserName,omitempty"`
 	External         *bool                    `json:"external,omitempty"`
-	ExportRecordID   *UUID                    `json:"exportRecordID,omitempty"`
+	ExportRecordID   *uuid.UUID               `json:"exportRecordID,omitempty"`
 	Permissions      []CommentPermissionValue `json:"permissions,omitempty"`
 }
 
@@ -25,14 +27,14 @@ const (
 )
 
 type CommentRule struct {
-	ID   UUID   `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
+	ID   uuid.UUID `json:"id,omitempty"`
+	Name string    `json:"name,omitempty"`
 }
 
 type Comment struct {
-	Body           string `json:"body"`
-	External       bool   `json:"external,omitempty"`
-	ExportRecordID UUID   `json:"exportRecordID,omitempty"`
+	Body           string    `json:"body"`
+	External       bool      `json:"external,omitempty"`
+	ExportRecordID uuid.UUID `json:"exportRecordID,omitempty"`
 }
 
 type CommentStatus string
@@ -52,9 +54,9 @@ const (
 )
 
 type CommentUser struct {
-	ID        UUID    `json:"id,omitempty"`
-	Login     string  `json:"login,omitempty"`
-	Email     *string `json:"email,omitempty"`
-	FirstName *string `json:"firstName,omitempty"`
-	LastName  *string `json:"lastName,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	Login     string    `json:"login,omitempty"`
+	Email     *string   `json:"email,omitempty"`
+	FirstName *string   `json:"firstName,omitempty"`
+	LastName  *string   `json:"lastName,omitempty"`
 }

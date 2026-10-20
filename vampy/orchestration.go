@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type OrchestrationRunBatchResult struct {
 	Items []OrchestrationRunResult `json:"items,omitempty"`
 }
@@ -13,10 +15,10 @@ const (
 )
 
 type OrchestrationRunResult struct {
-	ID                UUID                      `json:"id,omitempty"`
+	ID                uuid.UUID                 `json:"id,omitempty"`
 	Start             string                    `json:"start,omitempty"`
-	TaskID            UUID                      `json:"taskID,omitempty"`
-	PipelineID        *UUID                     `json:"pipelineID,omitempty"`
+	TaskID            uuid.UUID                 `json:"taskID,omitempty"`
+	PipelineID        *uuid.UUID                `json:"pipelineID,omitempty"`
 	Repository        any                       `json:"repository,omitempty"`
 	Product           any                       `json:"product,omitempty"`
 	ArtifactVersion   *ScanUploadRelation       `json:"artifactVersion,omitempty"`
@@ -31,7 +33,7 @@ type OrchestrationScanDetail struct {
 }
 
 type OrchestrationScanProfileRelation struct {
-	ID   UUID                                 `json:"id,omitempty"`
+	ID   uuid.UUID                            `json:"id,omitempty"`
 	Name string                               `json:"name,omitempty"`
 	Slug string                               `json:"slug,omitempty"`
 	Type OrchestrationScanProfileRelationType `json:"type,omitempty"`
@@ -45,7 +47,7 @@ const (
 )
 
 type OrchestrationScanProfile struct {
-	ID                 UUID                   `json:"id,omitempty"`
+	ID                 uuid.UUID              `json:"id,omitempty"`
 	Name               string                 `json:"name"`
 	Slug               string                 `json:"slug,omitempty"`
 	Persistence        bool                   `json:"persistence,omitempty"`
@@ -55,14 +57,14 @@ type OrchestrationScanProfile struct {
 }
 
 type OrchestrationScan struct {
-	ID               UUID                           `json:"id,omitempty"`
+	ID               uuid.UUID                      `json:"id,omitempty"`
 	Status           OrchestrationScanStatus        `json:"status,omitempty"`
 	TargetType       OrchestrationScanTargetType    `json:"targetType,omitempty"`
-	TargetID         UUID                           `json:"targetID,omitempty"`
+	TargetID         uuid.UUID                      `json:"targetID,omitempty"`
 	SubTargetType    OrchestrationScanSubTargetType `json:"subTargetType,omitempty"`
 	Created          string                         `json:"created,omitempty"`
 	Updated          string                         `json:"updated,omitempty"`
-	BackgroundTaskID UUID                           `json:"backgroundTaskID,omitempty"`
+	BackgroundTaskID uuid.UUID                      `json:"backgroundTaskID,omitempty"`
 	ErrorMessage     string                         `json:"error_message,omitempty"`
 }
 
@@ -162,7 +164,7 @@ type OrchestrationScanner struct {
 	Command              string                                `json:"command,omitempty"`
 	DockerImage          *string                               `json:"dockerImage,omitempty"`
 	ExtraEnvVars         []OrchestrationScannerEnvVar          `json:"extraEnvVars,omitempty"`
-	IntegrationID        *UUID                                 `json:"integrationID,omitempty"`
+	IntegrationID        *uuid.UUID                            `json:"integrationID,omitempty"`
 	IntegrationService   IntegrationScannerServiceType         `json:"integrationService,omitempty"`
 	AvailabilityStatus   *AvailabilityStatus                   `json:"availabilityStatus,omitempty"`
 	ConfigFileParams     *OrchestrationScannerConfigFileParams `json:"configFileParams,omitempty"`
@@ -171,49 +173,49 @@ type OrchestrationScanner struct {
 }
 
 type OrchestrationRunBatchBody struct {
-	SpaceID            *UUID   `json:"spaceID,omitempty"`
-	ArtifactIDs        *string `json:"artifactIDs,omitempty"`
-	ArtifactVersionIDs *string `json:"artifactVersionIDs,omitempty"`
-	AssetIDs           *string `json:"assetIDs,omitempty"`
-	Scanner            Scanner `json:"scanner,omitempty"`
-	ScannerOptions     string  `json:"scannerOptions,omitempty"`
-	Profile            *string `json:"profile,omitempty"`
+	SpaceID            *uuid.UUID `json:"spaceID,omitempty"`
+	ArtifactIDs        *string    `json:"artifactIDs,omitempty"`
+	ArtifactVersionIDs *string    `json:"artifactVersionIDs,omitempty"`
+	AssetIDs           *string    `json:"assetIDs,omitempty"`
+	Scanner            Scanner    `json:"scanner,omitempty"`
+	ScannerOptions     string     `json:"scannerOptions,omitempty"`
+	Profile            *string    `json:"profile,omitempty"`
 }
 
 type OrchestrationRunBody struct {
-	SpaceID                    *UUID   `json:"spaceID,omitempty"`
-	Repository                 *string `json:"repository,omitempty"`
-	Product                    *string `json:"product,omitempty"`
-	RepositoryBranch           *string `json:"repositoryBranch,omitempty"`
-	RepositoryBranchSetDefault *bool   `json:"repositoryBranchSetDefault,omitempty"`
-	RepositoryArchive          []byte  `json:"repositoryArchive,omitempty"`
-	ArtifactArchive            []byte  `json:"artifactArchive,omitempty"`
-	CreateMissing              *bool   `json:"createMissing,omitempty"`
-	Artifact                   *string `json:"artifact,omitempty"`
-	ArtifactVersionSetDefault  *bool   `json:"artifactVersionSetDefault,omitempty"`
-	Asset                      *string `json:"asset,omitempty"`
-	Endpoint                   *string `json:"endpoint,omitempty"`
-	Scanner                    Scanner `json:"scanner,omitempty"`
-	ScannerOptions             string  `json:"scannerOptions,omitempty"`
-	Profile                    *string `json:"profile,omitempty"`
+	SpaceID                    *uuid.UUID `json:"spaceID,omitempty"`
+	Repository                 *string    `json:"repository,omitempty"`
+	Product                    *string    `json:"product,omitempty"`
+	RepositoryBranch           *string    `json:"repositoryBranch,omitempty"`
+	RepositoryBranchSetDefault *bool      `json:"repositoryBranchSetDefault,omitempty"`
+	RepositoryArchive          []byte     `json:"repositoryArchive,omitempty"`
+	ArtifactArchive            []byte     `json:"artifactArchive,omitempty"`
+	CreateMissing              *bool      `json:"createMissing,omitempty"`
+	Artifact                   *string    `json:"artifact,omitempty"`
+	ArtifactVersionSetDefault  *bool      `json:"artifactVersionSetDefault,omitempty"`
+	Asset                      *string    `json:"asset,omitempty"`
+	Endpoint                   *string    `json:"endpoint,omitempty"`
+	Scanner                    Scanner    `json:"scanner,omitempty"`
+	ScannerOptions             string     `json:"scannerOptions,omitempty"`
+	Profile                    *string    `json:"profile,omitempty"`
 }
 
 type OrchestrationRunBody1 struct {
-	SpaceID                    *UUID   `json:"spaceID,omitempty"`
-	Repository                 *string `json:"repository,omitempty"`
-	Product                    *string `json:"product,omitempty"`
-	RepositoryBranch           *string `json:"repositoryBranch,omitempty"`
-	RepositoryBranchSetDefault *bool   `json:"repositoryBranchSetDefault,omitempty"`
-	RepositoryArchive          []byte  `json:"repositoryArchive,omitempty"`
-	ArtifactArchive            []byte  `json:"artifactArchive,omitempty"`
-	CreateMissing              *bool   `json:"createMissing,omitempty"`
-	Artifact                   *string `json:"artifact,omitempty"`
-	ArtifactVersionSetDefault  *bool   `json:"artifactVersionSetDefault,omitempty"`
-	Asset                      *string `json:"asset,omitempty"`
-	Scanner                    Scanner `json:"scanner,omitempty"`
-	ScannerOptions             string  `json:"scannerOptions,omitempty"`
-	DryRun                     bool    `json:"dryRun,omitempty"`
-	Profile                    *string `json:"profile,omitempty"`
+	SpaceID                    *uuid.UUID `json:"spaceID,omitempty"`
+	Repository                 *string    `json:"repository,omitempty"`
+	Product                    *string    `json:"product,omitempty"`
+	RepositoryBranch           *string    `json:"repositoryBranch,omitempty"`
+	RepositoryBranchSetDefault *bool      `json:"repositoryBranchSetDefault,omitempty"`
+	RepositoryArchive          []byte     `json:"repositoryArchive,omitempty"`
+	ArtifactArchive            []byte     `json:"artifactArchive,omitempty"`
+	CreateMissing              *bool      `json:"createMissing,omitempty"`
+	Artifact                   *string    `json:"artifact,omitempty"`
+	ArtifactVersionSetDefault  *bool      `json:"artifactVersionSetDefault,omitempty"`
+	Asset                      *string    `json:"asset,omitempty"`
+	Scanner                    Scanner    `json:"scanner,omitempty"`
+	ScannerOptions             string     `json:"scannerOptions,omitempty"`
+	DryRun                     bool       `json:"dryRun,omitempty"`
+	Profile                    *string    `json:"profile,omitempty"`
 }
 
 type OrchestrationUploadScannerConfigBody struct {

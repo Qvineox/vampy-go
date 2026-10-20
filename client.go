@@ -59,7 +59,7 @@ func WithAccessToken(token string) Option {
 	return func(c *Client) error { c.accessToken = token; return nil }
 }
 
-// WithSpaceUUID sets the default Vampy space UUID for all interactions.
+// WithSpaceUUID sets the default Vampy space uuid.UUID for all interactions.
 func WithSpaceUUID(id uuid.UUID) Option {
 	return func(c *Client) error { c.spaceID = id; return nil }
 }
@@ -153,6 +153,7 @@ func (c *Client) do(req *http.Request) (*http.Response, error) {
 
 		return nil, &Error{StatusCode: resp.StatusCode, Status: resp.Status, Body: b}
 	}
+
 	return resp, nil
 }
 

@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type AvailabilityStatus struct {
 	Applicable bool                                  `json:"applicable,omitempty"`
 	ReasonCode OrchestrationScanUnavailabilityReason `json:"reasonCode,omitempty"`
@@ -12,7 +14,7 @@ type BackgroundTaskDetails struct {
 }
 
 type BackgroundTaskDetailsSubTasks struct {
-	TaskID      UUID                 `json:"taskID,omitempty"`
+	TaskID      uuid.UUID            `json:"taskID,omitempty"`
 	Status      BackgroundTaskStatus `json:"status,omitempty"`
 	DisplayName string               `json:"displayName,omitempty"`
 	Created     string               `json:"created,omitempty"`
@@ -29,12 +31,12 @@ type BackgroundTaskMeta struct {
 }
 
 type BackgroundTaskMetaTaskTracker struct {
-	CompletedIssues []UUID `json:"completedIssues,omitempty"`
-	FailedIssues    []UUID `json:"failedIssues,omitempty"`
+	CompletedIssues []uuid.UUID `json:"completedIssues,omitempty"`
+	FailedIssues    []uuid.UUID `json:"failedIssues,omitempty"`
 }
 
 type BackgroundTask struct {
-	TaskID            UUID                   `json:"taskID,omitempty"`
+	TaskID            uuid.UUID              `json:"taskID,omitempty"`
 	Status            BackgroundTaskStatus   `json:"status,omitempty"`
 	DisplayName       string                 `json:"displayName,omitempty"`
 	Options           *BackgroundTaskOptions `json:"options,omitempty"`
@@ -221,7 +223,7 @@ type FPClassifierSettings struct {
 }
 
 type FPClassifierSnapshot struct {
-	ID                 UUID                                    `json:"id,omitempty"`
+	ID                 uuid.UUID                               `json:"id,omitempty"`
 	Name               string                                  `json:"name,omitempty"`
 	Created            string                                  `json:"created,omitempty"`
 	Updated            string                                  `json:"updated,omitempty"`
@@ -237,7 +239,7 @@ type FPClassifierSnapshot struct {
 }
 
 type FPClassifierSnapshotShort struct {
-	ID          UUID        `json:"id,omitempty"`
+	ID          uuid.UUID   `json:"id,omitempty"`
 	Name        string      `json:"name,omitempty"`
 	IsCurrent   bool        `json:"isCurrent,omitempty"`
 	ScannerType ScannerType `json:"scannerType,omitempty"`
@@ -352,7 +354,7 @@ type HealthResponse struct {
 }
 
 type LDAPAuthenticationConfig struct {
-	ID                       UUID               `json:"id,omitempty"`
+	ID                       uuid.UUID          `json:"id,omitempty"`
 	Protocol                 string             `json:"protocol,omitempty"`
 	Host                     string             `json:"host,omitempty"`
 	Port                     int                `json:"port,omitempty"`
@@ -375,8 +377,8 @@ type LDAPAuthenticationConfig struct {
 }
 
 type LDAPGroupMapping struct {
-	LDAPGroupDN      string `json:"ldapGroupDN,omitempty"`
-	VampyUserGroupID UUID   `json:"vampyUserGroupID,omitempty"`
+	LDAPGroupDN      string    `json:"ldapGroupDN,omitempty"`
+	VampyUserGroupID uuid.UUID `json:"vampyUserGroupID,omitempty"`
 }
 
 type LDAPUser struct {
@@ -393,7 +395,7 @@ type LDAPUser struct {
 }
 
 type OIDCConfig struct {
-	ID                       UUID               `json:"id,omitempty"`
+	ID                       uuid.UUID          `json:"id,omitempty"`
 	Enabled                  bool               `json:"enabled,omitempty"`
 	UserGroupsMappingEnabled bool               `json:"userGroupsMappingEnabled,omitempty"`
 	Provider                 OIDCProvider       `json:"provider,omitempty"`
@@ -436,8 +438,8 @@ type OIDCDefaults struct {
 }
 
 type OIDCGroupMapping struct {
-	VampyUserGroupID UUID     `json:"vampyUserGroupID,omitempty"`
-	OIDCUserGroups   []string `json:"oidcUserGroups,omitempty"`
+	VampyUserGroupID uuid.UUID `json:"vampyUserGroupID,omitempty"`
+	OIDCUserGroups   []string  `json:"oidcUserGroups,omitempty"`
 }
 
 type OIDCProvider string
@@ -485,11 +487,11 @@ type SLASettingWithDefault struct {
 }
 
 type ScheduledStatus struct {
-	StatusFromName           string  `json:"statusFromName,omitempty"`
-	StatusToName             string  `json:"statusToName,omitempty"`
-	StatusExpiryTime         string  `json:"statusExpiryTime,omitempty"`
-	Source                   *string `json:"source,omitempty"`
-	InheritedFromScanIssueID *UUID   `json:"inheritedFromScanIssueId,omitempty"`
+	StatusFromName           string     `json:"statusFromName,omitempty"`
+	StatusToName             string     `json:"statusToName,omitempty"`
+	StatusExpiryTime         string     `json:"statusExpiryTime,omitempty"`
+	Source                   *string    `json:"source,omitempty"`
+	InheritedFromScanIssueID *uuid.UUID `json:"inheritedFromScanIssueId,omitempty"`
 }
 
 type ServerInfo struct {

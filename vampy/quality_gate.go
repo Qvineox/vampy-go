@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type QualityGateCondition struct {
 	Enabled      bool          `json:"enabled,omitempty"`
 	ScannerTypes []ScannerType `json:"scannerTypes,omitempty"`
@@ -38,20 +40,20 @@ type QualityGateEdit struct {
 }
 
 type QualityGateForRelation struct {
-	ID         UUID                              `json:"id,omitempty"`
+	ID         uuid.UUID                         `json:"id,omitempty"`
 	Name       string                            `json:"name,omitempty"`
 	Slug       string                            `json:"slug,omitempty"`
 	LastResult *QualityGateForRelationLastResult `json:"lastResult,omitempty"`
 }
 
 type QualityGateForRelationLastResult struct {
-	ID             *UUID                   `json:"id,omitempty"`
+	ID             *uuid.UUID              `json:"id,omitempty"`
 	Status         QualityGateResultStatus `json:"status,omitempty"`
 	LastCalculated *string                 `json:"lastCalculated,omitempty"`
 }
 
 type QualityGateRelation struct {
-	ID            UUID                       `json:"id,omitempty"`
+	ID            uuid.UUID                  `json:"id,omitempty"`
 	Name          string                     `json:"name,omitempty"`
 	Slug          string                     `json:"slug,omitempty"`
 	Type          QualityGateRelationType    `json:"type,omitempty"`
@@ -67,7 +69,7 @@ const (
 )
 
 type QualityGateResultDetails struct {
-	ID             UUID                             `json:"id,omitempty"`
+	ID             uuid.UUID                        `json:"id,omitempty"`
 	Status         QualityGateResultStatus          `json:"status,omitempty"`
 	LastCalculated *string                          `json:"lastCalculated,omitempty"`
 	Relation       *QualityGateRelation             `json:"relation,omitempty"`
@@ -83,7 +85,7 @@ type QualityGateResultDetailsDetails struct {
 }
 
 type QualityGateResult struct {
-	ID             UUID                    `json:"id,omitempty"`
+	ID             uuid.UUID               `json:"id,omitempty"`
 	Status         QualityGateResultStatus `json:"status,omitempty"`
 	LastCalculated string                  `json:"lastCalculated,omitempty"`
 	Relation       *QualityGateRelation    `json:"relation,omitempty"`
@@ -101,7 +103,7 @@ const (
 )
 
 type QualityGate struct {
-	ID          UUID                   `json:"id,omitempty"`
+	ID          uuid.UUID              `json:"id,omitempty"`
 	Slug        string                 `json:"slug"`
 	Name        string                 `json:"name"`
 	IsDefault   bool                   `json:"isDefault,omitempty"`

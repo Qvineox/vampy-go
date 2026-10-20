@@ -1,24 +1,26 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type UserGroupCounters struct {
 	TotalUsers     int `json:"totalUsers,omitempty"`
 	TotalInstances int `json:"totalInstances,omitempty"`
 }
 
 type UserGroupCreateEdit struct {
-	Description string `json:"description,omitempty"`
-	Name        string `json:"name,omitempty"`
-	RoleID      UUID   `json:"roleID,omitempty"`
-	IsDefault   bool   `json:"isDefault,omitempty"`
-	UserIDs     []UUID `json:"userIDs,omitempty"`
+	Description string      `json:"description,omitempty"`
+	Name        string      `json:"name,omitempty"`
+	RoleID      uuid.UUID   `json:"roleID,omitempty"`
+	IsDefault   bool        `json:"isDefault,omitempty"`
+	UserIDs     []uuid.UUID `json:"userIDs,omitempty"`
 }
 
 type UserGroupMoveUsers struct {
-	FromGroupID  *UUID  `json:"fromGroupID,omitempty"`
-	ToGroupID    *UUID  `json:"toGroupID,omitempty"`
-	UserIDs      []UUID `json:"userIDs,omitempty"`
-	MoveAllUsers *bool  `json:"moveAllUsers,omitempty"`
+	FromGroupID  *uuid.UUID  `json:"fromGroupID,omitempty"`
+	ToGroupID    *uuid.UUID  `json:"toGroupID,omitempty"`
+	UserIDs      []uuid.UUID `json:"userIDs,omitempty"`
+	MoveAllUsers *bool       `json:"moveAllUsers,omitempty"`
 }
 
 type UserGroupPermission struct {
@@ -28,7 +30,7 @@ type UserGroupPermission struct {
 }
 
 type UserGroupRelation struct {
-	ID          UUID                  `json:"id,omitempty"`
+	ID          uuid.UUID             `json:"id,omitempty"`
 	Type        UserGroupRelationType `json:"type,omitempty"`
 	Name        string                `json:"name,omitempty"`
 	Slug        string                `json:"slug,omitempty"`
@@ -45,7 +47,7 @@ const (
 )
 
 type UserGroup struct {
-	ID          UUID              `json:"id,omitempty"`
+	ID          uuid.UUID         `json:"id,omitempty"`
 	Slug        string            `json:"slug,omitempty"`
 	Description string            `json:"description,omitempty"`
 	Name        string            `json:"name,omitempty"`
@@ -57,8 +59,8 @@ type UserGroup struct {
 }
 
 type UserGroupsSetRole struct {
-	UserGroupIDs []UUID `json:"userGroupIDs,omitempty"`
-	RoleID       *UUID  `json:"roleID,omitempty"`
+	UserGroupIDs []uuid.UUID `json:"userGroupIDs,omitempty"`
+	RoleID       *uuid.UUID  `json:"roleID,omitempty"`
 }
 
 type UserRoleCounters struct {
@@ -100,7 +102,7 @@ type UserRole struct {
 }
 
 type UserRoleShort struct {
-	ID                   UUID                  `json:"id,omitempty"`
+	ID                   uuid.UUID             `json:"id,omitempty"`
 	Slug                 UserRoleSlug          `json:"slug,omitempty"`
 	Name                 string                `json:"name,omitempty"`
 	Description          string                `json:"description,omitempty"`

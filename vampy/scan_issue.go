@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type BaseIssueStatus struct {
 	Name        string `json:"name,omitempty"`
 	DisplayName string `json:"displayName,omitempty"`
@@ -33,17 +35,17 @@ const (
 )
 
 type IssueExport struct {
-	ID                 UUID                    `json:"id,omitempty"`
+	ID                 uuid.UUID               `json:"id,omitempty"`
 	ExternalID         string                  `json:"externalID,omitempty"`
 	IntegrationService string                  `json:"integrationService,omitempty"`
-	IntegrationID      UUID                    `json:"integrationID,omitempty"`
+	IntegrationID      uuid.UUID               `json:"integrationID,omitempty"`
 	IntegrationExists  bool                    `json:"integrationExists,omitempty"`
 	MetaData           *TaskTrackerIssueExport `json:"metaData,omitempty"`
 	Created            string                  `json:"created,omitempty"`
 }
 
 type IssueStatusChangeIntegration struct {
-	ID       UUID                              `json:"id,omitempty"`
+	ID       uuid.UUID                         `json:"id,omitempty"`
 	Name     string                            `json:"name,omitempty"`
 	Hostname string                            `json:"hostname,omitempty"`
 	Meta     *IssueStatusChangeIntegrationMeta `json:"meta,omitempty"`
@@ -61,12 +63,12 @@ type IssueStatusChangeIntegrationMetaAI struct {
 }
 
 type IssueStatusChangeRule struct {
-	ID   UUID   `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
+	ID   uuid.UUID `json:"id,omitempty"`
+	Name string    `json:"name,omitempty"`
 }
 
 type IssueStatusChangeScanUpload struct {
-	ID         UUID                   `json:"id,omitempty"`
+	ID         uuid.UUID              `json:"id,omitempty"`
 	Created    string                 `json:"created,omitempty"`
 	Parser     Parser                 `json:"parser,omitempty"`
 	FileExists bool                   `json:"fileExists,omitempty"`
@@ -85,7 +87,7 @@ const (
 )
 
 type IssueStatusChangeUser struct {
-	ID           UUID           `json:"id,omitempty"`
+	ID           uuid.UUID      `json:"id,omitempty"`
 	UserLogin    string         `json:"userLogin,omitempty"`
 	UserEmail    string         `json:"userEmail,omitempty"`
 	FirstName    string         `json:"firstName,omitempty"`
@@ -125,11 +127,11 @@ type ScanIssueAIRequestCancel struct {
 }
 
 type ScanIssueAIRequestResponse struct {
-	ID          UUID                      `json:"id,omitempty"`
+	ID          uuid.UUID                 `json:"id,omitempty"`
 	Status      ScanIssueAIRequestStatus  `json:"status,omitempty"`
 	Request     ScanIssueAIRequestType    `json:"request,omitempty"`
 	Error       *string                   `json:"error,omitempty"`
-	ScanIssueID UUID                      `json:"scanIssueID,omitempty"`
+	ScanIssueID uuid.UUID                 `json:"scanIssueID,omitempty"`
 	Integration *SpaceIntegrationWithMeta `json:"integration,omitempty"`
 	AIModel     string                    `json:"aiModel,omitempty"`
 	ValueNumber *float64                  `json:"valueNumber,omitempty"`
@@ -174,7 +176,7 @@ type ScanIssueByStatusStat struct {
 }
 
 type ScanIssueChangeEntry struct {
-	ID         UUID                        `json:"id,omitempty"`
+	ID         uuid.UUID                   `json:"id,omitempty"`
 	Created    string                      `json:"created,omitempty"`
 	ChangeType IssueChangeType             `json:"changeType,omitempty"`
 	OldValue   *string                     `json:"oldValue,omitempty"`
@@ -206,25 +208,25 @@ type ScanIssueCreateResponse struct {
 }
 
 type ScanIssueCreate struct {
-	Title            string   `json:"title"`
-	Status           string   `json:"status,omitempty"`
-	Severity         Severity `json:"severity,omitempty"`
-	Description      string   `json:"description,omitempty"`
-	CVEID            string   `json:"cveID,omitempty"`
-	CWEID            int      `json:"cweID,omitempty"`
-	CodeSnippet      string   `json:"codeSnippet,omitempty"`
-	LibraryName      string   `json:"libraryName,omitempty"`
-	LibraryVersion   string   `json:"libraryVersion,omitempty"`
-	FilePath         string   `json:"filePath,omitempty"`
-	FileLineno       *int     `json:"fileLineno,omitempty"`
-	Solution         string   `json:"solution,omitempty"`
-	RepositoryID     *UUID    `json:"repositoryID,omitempty"`
-	RepositoryBranch string   `json:"repositoryBranch,omitempty"`
-	References       []string `json:"references,omitempty"`
+	Title            string     `json:"title"`
+	Status           string     `json:"status,omitempty"`
+	Severity         Severity   `json:"severity,omitempty"`
+	Description      string     `json:"description,omitempty"`
+	CVEID            string     `json:"cveID,omitempty"`
+	CWEID            int        `json:"cweID,omitempty"`
+	CodeSnippet      string     `json:"codeSnippet,omitempty"`
+	LibraryName      string     `json:"libraryName,omitempty"`
+	LibraryVersion   string     `json:"libraryVersion,omitempty"`
+	FilePath         string     `json:"filePath,omitempty"`
+	FileLineno       *int       `json:"fileLineno,omitempty"`
+	Solution         string     `json:"solution,omitempty"`
+	RepositoryID     *uuid.UUID `json:"repositoryID,omitempty"`
+	RepositoryBranch string     `json:"repositoryBranch,omitempty"`
+	References       []string   `json:"references,omitempty"`
 }
 
 type ScanIssueDelete struct {
-	Issues ListUUID `json:"issues,omitempty"`
+	Issues []uuid.UUID `json:"issues,omitempty"`
 }
 
 type ScanIssueDetail struct {
@@ -277,13 +279,13 @@ type ScanIssueDuplicatesSearchResult struct {
 }
 
 type ScanIssueDuplicatesSearchResultScanIssues struct {
-	ID     UUID   `json:"id,omitempty"`
-	Title  string `json:"title,omitempty"`
-	Status string `json:"status,omitempty"`
+	ID     uuid.UUID `json:"id,omitempty"`
+	Title  string    `json:"title,omitempty"`
+	Status string    `json:"status,omitempty"`
 }
 
 type ScanIssueExport struct {
-	ID                 UUID               `json:"id,omitempty"`
+	ID                 uuid.UUID          `json:"id,omitempty"`
 	Status             string             `json:"status,omitempty"`
 	Title              string             `json:"title,omitempty"`
 	Created            string             `json:"created,omitempty"`
@@ -308,8 +310,8 @@ type ScanIssueExport struct {
 }
 
 type ScanIssueFPScoreAIModelFilter struct {
-	IntegrationID UUID   `json:"integrationID"`
-	AIModel       string `json:"aiModel"`
+	IntegrationID uuid.UUID `json:"integrationID"`
+	AIModel       string    `json:"aiModel"`
 }
 
 type ScanIssueFPScoreFilter struct {
@@ -319,23 +321,23 @@ type ScanIssueFPScoreFilter struct {
 }
 
 type ScanIssueFilter struct {
-	SpaceID               UUID                            `json:"spaceID,omitempty"`
+	SpaceID               uuid.UUID                       `json:"spaceID,omitempty"`
 	Search                string                          `json:"search,omitempty"`
 	Statuses              []string                        `json:"statuses,omitempty"`
 	Severities            []Severity                      `json:"severities,omitempty"`
-	Repositories          ListUUID                        `json:"repositories,omitempty"`
-	RepositoryBranches    ListUUID                        `json:"repositoryBranches,omitempty"`
-	Products              ListUUID                        `json:"products,omitempty"`
-	Engagements           ListUUID                        `json:"engagements,omitempty"`
-	Assets                ListUUID                        `json:"assets,omitempty"`
-	Components            []UUID                          `json:"components,omitempty"`
-	ComponentVersions     []UUID                          `json:"componentVersions,omitempty"`
+	Repositories          []uuid.UUID                     `json:"repositories,omitempty"`
+	RepositoryBranches    []uuid.UUID                     `json:"repositoryBranches,omitempty"`
+	Products              []uuid.UUID                     `json:"products,omitempty"`
+	Engagements           []uuid.UUID                     `json:"engagements,omitempty"`
+	Assets                []uuid.UUID                     `json:"assets,omitempty"`
+	Components            []uuid.UUID                     `json:"components,omitempty"`
+	ComponentVersions     []uuid.UUID                     `json:"componentVersions,omitempty"`
 	Parsers               []string                        `json:"parsers,omitempty"`
 	HasSolution           bool                            `json:"hasSolution,omitempty"`
 	ScannerTypes          []ScannerType                   `json:"scannerTypes,omitempty"`
 	DependencyRelations   []DependencyRelationFilter      `json:"dependencyRelations,omitempty"`
 	Overdue               []string                        `json:"overdue,omitempty"`
-	VCSUsers              []UUID                          `json:"vcsUsers,omitempty"`
+	VCSUsers              []uuid.UUID                     `json:"vcsUsers,omitempty"`
 	DefaultRelations      bool                            `json:"defaultRelations,omitempty"`
 	CWEIDs                []int                           `json:"cweIDs,omitempty"`
 	CVEIDs                []string                        `json:"cveIDs,omitempty"`
@@ -344,9 +346,9 @@ type ScanIssueFilter struct {
 	ArtifactVersionIDs    []string                        `json:"artifactVersionIDs,omitempty"`
 	ArtifactIDs           []string                        `json:"artifactIDs,omitempty"`
 	OldIssues             *bool                           `json:"oldIssues,omitempty"`
-	AssociatedWithIssueID UUID                            `json:"associatedWithIssueID,omitempty"`
-	ScanPipelineID        UUID                            `json:"scanPipelineID,omitempty"`
-	ScanPipelineJobID     UUID                            `json:"scanPipelineJobID,omitempty"`
+	AssociatedWithIssueID uuid.UUID                       `json:"associatedWithIssueID,omitempty"`
+	ScanPipelineID        uuid.UUID                       `json:"scanPipelineID,omitempty"`
+	ScanPipelineJobID     uuid.UUID                       `json:"scanPipelineJobID,omitempty"`
 	FindingState          FindingState                    `json:"findingState,omitempty"`
 	FindingSeverity       Severity                        `json:"findingSeverity,omitempty"`
 	FPScore               *ScanIssueFPScoreFilter         `json:"fpScore,omitempty"`
@@ -366,7 +368,7 @@ type ScanIssueForExport struct {
 }
 
 type ScanIssueGitBlame struct {
-	ID            UUID                           `json:"id,omitempty"`
+	ID            uuid.UUID                      `json:"id,omitempty"`
 	CommitTime    string                         `json:"commitTime,omitempty"`
 	CommitID      string                         `json:"commitID,omitempty"`
 	CommitURL     string                         `json:"commitURL,omitempty"`
@@ -375,9 +377,9 @@ type ScanIssueGitBlame struct {
 }
 
 type ScanIssueGitBlameCommitAuthor struct {
-	ID    UUID   `json:"id,omitempty"`
-	Name  string `json:"name,omitempty"`
-	Email string `json:"email,omitempty"`
+	ID    uuid.UUID `json:"id,omitempty"`
+	Name  string    `json:"name,omitempty"`
+	Email string    `json:"email,omitempty"`
 }
 
 type ScanIssuePermissionValue string
@@ -393,7 +395,7 @@ const (
 )
 
 type ScanIssue struct {
-	ID                 UUID                       `json:"id,omitempty"`
+	ID                 uuid.UUID                  `json:"id,omitempty"`
 	Title              string                     `json:"title,omitempty"`
 	Created            string                     `json:"created,omitempty"`
 	FilePath           string                     `json:"filePath,omitempty"`
@@ -443,11 +445,11 @@ type ScanIssuesSchemaMetadata struct {
 }
 
 type ScanIssueShort struct {
-	ID       UUID     `json:"id,omitempty"`
-	Title    string   `json:"title,omitempty"`
-	Created  string   `json:"created,omitempty"`
-	Status   string   `json:"status,omitempty"`
-	Severity Severity `json:"severity,omitempty"`
+	ID       uuid.UUID `json:"id,omitempty"`
+	Title    string    `json:"title,omitempty"`
+	Created  string    `json:"created,omitempty"`
+	Status   string    `json:"status,omitempty"`
+	Severity Severity  `json:"severity,omitempty"`
 }
 
 type ScanIssueShortWithBranch struct {
@@ -456,7 +458,7 @@ type ScanIssueShortWithBranch struct {
 }
 
 type ScanIssueStatusChangeEntry struct {
-	ID        UUID                              `json:"id,omitempty"`
+	ID        uuid.UUID                         `json:"id,omitempty"`
 	Created   string                            `json:"created,omitempty"`
 	OldValue  *string                           `json:"oldValue,omitempty"`
 	NewValue  string                            `json:"newValue,omitempty"`
@@ -490,16 +492,16 @@ type ScanIssueWithFPScore struct {
 type ScanIssuesAIRequest struct {
 	Request       ScanIssueAIRequestType `json:"request"`
 	AIModel       *string                `json:"aiModel,omitempty"`
-	IntegrationID *UUID                  `json:"integrationID,omitempty"`
+	IntegrationID *uuid.UUID             `json:"integrationID,omitempty"`
 	AutoApply     *bool                  `json:"autoApply,omitempty"`
 }
 
 type ScanIssuesUpdate struct {
-	Issues              []UUID   `json:"issues,omitempty"`
-	Status              string   `json:"status,omitempty"`
-	Severity            Severity `json:"severity,omitempty"`
-	StatusExpiryTime    string   `json:"statusExpiryTime,omitempty"`
-	StatusChangeComment *string  `json:"statusChangeComment,omitempty"`
+	Issues              []uuid.UUID `json:"issues,omitempty"`
+	Status              string      `json:"status,omitempty"`
+	Severity            Severity    `json:"severity,omitempty"`
+	StatusExpiryTime    string      `json:"statusExpiryTime,omitempty"`
+	StatusChangeComment *string     `json:"statusChangeComment,omitempty"`
 }
 
 type ScanPipelineAggregatedData struct {
@@ -507,26 +509,26 @@ type ScanPipelineAggregatedData struct {
 }
 
 type ScanPipelineCreateExtResponse struct {
-	ID         UUID               `json:"id,omitempty"`
+	ID         uuid.UUID          `json:"id,omitempty"`
 	ExternalID string             `json:"externalID,omitempty"`
 	Status     ScanPipelineStatus `json:"status,omitempty"`
 	Created    string             `json:"created,omitempty"`
 }
 
 type ScanPipelineCreateExt struct {
-	Repository       string  `json:"repository,omitempty"`
-	Product          string  `json:"product,omitempty"`
-	RepositoryBranch string  `json:"repositoryBranch,omitempty"`
-	Artifact         string  `json:"artifact,omitempty"`
-	Asset            string  `json:"asset,omitempty"`
-	SpaceID          *UUID   `json:"spaceID,omitempty"`
-	Name             string  `json:"name,omitempty"`
-	ExternalID       string  `json:"externalID,omitempty"`
-	CommitSHA        *string `json:"commitSha,omitempty"`
+	Repository       string     `json:"repository,omitempty"`
+	Product          string     `json:"product,omitempty"`
+	RepositoryBranch string     `json:"repositoryBranch,omitempty"`
+	Artifact         string     `json:"artifact,omitempty"`
+	Asset            string     `json:"asset,omitempty"`
+	SpaceID          *uuid.UUID `json:"spaceID,omitempty"`
+	Name             string     `json:"name,omitempty"`
+	ExternalID       string     `json:"externalID,omitempty"`
+	CommitSHA        *string    `json:"commitSha,omitempty"`
 }
 
 type ScanPipelineDetailsExt struct {
-	ID                   UUID                        `json:"id,omitempty"`
+	ID                   uuid.UUID                   `json:"id,omitempty"`
 	Created              string                      `json:"created,omitempty"`
 	Updated              string                      `json:"updated,omitempty"`
 	Finished             *string                     `json:"finished,omitempty"`
@@ -548,7 +550,7 @@ type ScanPipelineDetails struct {
 }
 
 type ScanPipelineInitiator struct {
-	ID          UUID                      `json:"id,omitempty"`
+	ID          uuid.UUID                 `json:"id,omitempty"`
 	Type        ScanPipelineInitiatorType `json:"type,omitempty"`
 	Slug        string                    `json:"slug,omitempty"`
 	DisplayName string                    `json:"displayName,omitempty"`
@@ -564,9 +566,9 @@ const (
 )
 
 type ScanPipelineJob struct {
-	ID             UUID                        `json:"id,omitempty"`
-	SpaceID        UUID                        `json:"spaceID,omitempty"`
-	ScanPipelineID UUID                        `json:"scanPipelineID,omitempty"`
+	ID             uuid.UUID                   `json:"id,omitempty"`
+	SpaceID        uuid.UUID                   `json:"spaceID,omitempty"`
+	ScanPipelineID uuid.UUID                   `json:"scanPipelineID,omitempty"`
 	Created        string                      `json:"created,omitempty"`
 	Updated        string                      `json:"updated,omitempty"`
 	Finished       string                      `json:"finished,omitempty"`
@@ -594,12 +596,12 @@ const (
 )
 
 type ScanPipelineListExtItem struct {
-	ID                   UUID                     `json:"id,omitempty"`
+	ID                   uuid.UUID                `json:"id,omitempty"`
 	ExternalID           *string                  `json:"externalID,omitempty"`
 	Status               ScanPipelineStatus       `json:"status,omitempty"`
 	ScanningTool         string                   `json:"scanningTool,omitempty"`
 	RelationType         ScanPipelineRelationType `json:"relationType,omitempty"`
-	RelationID           UUID                     `json:"relationId,omitempty"`
+	RelationID           uuid.UUID                `json:"relationId,omitempty"`
 	Created              string                   `json:"created,omitempty"`
 	Finished             *string                  `json:"finished,omitempty"`
 	AggregationCompleted bool                     `json:"aggregationCompleted,omitempty"`
@@ -613,7 +615,7 @@ type ScanPipelineListExtResponse struct {
 }
 
 type ScanPipelineRelation struct {
-	ID                UUID                        `json:"id,omitempty"`
+	ID                uuid.UUID                   `json:"id,omitempty"`
 	Name              string                      `json:"name,omitempty"`
 	Slug              string                      `json:"slug,omitempty"`
 	Type              ScanPipelineRelationType    `json:"type,omitempty"`
@@ -640,8 +642,8 @@ const (
 )
 
 type ScanPipeline struct {
-	ID                   UUID                        `json:"id,omitempty"`
-	SpaceID              UUID                        `json:"spaceID,omitempty"`
+	ID                   uuid.UUID                   `json:"id,omitempty"`
+	SpaceID              uuid.UUID                   `json:"spaceID,omitempty"`
 	ScanPipelineType     ScanPipelineType            `json:"scanPipelineType,omitempty"`
 	Created              string                      `json:"created,omitempty"`
 	Updated              string                      `json:"updated,omitempty"`
@@ -670,7 +672,7 @@ const (
 )
 
 type ScanPipelineStatusExt struct {
-	ID                   UUID               `json:"id,omitempty"`
+	ID                   uuid.UUID          `json:"id,omitempty"`
 	ExternalID           *string            `json:"externalID,omitempty"`
 	Status               ScanPipelineStatus `json:"status,omitempty"`
 	ScanningTool         string             `json:"scanningTool,omitempty"`
@@ -687,54 +689,54 @@ const (
 )
 
 type ScanUploadRelation struct {
-	ID   UUID   `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	Slug string `json:"slug,omitempty"`
+	ID   uuid.UUID `json:"id,omitempty"`
+	Name string    `json:"name,omitempty"`
+	Slug string    `json:"slug,omitempty"`
 }
 
 type ScanUpload struct {
-	ID              UUID                `json:"id,omitempty"`
+	ID              uuid.UUID           `json:"id,omitempty"`
 	Created         string              `json:"created,omitempty"`
 	Parser          Parser              `json:"parser,omitempty"`
-	TaskID          UUID                `json:"taskID,omitempty"`
+	TaskID          uuid.UUID           `json:"taskID,omitempty"`
 	Repository      any                 `json:"repository,omitempty"`
 	Artifact        *ScanUploadRelation `json:"artifact,omitempty"`
 	ArtifactVersion *ScanUploadRelation `json:"artifactVersion,omitempty"`
 	Product         any                 `json:"product,omitempty"`
-	ScanPipelineID  UUID                `json:"scanPipelineID,omitempty"`
-	ScanJobID       UUID                `json:"scanJobID,omitempty"`
+	ScanPipelineID  uuid.UUID           `json:"scanPipelineID,omitempty"`
+	ScanJobID       uuid.UUID           `json:"scanJobID,omitempty"`
 }
 
 type SingleScanIssueForExport struct {
 	ScanIssueForExport
-	ID UUID `json:"id"`
+	ID uuid.UUID `json:"id"`
 }
 
 type UnitedScanIssueForExport struct {
 	ScanIssueForExport
-	IDs []UUID `json:"ids"`
+	IDs []uuid.UUID `json:"ids"`
 }
 
 type ScanUploadsBody struct {
-	ScannerResultFile          []byte  `json:"scannerResultFile"`
-	ScannerType                Parser  `json:"scannerType"`
-	SpaceID                    *UUID   `json:"spaceID,omitempty"`
-	Repository                 *string `json:"repository,omitempty"`
-	RepositoryBranch           *string `json:"repositoryBranch,omitempty"`
-	RepositoryBranchSetDefault *bool   `json:"repositoryBranchSetDefault,omitempty"`
-	Product                    *string `json:"product,omitempty"`
-	Artifact                   *string `json:"artifact,omitempty"`
-	ArtifactVersionSetDefault  *bool   `json:"artifactVersionSetDefault,omitempty"`
-	VCSURL                     *string `json:"vcsURL,omitempty"`
-	ScanPipelineJobID          UUID    `json:"scanPipelineJobID,omitempty"`
-	ExternalScanPipeline       string  `json:"externalScanPipeline,omitempty"`
-	ScanPipelineProduct        *string `json:"scanPipelineProduct,omitempty"`
-	FinishScanPipeline         *bool   `json:"finishScanPipeline,omitempty"`
-	ScanPipelineName           *string `json:"scanPipelineName,omitempty"`
-	SkipAutoResolve            *bool   `json:"skipAutoResolve,omitempty"`
-	CommitSHA                  *string `json:"commitSha,omitempty"`
+	ScannerResultFile          []byte     `json:"scannerResultFile"`
+	ScannerType                Parser     `json:"scannerType"`
+	SpaceID                    *uuid.UUID `json:"spaceID,omitempty"`
+	Repository                 *string    `json:"repository,omitempty"`
+	RepositoryBranch           *string    `json:"repositoryBranch,omitempty"`
+	RepositoryBranchSetDefault *bool      `json:"repositoryBranchSetDefault,omitempty"`
+	Product                    *string    `json:"product,omitempty"`
+	Artifact                   *string    `json:"artifact,omitempty"`
+	ArtifactVersionSetDefault  *bool      `json:"artifactVersionSetDefault,omitempty"`
+	VCSURL                     *string    `json:"vcsURL,omitempty"`
+	ScanPipelineJobID          uuid.UUID  `json:"scanPipelineJobID,omitempty"`
+	ExternalScanPipeline       string     `json:"externalScanPipeline,omitempty"`
+	ScanPipelineProduct        *string    `json:"scanPipelineProduct,omitempty"`
+	FinishScanPipeline         *bool      `json:"finishScanPipeline,omitempty"`
+	ScanPipelineName           *string    `json:"scanPipelineName,omitempty"`
+	SkipAutoResolve            *bool      `json:"skipAutoResolve,omitempty"`
+	CommitSHA                  *string    `json:"commitSha,omitempty"`
 }
 
 type ScanUploadsBulkDownloadBody struct {
-	ScanUploads []UUID `json:"scanUploads,omitempty"`
+	ScanUploads []uuid.UUID `json:"scanUploads,omitempty"`
 }

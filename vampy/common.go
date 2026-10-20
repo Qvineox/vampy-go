@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type AnyValue any
 
 type AsyncExportFormatter string
@@ -38,8 +40,6 @@ type InformationParameter struct {
 	DisplayUnlimited bool `json:"displayUnlimited,omitempty"`
 }
 
-type ListUUID []UUID
-
 type NotAccessibleByLicense struct {
 	Detail string `json:"detail,omitempty"`
 	Status int    `json:"status,omitempty"`
@@ -67,23 +67,21 @@ type SLAOverdueCardData struct {
 	BySeverity
 }
 
-type UUID string
-
 type DatasetUploadBody struct {
 	File []byte `json:"file"`
 }
 
 type ImportDefectDojoBody struct {
-	SpaceID         *UUID   `json:"spaceID,omitempty"`
-	Hostname        string  `json:"hostname"`
-	Token           string  `json:"token"`
-	IgnoreSSLCheck  bool    `json:"ignoreSSLCheck,omitempty"`
-	Timeout         *int    `json:"timeout,omitempty"`
-	BatchSize       *int    `json:"batchSize,omitempty"`
-	ProductIDs      *string `json:"productIDs,omitempty"`
-	FindingStatuses *string `json:"findingStatuses,omitempty"`
-	CreateProducts  bool    `json:"createProducts,omitempty"`
-	CreateComments  bool    `json:"createComments,omitempty"`
+	SpaceID         *uuid.UUID `json:"spaceID,omitempty"`
+	Hostname        string     `json:"hostname"`
+	Token           string     `json:"token"`
+	IgnoreSSLCheck  bool       `json:"ignoreSSLCheck,omitempty"`
+	Timeout         *int       `json:"timeout,omitempty"`
+	BatchSize       *int       `json:"batchSize,omitempty"`
+	ProductIDs      *string    `json:"productIDs,omitempty"`
+	FindingStatuses *string    `json:"findingStatuses,omitempty"`
+	CreateProducts  bool       `json:"createProducts,omitempty"`
+	CreateComments  bool       `json:"createComments,omitempty"`
 }
 
 type SnapshotsSnapshotIDBody struct {
@@ -98,38 +96,38 @@ type SnapshotsUploadBody struct {
 type TokenWebhookBody any
 
 type V1ScanBody struct {
-	SpaceID                   *UUID   `json:"spaceID,omitempty"`
-	Repository                *string `json:"repository,omitempty"`
-	Product                   *string `json:"product,omitempty"`
-	RepositoryBranch          *string `json:"repositoryBranch,omitempty"`
-	RepositoryArchive         []byte  `json:"repositoryArchive,omitempty"`
-	ArtifactArchive           []byte  `json:"artifactArchive,omitempty"`
-	CreateMissing             *bool   `json:"createMissing,omitempty"`
-	Scanner                   Scanner `json:"scanner,omitempty"`
-	ScannerOptions            string  `json:"scannerOptions,omitempty"`
-	DryRun                    bool    `json:"dryRun,omitempty"`
-	Profile                   *string `json:"profile,omitempty"`
-	Artifact                  *string `json:"artifact,omitempty"`
-	ArtifactVersionSetDefault *bool   `json:"artifactVersionSetDefault,omitempty"`
-	Asset                     *string `json:"asset,omitempty"`
-	Endpoint                  *string `json:"endpoint,omitempty"`
+	SpaceID                   *uuid.UUID `json:"spaceID,omitempty"`
+	Repository                *string    `json:"repository,omitempty"`
+	Product                   *string    `json:"product,omitempty"`
+	RepositoryBranch          *string    `json:"repositoryBranch,omitempty"`
+	RepositoryArchive         []byte     `json:"repositoryArchive,omitempty"`
+	ArtifactArchive           []byte     `json:"artifactArchive,omitempty"`
+	CreateMissing             *bool      `json:"createMissing,omitempty"`
+	Scanner                   Scanner    `json:"scanner,omitempty"`
+	ScannerOptions            string     `json:"scannerOptions,omitempty"`
+	DryRun                    bool       `json:"dryRun,omitempty"`
+	Profile                   *string    `json:"profile,omitempty"`
+	Artifact                  *string    `json:"artifact,omitempty"`
+	ArtifactVersionSetDefault *bool      `json:"artifactVersionSetDefault,omitempty"`
+	Asset                     *string    `json:"asset,omitempty"`
+	Endpoint                  *string    `json:"endpoint,omitempty"`
 }
 
 type V1ScanUploadsBody struct {
-	ScannerResultFile          []byte  `json:"scannerResultFile"`
-	ScannerType                Parser  `json:"scannerType"`
-	SpaceID                    *UUID   `json:"spaceID,omitempty"`
-	Artifact                   *string `json:"artifact,omitempty"`
-	ArtifactVersionSetDefault  *bool   `json:"artifactVersionSetDefault,omitempty"`
-	Repository                 *string `json:"repository,omitempty"`
-	RepositoryBranch           *string `json:"repositoryBranch,omitempty"`
-	RepositoryBranchSetDefault *bool   `json:"repositoryBranchSetDefault,omitempty"`
-	Product                    *string `json:"product,omitempty"`
-	VCSURL                     *string `json:"vcsURL,omitempty"`
-	ExternalScanPipeline       string  `json:"externalScanPipeline,omitempty"`
-	ScanPipelineProduct        *string `json:"scanPipelineProduct,omitempty"`
-	FinishScanPipeline         *bool   `json:"finishScanPipeline,omitempty"`
-	ScanPipelineName           *string `json:"scanPipelineName,omitempty"`
-	SkipAutoResolve            *bool   `json:"skipAutoResolve,omitempty"`
-	CommitSHA                  *string `json:"commitSha,omitempty"`
+	ScannerResultFile          []byte     `json:"scannerResultFile"`
+	ScannerType                Parser     `json:"scannerType"`
+	SpaceID                    *uuid.UUID `json:"spaceID,omitempty"`
+	Artifact                   *string    `json:"artifact,omitempty"`
+	ArtifactVersionSetDefault  *bool      `json:"artifactVersionSetDefault,omitempty"`
+	Repository                 *string    `json:"repository,omitempty"`
+	RepositoryBranch           *string    `json:"repositoryBranch,omitempty"`
+	RepositoryBranchSetDefault *bool      `json:"repositoryBranchSetDefault,omitempty"`
+	Product                    *string    `json:"product,omitempty"`
+	VCSURL                     *string    `json:"vcsURL,omitempty"`
+	ExternalScanPipeline       string     `json:"externalScanPipeline,omitempty"`
+	ScanPipelineProduct        *string    `json:"scanPipelineProduct,omitempty"`
+	FinishScanPipeline         *bool      `json:"finishScanPipeline,omitempty"`
+	ScanPipelineName           *string    `json:"scanPipelineName,omitempty"`
+	SkipAutoResolve            *bool      `json:"skipAutoResolve,omitempty"`
+	CommitSHA                  *string    `json:"commitSha,omitempty"`
 }

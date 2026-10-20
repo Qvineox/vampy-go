@@ -1,10 +1,12 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type ArtifactDelete struct {
-	Artifacts ListUUID `json:"artifacts,omitempty"`
-	DeleteAll bool     `json:"deleteAll,omitempty"`
-	Search    *string  `json:"search,omitempty"`
+	Artifacts []uuid.UUID `json:"artifacts,omitempty"`
+	DeleteAll bool        `json:"deleteAll,omitempty"`
+	Search    *string     `json:"search,omitempty"`
 }
 
 type ArtifactDetail struct {
@@ -17,18 +19,18 @@ type ArtifactEdit struct {
 }
 
 type ArtifactImport struct {
-	ProductID          UUID     `json:"productID"`
-	IntegrationID      UUID     `json:"integrationID"`
-	IntegrationService string   `json:"integrationService"`
-	ImportAll          bool     `json:"importAll,omitempty"`
-	SearchQuery        string   `json:"searchQuery,omitempty"`
-	Items              []string `json:"items"`
+	ProductID          uuid.UUID `json:"productID"`
+	IntegrationID      uuid.UUID `json:"integrationID"`
+	IntegrationService string    `json:"integrationService"`
+	ImportAll          bool      `json:"importAll,omitempty"`
+	SearchQuery        string    `json:"searchQuery,omitempty"`
+	Items              []string  `json:"items"`
 }
 
 type ArtifactImportTask struct {
-	ID      string `json:"id,omitempty"`
-	Created string `json:"created,omitempty"`
-	TaskID  UUID   `json:"taskID,omitempty"`
+	ID      string    `json:"id,omitempty"`
+	Created string    `json:"created,omitempty"`
+	TaskID  uuid.UUID `json:"taskID,omitempty"`
 }
 
 type Artifact struct {
@@ -40,7 +42,7 @@ type Artifact struct {
 }
 
 type ArtifactShort struct {
-	ID             UUID         `json:"id,omitempty"`
+	ID             uuid.UUID    `json:"id,omitempty"`
 	Slug           string       `json:"slug,omitempty"`
 	Description    string       `json:"description,omitempty"`
 	DefaultVersion string       `json:"defaultVersion,omitempty"`
@@ -56,14 +58,14 @@ const (
 )
 
 type ArtifactVersionDelete struct {
-	ArtifactVersions ListUUID `json:"artifactVersions,omitempty"`
-	DeleteAll        bool     `json:"deleteAll,omitempty"`
-	Search           *string  `json:"search,omitempty"`
+	ArtifactVersions []uuid.UUID `json:"artifactVersions,omitempty"`
+	DeleteAll        bool        `json:"deleteAll,omitempty"`
+	Search           *string     `json:"search,omitempty"`
 }
 
 type ArtifactVersion struct {
-	ID             UUID                   `json:"id,omitempty"`
-	Slug           UUID                   `json:"slug,omitempty"`
+	ID             uuid.UUID              `json:"id,omitempty"`
+	Slug           uuid.UUID              `json:"slug,omitempty"`
 	Digests        []string               `json:"digests,omitempty"`
 	Pushed         string                 `json:"pushed,omitempty"`
 	ScanIssuesStat *ProductScanIssuesStat `json:"scanIssuesStat,omitempty"`
@@ -74,20 +76,20 @@ type ArtifactVersion struct {
 }
 
 type ArtifactVersionShort struct {
-	ID        UUID           `json:"id,omitempty"`
+	ID        uuid.UUID      `json:"id,omitempty"`
 	Slug      string         `json:"slug,omitempty"`
 	Artifact  *ArtifactShort `json:"artifact,omitempty"`
 	IsDefault bool           `json:"isDefault,omitempty"`
 }
 
 type ArtifactVersionSyncArtifact struct {
-	ArtifactID         UUID   `json:"artifactID,omitempty"`
-	ArtifactSlug       string `json:"artifactSlug,omitempty"`
-	ProductID          UUID   `json:"productID,omitempty"`
-	ProductSlug        string `json:"productSlug,omitempty"`
-	IntegrationID      UUID   `json:"integrationID,omitempty"`
-	IntegrationService string `json:"integrationService,omitempty"`
-	VersionsCount      int    `json:"versionsCount,omitempty"`
+	ArtifactID         uuid.UUID `json:"artifactID,omitempty"`
+	ArtifactSlug       string    `json:"artifactSlug,omitempty"`
+	ProductID          uuid.UUID `json:"productID,omitempty"`
+	ProductSlug        string    `json:"productSlug,omitempty"`
+	IntegrationID      uuid.UUID `json:"integrationID,omitempty"`
+	IntegrationService string    `json:"integrationService,omitempty"`
+	VersionsCount      int       `json:"versionsCount,omitempty"`
 }
 
 type ArtifactVersionSyncRequest struct {

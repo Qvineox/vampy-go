@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type ComponentDetails struct {
 	ComponentShort
 	Repositories []RepositoryShort `json:"repositories,omitempty"`
@@ -18,7 +20,7 @@ const (
 )
 
 type ComponentShort struct {
-	ID             UUID                          `json:"id,omitempty"`
+	ID             uuid.UUID                     `json:"id,omitempty"`
 	Name           string                        `json:"name,omitempty"`
 	Description    string                        `json:"description,omitempty"`
 	Created        string                        `json:"created,omitempty"`
@@ -35,9 +37,9 @@ type ComponentShortScanIssuesStat struct {
 }
 
 type ComponentShortVersions struct {
-	ID      UUID   `json:"id,omitempty"`
-	Name    string `json:"name,omitempty"`
-	Version string `json:"version,omitempty"`
+	ID      uuid.UUID `json:"id,omitempty"`
+	Name    string    `json:"name,omitempty"`
+	Version string    `json:"version,omitempty"`
 }
 
 type ComponentVersionDetails struct {
@@ -46,10 +48,10 @@ type ComponentVersionDetails struct {
 }
 
 type ComponentVersion struct {
-	ID             UUID                          `json:"id,omitempty"`
+	ID             uuid.UUID                     `json:"id,omitempty"`
 	Name           string                        `json:"name,omitempty"`
 	Version        string                        `json:"version,omitempty"`
-	ComponentID    UUID                          `json:"componentID,omitempty"`
+	ComponentID    uuid.UUID                     `json:"componentID,omitempty"`
 	Description    string                        `json:"description,omitempty"`
 	Created        string                        `json:"created,omitempty"`
 	Updated        string                        `json:"updated,omitempty"`
@@ -67,14 +69,14 @@ type ComponentVersion struct {
 }
 
 type ComponentVersionShort struct {
-	ID            UUID   `json:"id,omitempty"`
-	Name          string `json:"name,omitempty"`
-	Version       string `json:"version,omitempty"`
-	ComponentID   UUID   `json:"componentID,omitempty"`
-	Created       string `json:"created,omitempty"`
-	Updated       string `json:"updated,omitempty"`
-	ActualVersion string `json:"actualVersion,omitempty"`
-	PackageURL    string `json:"packageUrl,omitempty"`
+	ID            uuid.UUID `json:"id,omitempty"`
+	Name          string    `json:"name,omitempty"`
+	Version       string    `json:"version,omitempty"`
+	ComponentID   uuid.UUID `json:"componentID,omitempty"`
+	Created       string    `json:"created,omitempty"`
+	Updated       string    `json:"updated,omitempty"`
+	ActualVersion string    `json:"actualVersion,omitempty"`
+	PackageURL    string    `json:"packageUrl,omitempty"`
 }
 
 type ComponentsCountCardData struct {

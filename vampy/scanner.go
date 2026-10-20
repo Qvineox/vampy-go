@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type ParserInList struct {
 	Slug                 Parser             `json:"slug,omitempty"`
 	DisplayName          string             `json:"displayName,omitempty"`
@@ -155,7 +157,7 @@ type ScannerIntegrationPatch struct {
 }
 
 type ScannerIntegration struct {
-	ID             UUID                   `json:"id,omitempty"`
+	ID             uuid.UUID              `json:"id,omitempty"`
 	Name           string                 `json:"name,omitempty"`
 	Hostname       string                 `json:"hostname,omitempty"`
 	Token          string                 `json:"token,omitempty"`
@@ -163,7 +165,7 @@ type ScannerIntegration struct {
 	Service        IntegrationServiceType `json:"service,omitempty"`
 	Roles          []IntegrationRole      `json:"roles,omitempty"`
 	State          IntegrationState       `json:"state,omitempty"`
-	ServerID       UUID                   `json:"serverID,omitempty"`
+	ServerID       uuid.UUID              `json:"serverID,omitempty"`
 	Created        string                 `json:"created,omitempty"`
 	IgnoreSSLCheck bool                   `json:"ignoreSSLCheck,omitempty"`
 	ServerCert     string                 `json:"serverCert,omitempty"`

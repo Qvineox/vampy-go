@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type LicenseInformation struct {
 	CommonParameters *LicenseInformationCommonParameters `json:"commonParameters,omitempty"`
 }
@@ -45,7 +47,7 @@ type LicenseInformationCommonParameters struct {
 }
 
 type License struct {
-	ID           UUID           `json:"id,omitempty"`
+	ID           uuid.UUID      `json:"id,omitempty"`
 	CustomerName string         `json:"customerName,omitempty"`
 	StartDate    string         `json:"startDate,omitempty"`
 	EndDate      string         `json:"endDate,omitempty"`

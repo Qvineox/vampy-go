@@ -1,19 +1,21 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type SBOMExport struct {
-	Search       string `json:"search,omitempty"`
-	Order        string `json:"order,omitempty"`
-	ComponentID  UUID   `json:"componentID,omitempty"`
-	RepositoryID UUID   `json:"repositoryID,omitempty"`
+	Search       string    `json:"search,omitempty"`
+	Order        string    `json:"order,omitempty"`
+	ComponentID  uuid.UUID `json:"componentID,omitempty"`
+	RepositoryID uuid.UUID `json:"repositoryID,omitempty"`
 }
 
 type SBOMImport struct {
-	Created string `json:"created,omitempty"`
-	TaskID  UUID   `json:"taskID,omitempty"`
+	Created string    `json:"created,omitempty"`
+	TaskID  uuid.UUID `json:"taskID,omitempty"`
 }
 
 type SBOMImportBody struct {
-	SBOMResultFile []byte `json:"sbomResultFile"`
-	RepositoryID   *UUID  `json:"repositoryID,omitempty"`
+	SBOMResultFile []byte     `json:"sbomResultFile"`
+	RepositoryID   *uuid.UUID `json:"repositoryID,omitempty"`
 }

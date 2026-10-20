@@ -1,9 +1,11 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type ProductChangeRelations struct {
-	ComponentVersions []UUID `json:"componentVersions,omitempty"`
-	Repositories      []UUID `json:"repositories,omitempty"`
+	ComponentVersions []uuid.UUID `json:"componentVersions,omitempty"`
+	Repositories      []uuid.UUID `json:"repositories,omitempty"`
 }
 
 type ProductCriticality string
@@ -17,7 +19,8 @@ const (
 
 type ProductDetail struct {
 	Product
-	RepositoryIDs         []UUID                    `json:"repositoryIDs,omitempty"`
+
+	RepositoryIDs         []uuid.UUID               `json:"repositoryIDs,omitempty"`
 	Integration           *SpaceIntegration         `json:"integration,omitempty"`
 	ScanProfile           *OrchestrationScanProfile `json:"scanProfile,omitempty"`
 	LastOrchestrationScan OrchestrationScanDetail   `json:"lastOrchestrationScan,omitempty"`
@@ -28,10 +31,10 @@ type ProductEdit struct {
 	Name               string                 `json:"name,omitempty"`
 	Description        string                 `json:"description,omitempty"`
 	Criticality        ProductCriticality     `json:"criticality,omitempty"`
-	IntegrationID      *UUID                  `json:"integrationID,omitempty"`
+	IntegrationID      *uuid.UUID             `json:"integrationID,omitempty"`
 	IntegrationService IntegrationServiceType `json:"integrationService,omitempty"`
-	QualityGateID      *UUID                  `json:"qualityGateID,omitempty"`
-	ScanProfileID      *UUID                  `json:"scanProfileID,omitempty"`
+	QualityGateID      *uuid.UUID             `json:"qualityGateID,omitempty"`
+	ScanProfileID      *uuid.UUID             `json:"scanProfileID,omitempty"`
 }
 
 type ProductPermissionValue string
@@ -57,7 +60,7 @@ const (
 )
 
 type Product struct {
-	ID                UUID                     `json:"id,omitempty"`
+	ID                uuid.UUID                `json:"id,omitempty"`
 	Name              string                   `json:"name"`
 	Slug              string                   `json:"slug,omitempty"`
 	Created           string                   `json:"created,omitempty"`
@@ -80,7 +83,7 @@ type ProductScanIssuesStat struct {
 }
 
 type ProductShort struct {
-	ID          UUID               `json:"id,omitempty"`
+	ID          uuid.UUID          `json:"id,omitempty"`
 	Name        string             `json:"name,omitempty"`
 	Criticality ProductCriticality `json:"criticality,omitempty"`
 	Slug        string             `json:"slug,omitempty"`

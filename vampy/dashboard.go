@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"slices"
 	"strings"
+	"uuid"
 )
 
 type ByScannerType struct {
@@ -44,7 +45,7 @@ type DashboardCardMeta struct {
 }
 
 type DashboardCard struct {
-	ID              UUID               `json:"id,omitempty"`
+	ID              uuid.UUID          `json:"id,omitempty"`
 	Slug            string             `json:"slug,omitempty"`
 	Name            string             `json:"name,omitempty"`
 	NameTranslateID string             `json:"nameTranslateID,omitempty"`
@@ -65,7 +66,7 @@ const (
 )
 
 type Dashboard struct {
-	ID    UUID            `json:"id,omitempty"`
+	ID    uuid.UUID       `json:"id,omitempty"`
 	Slug  string          `json:"slug,omitempty"`
 	Name  string          `json:"name,omitempty"`
 	Cards []DashboardCard `json:"cards,omitempty"`
@@ -112,12 +113,12 @@ func (d *Dashboard) GetOpenedIssues() (info, low, medium, high, critical, total 
 }
 
 type Engagement struct {
-	ID                   UUID   `json:"id,omitempty"`
-	ExternalScanPipeline string `json:"externalScanPipeline,omitempty"`
+	ID                   uuid.UUID `json:"id,omitempty"`
+	ExternalScanPipeline string    `json:"externalScanPipeline,omitempty"`
 }
 
 type Entity struct {
-	RelationID   UUID                            `json:"relationID,omitempty"`
+	RelationID   uuid.UUID                       `json:"relationID,omitempty"`
 	RelationType DashboardCardEntityRelationType `json:"relationType,omitempty"`
 }
 

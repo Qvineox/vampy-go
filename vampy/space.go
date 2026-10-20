@@ -1,15 +1,17 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type SpaceIntegration struct {
-	ID             UUID                   `json:"id,omitempty"`
+	ID             uuid.UUID              `json:"id,omitempty"`
 	Name           string                 `json:"name"`
 	Hostname       string                 `json:"hostname"`
 	Token          string                 `json:"token,omitempty"`
 	Webhook        string                 `json:"webhook,omitempty"`
 	Service        IntegrationServiceType `json:"service"`
 	State          IntegrationState       `json:"state,omitempty"`
-	ServerID       UUID                   `json:"serverID,omitempty"`
+	ServerID       uuid.UUID              `json:"serverID,omitempty"`
 	Created        string                 `json:"created,omitempty"`
 	Roles          []IntegrationRole      `json:"roles,omitempty"`
 	IgnoreSSLCheck *bool                  `json:"ignoreSSLCheck,omitempty"`
@@ -32,7 +34,7 @@ type SpaceIntegrationWithMetaMetaAI struct {
 }
 
 type Space struct {
-	ID      UUID   `json:"id,omitempty"`
-	Name    string `json:"name"`
-	Created string `json:"created,omitempty"`
+	ID      uuid.UUID `json:"id,omitempty"`
+	Name    string    `json:"name"`
+	Created string    `json:"created,omitempty"`
 }

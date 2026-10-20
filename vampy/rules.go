@@ -1,6 +1,8 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type Action struct {
 	Type       ActionType  `json:"type,omitempty"`
 	Enabled    bool        `json:"enabled,omitempty"`
@@ -19,7 +21,7 @@ const (
 )
 
 type BaseRule struct {
-	ID          UUID        `json:"id,omitempty"`
+	ID          uuid.UUID   `json:"id,omitempty"`
 	Name        string      `json:"name,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Enabled     bool        `json:"enabled,omitempty"`
@@ -96,7 +98,7 @@ type Parameter struct {
 type RuleCreate struct {
 	BaseRule
 	EventType   RulesEngineEventType `json:"eventType,omitempty"`
-	ScanIssueID *UUID                `json:"scanIssueID,omitempty"`
+	ScanIssueID *uuid.UUID           `json:"scanIssueID,omitempty"`
 	RunRule     bool                 `json:"runRule,omitempty"`
 }
 
@@ -112,19 +114,19 @@ type RulePatch struct {
 type RuleRead struct {
 	BaseRule
 	EventType   RulesEngineEventType `json:"eventType,omitempty"`
-	ScanIssueID *UUID                `json:"scanIssueID,omitempty"`
+	ScanIssueID *uuid.UUID           `json:"scanIssueID,omitempty"`
 	Created     string               `json:"created,omitempty"`
 	Updated     string               `json:"updated,omitempty"`
 	Warnings    []RuleWarning        `json:"warnings,omitempty"`
 }
 
 type RuleShort struct {
-	ID          UUID          `json:"id,omitempty"`
+	ID          uuid.UUID     `json:"id,omitempty"`
 	Name        string        `json:"name,omitempty"`
 	Enabled     bool          `json:"enabled,omitempty"`
 	Created     string        `json:"created,omitempty"`
 	Updated     string        `json:"updated,omitempty"`
-	ScanIssueID *UUID         `json:"scanIssueID,omitempty"`
+	ScanIssueID *uuid.UUID    `json:"scanIssueID,omitempty"`
 	Warnings    []RuleWarning `json:"warnings,omitempty"`
 }
 

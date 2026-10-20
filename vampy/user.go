@@ -1,10 +1,12 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import "uuid"
+
 type DetailPermissionUser struct {
-	UserID   UUID   `json:"userID,omitempty"`
-	Level    string `json:"level,omitempty"`
-	IsMapped bool   `json:"isMapped,omitempty"`
+	UserID   uuid.UUID `json:"userID,omitempty"`
+	Level    string    `json:"level,omitempty"`
+	IsMapped bool      `json:"isMapped,omitempty"`
 }
 
 type LoginRequest struct {
@@ -52,25 +54,25 @@ type PermissionSetUsers struct {
 }
 
 type PermissionUnsetUserGroups struct {
-	UserGroups []UUID `json:"user_groups,omitempty"`
+	UserGroups []uuid.UUID `json:"user_groups,omitempty"`
 }
 
 type PermissionUnsetUsers struct {
-	Users []UUID `json:"users,omitempty"`
+	Users []uuid.UUID `json:"users,omitempty"`
 }
 
 type PermissionUserGroup struct {
-	GroupID UUID   `json:"groupID,omitempty"`
-	Level   string `json:"level,omitempty"`
+	GroupID uuid.UUID `json:"groupID,omitempty"`
+	Level   string    `json:"level,omitempty"`
 }
 
 type PermissionUser struct {
-	UserID UUID   `json:"userID,omitempty"`
-	Level  string `json:"level,omitempty"`
+	UserID uuid.UUID `json:"userID,omitempty"`
+	Level  string    `json:"level,omitempty"`
 }
 
 type UserAdmin struct {
-	ID                     UUID                  `json:"id,omitempty"`
+	ID                     uuid.UUID             `json:"id,omitempty"`
 	UserLogin              string                `json:"userLogin,omitempty"`
 	UserEmail              *string               `json:"userEmail,omitempty"`
 	FirstName              string                `json:"firstName,omitempty"`
@@ -86,7 +88,7 @@ type UserAdmin struct {
 	IsAdmin                bool                  `json:"isAdmin,omitempty"`
 	IsStaff                bool                  `json:"isStaff,omitempty"`
 	Role                   UserRoleSlug          `json:"role,omitempty"`
-	GroupID                UUID                  `json:"groupID,omitempty"`
+	GroupID                uuid.UUID             `json:"groupID,omitempty"`
 	GroupInstance          UserGroup             `json:"groupInstance,omitempty"`
 	RoleInstance           *UserRoleShort        `json:"roleInstance,omitempty"`
 }
@@ -178,11 +180,11 @@ type UserRegistration struct {
 	FirstName    string       `json:"firstName,omitempty"`
 	LastName     string       `json:"lastName,omitempty"`
 	Role         UserRoleSlug `json:"role,omitempty"`
-	GroupID      *UUID        `json:"groupID,omitempty"`
+	GroupID      *uuid.UUID   `json:"groupID,omitempty"`
 }
 
 type UserShort struct {
-	ID                     UUID                  `json:"id,omitempty"`
+	ID                     uuid.UUID             `json:"id,omitempty"`
 	UserLogin              string                `json:"userLogin,omitempty"`
 	UserEmail              *string               `json:"userEmail,omitempty"`
 	FirstName              string                `json:"firstName,omitempty"`
@@ -207,9 +209,9 @@ const (
 )
 
 type UserTiny struct {
-	ID        UUID    `json:"id,omitempty"`
-	UserLogin string  `json:"userLogin,omitempty"`
-	UserEmail *string `json:"userEmail,omitempty"`
-	FirstName string  `json:"firstName,omitempty"`
-	LastName  string  `json:"lastName,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	UserLogin string    `json:"userLogin,omitempty"`
+	UserEmail *string   `json:"userEmail,omitempty"`
+	FirstName string    `json:"firstName,omitempty"`
+	LastName  string    `json:"lastName,omitempty"`
 }
