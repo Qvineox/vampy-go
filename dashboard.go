@@ -120,8 +120,8 @@ type ProductDashboardCardGetOptions struct {
 	ScannerType *vampy.ScannerType
 }
 
-// RepositoryDashboardGet Get repository dashboard
-func (c *Client) RepositoryDashboardGet(ctx context.Context, opts RepositoryDashboardGetOptions) (vampy.Dashboard, error) {
+// GetRepositoryDashboard Get repository dashboard
+func (c *Client) GetRepositoryDashboard(ctx context.Context, opts GetRepositoryDashboardOptions) (vampy.Dashboard, error) {
 	path := fmt.Sprintf("/repositories/%s/dashboard/", url.PathEscape(opts.RepositoryID.String()))
 	q := url.Values{}
 
@@ -139,13 +139,13 @@ func (c *Client) RepositoryDashboardGet(ctx context.Context, opts RepositoryDash
 
 	var out vampy.Dashboard
 	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
-		return out, err
+		return vampy.Dashboard{}, err
 	}
 
 	return out, nil
 }
 
-type RepositoryDashboardGetOptions struct {
+type GetRepositoryDashboardOptions struct {
 	RepositoryID       uuid.UUID
 	ScannerType        *vampy.ScannerType
 	RepositoryBranchID *uuid.UUID

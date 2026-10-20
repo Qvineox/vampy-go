@@ -34,7 +34,7 @@ type Option func(*Client) error
 // NewClient creates a Vampy API client for the given base URL (for example
 // "https://vampy.example.com/api").
 func NewClient(baseURL string, opts ...Option) (*Client, error) {
-	u, err := url.Parse(baseURL)
+	u, err := url.Parse(strings.TrimRight(baseURL, "/"))
 	if err != nil {
 		return nil, fmt.Errorf("vampy: invalid base URL: %w", err)
 	}
@@ -50,6 +50,7 @@ func NewClient(baseURL string, opts ...Option) (*Client, error) {
 			return nil, err
 		}
 	}
+
 	return c, nil
 }
 
@@ -110,8 +111,7 @@ func (e *Error) Error() string {
 }
 
 func (c *Client) newRequest(ctx context.Context, method, path string, query url.Values, body io.Reader, contentType string) (*http.Request, error) {
-	base := strings.TrimRight(c.baseURL.String(), "/")
-	full := base + "/" + strings.TrimLeft(path, "/")
+	full := c.baseURL.String() + "/" + strings.TrimLeft(path, "/")
 	u, err := url.Parse(full)
 	if err != nil {
 		return nil, err

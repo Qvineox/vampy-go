@@ -1,6 +1,12 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
+import (
+	"encoding/json"
+	"slices"
+	"strings"
+)
+
 type ByScannerType struct {
 	ByScannerType []NameBasedCardValue `json:"by_scanner_type,omitempty"`
 }
@@ -63,6 +69,46 @@ type Dashboard struct {
 	Slug  string          `json:"slug,omitempty"`
 	Name  string          `json:"name,omitempty"`
 	Cards []DashboardCard `json:"cards,omitempty"`
+}
+
+func (d *Dashboard) GetOpenedIssues() (info, low, medium, high, critical, total int64) {
+	index := slices.IndexFunc(d.Cards, func(card DashboardCard) bool {
+		return card.Slug == "opened_issues_card"
+	})
+
+	if index == -1 {
+		return
+	}
+
+	// todo: switch to Unmarshal in Dashboard
+	marshal, err := json.Marshal(d.Cards[index].AggregatedData)
+	if err != nil {
+		return
+	}
+
+	var card OpenedIssuesCardData
+	err = json.Unmarshal(marshal, &card)
+	if err != nil {
+		return
+	}
+
+	total = int64(card.SimpleCardValue.Value)
+	for _, v := range card.BySeverity.BySeverity {
+		switch strings.ToLower(v.Name) {
+		case "info":
+			info = int64(v.Value)
+		case "low":
+			low = int64(v.Value)
+		case "medium":
+			medium = int64(v.Value)
+		case "high":
+			high = int64(v.Value)
+		case "critical":
+			critical = int64(v.Value)
+		}
+	}
+
+	return
 }
 
 type Engagement struct {
