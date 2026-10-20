@@ -37,21 +37,18 @@ type ArtifactImportTask struct {
 }
 
 type Artifact struct {
-	ArtifactShort
-	ScanIssuesStat        *ProductScanIssuesStat  `json:"scanIssuesStat,omitempty"`
-	VersionsCount         int                     `json:"versionsCount,omitempty"`
-	Integration           *SpaceIntegration       `json:"integration,omitempty"`
-	LastOrchestrationScan OrchestrationScanDetail `json:"lastOrchestrationScan,omitempty"`
-}
-
-type ArtifactShort struct {
 	ID             uuid.UUID    `json:"id,omitempty"`
 	Slug           string       `json:"slug,omitempty"`
 	Description    string       `json:"description,omitempty"`
 	DefaultVersion string       `json:"defaultVersion,omitempty"`
-	Updated        string       `json:"updated,omitempty"`
+	Updated        time.Time    `json:"updated"`
 	Created        time.Time    `json:"created"`
 	Type           ArtifactType `json:"type,omitempty"`
+
+	ScanIssuesStat        *ProductScanIssuesStat  `json:"scanIssuesStat,omitempty"`
+	VersionsCount         int                     `json:"versionsCount,omitempty"`
+	Integration           *SpaceIntegration       `json:"integration,omitempty"`
+	LastOrchestrationScan OrchestrationScanDetail `json:"lastOrchestrationScan"`
 }
 
 type ArtifactType string
@@ -72,17 +69,17 @@ type ArtifactVersion struct {
 	Digests        []string               `json:"digests,omitempty"`
 	Pushed         string                 `json:"pushed,omitempty"`
 	ScanIssuesStat *ProductScanIssuesStat `json:"scanIssuesStat,omitempty"`
-	LastScan       time.Time              `json:"lastScan,omitempty"`
+	LastScan       time.Time              `json:"lastScan"`
 	PullsCount     *int                   `json:"pullsCount,omitempty"`
 	IsDefault      bool                   `json:"isDefault,omitempty"`
-	Artifact       *ArtifactShort         `json:"artifact,omitempty"`
+	Artifact       *Artifact              `json:"artifact,omitempty"`
 }
 
 type ArtifactVersionShort struct {
-	ID        uuid.UUID      `json:"id,omitempty"`
-	Slug      string         `json:"slug,omitempty"`
-	Artifact  *ArtifactShort `json:"artifact,omitempty"`
-	IsDefault bool           `json:"isDefault,omitempty"`
+	ID        uuid.UUID `json:"id,omitempty"`
+	Slug      string    `json:"slug,omitempty"`
+	Artifact  *Artifact `json:"artifact,omitempty"`
+	IsDefault bool      `json:"isDefault,omitempty"`
 }
 
 type ArtifactVersionSyncArtifact struct {
