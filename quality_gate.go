@@ -141,10 +141,10 @@ type QualityGateResultListGetOptions struct {
 }
 
 // QualityGateResultGetDetails Get Quality Gate Result details.
-func (c *Client) QualityGateResultGetDetails(ctx context.Context, opts QualityGateResultGetDetailsOptions) (vampy.QualityGateResultDetails, error) {
+func (c *Client) QualityGateResultGetDetails(ctx context.Context, opts QualityGateResultGetDetailsOptions) (vampy.QualityGateResult, error) {
 	path := fmt.Sprintf("/quality_gates/%s/results/%s/", url.PathEscape(opts.QualityGateID.String()), url.PathEscape(opts.QualityGateResultID.String()))
 
-	var out vampy.QualityGateResultDetails
+	var out vampy.QualityGateResult
 	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}

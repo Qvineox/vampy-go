@@ -148,13 +148,11 @@ type ExtV1ScanUploadPostOptions struct {
 }
 
 // ExtV1QualityGateGet Get Quality Gate result for product or repository.
-func (c *Client) ExtV1QualityGateGet(ctx context.Context, opts ExtV1QualityGateGetOptions) (vampy.QualityGateResultDetails, error) {
+func (c *Client) ExtV1QualityGateGet(ctx context.Context, opts ExtV1QualityGateGetOptions) (vampy.QualityGateResult, error) {
 	path := "/ext/v1/quality_gate/"
 	q := url.Values{}
 
-	if opts.SpaceID != nil {
-		q.Set("spaceID", opts.SpaceID.String())
-	}
+	q.Set("spaceID", c.spaceID.String())
 
 	if opts.Product != nil {
 		q.Set("product", *opts.Product)
@@ -172,7 +170,7 @@ func (c *Client) ExtV1QualityGateGet(ctx context.Context, opts ExtV1QualityGateG
 		q.Set("slug", *opts.Slug)
 	}
 
-	var out vampy.QualityGateResultDetails
+	var out vampy.QualityGateResult
 	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}
@@ -207,6 +205,7 @@ type ExtV1RunOrchestrationOptions struct {
 // ExtV1RunScan Start Scanning for relation
 func (c *Client) ExtV1RunScan(ctx context.Context, opts ExtV1RunScanOptions) (vampy.OrchestrationRunResult, error) {
 	path := "/ext/v1/scan/"
+	opts.Body.SpaceID = new(c.spaceID)
 
 	var out vampy.OrchestrationRunResult
 	if err := c.doMultipart(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
@@ -264,6 +263,7 @@ type ExtV1ScanPipelineListGetOptions struct {
 // ExtV1ScanPipelinePost Create scan pipeline
 func (c *Client) ExtV1ScanPipelinePost(ctx context.Context, opts ExtV1ScanPipelinePostOptions) (vampy.ScanPipelineCreateExtResponse, error) {
 	path := "/ext/v1/scan/pipelines/"
+	opts.Body.SpaceID = new(c.spaceID)
 
 	var out vampy.ScanPipelineCreateExtResponse
 	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {

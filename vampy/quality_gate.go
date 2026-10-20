@@ -62,27 +62,20 @@ const (
 	QualityGateRelationTypeREPOSITORY QualityGateRelationType = "REPOSITORY"
 )
 
-type QualityGateResultDetails struct {
-	ID             uuid.UUID                        `json:"id,omitempty"`
-	Status         QualityGateResultStatus          `json:"status,omitempty"`
-	LastCalculated *time.Time                       `json:"lastCalculated,omitempty"`
-	Relation       *QualityGateRelation             `json:"relation,omitempty"`
-	Details        *QualityGateResultDetailsDetails `json:"details,omitempty"`
+type QualityGateResult struct {
+	ID             uuid.UUID                 `json:"id,omitempty"`
+	Status         QualityGateResultStatus   `json:"status,omitempty"`
+	LastCalculated *time.Time                `json:"lastCalculated,omitempty"`
+	Relation       *QualityGateRelation      `json:"relation,omitempty"`
+	Details        *QualityGateResultDetails `json:"details,omitempty"`
 }
 
-type QualityGateResultDetailsDetails struct {
+type QualityGateResultDetails struct {
 	Slug         string                       `json:"slug,omitempty"`
 	Name         string                       `json:"name,omitempty"`
 	Criticality  Criticality                  `json:"criticality,omitempty"`
 	Conditions   []QualityGateConditionResult `json:"conditions,omitempty"`
 	ErrorMessage string                       `json:"errorMessage,omitempty"`
-}
-
-type QualityGateResult struct {
-	ID             uuid.UUID               `json:"id,omitempty"`
-	Status         QualityGateResultStatus `json:"status,omitempty"`
-	LastCalculated time.Time               `json:"lastCalculated,omitempty"`
-	Relation       *QualityGateRelation    `json:"relation,omitempty"`
 }
 
 type QualityGateResultStatus string
@@ -102,7 +95,7 @@ type QualityGate struct {
 	Name        string                 `json:"name"`
 	IsDefault   bool                   `json:"isDefault,omitempty"`
 	Enabled     bool                   `json:"enabled,omitempty"`
-	Created     time.Time              `json:"created,omitempty"`
+	Created     time.Time              `json:"created"`
 	Updated     *time.Time             `json:"updated,omitempty"`
 	Criticality Criticality            `json:"criticality,omitempty"`
 	Conditions  []QualityGateCondition `json:"conditions,omitempty"`
