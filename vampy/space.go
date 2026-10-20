@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type SpaceIntegration struct {
 	ID             uuid.UUID              `json:"id,omitempty"`

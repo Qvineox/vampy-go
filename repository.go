@@ -285,7 +285,7 @@ func (c *Client) RepositoryBranchListGet(ctx context.Context, opts RepositoryBra
 		q.Set("isEmpty", strconv.FormatBool(*opts.IsEmpty))
 	}
 
-	var out vampy.Page[vampy.RepositoryBranchList]
+	var out vampy.Page[vampy.RepositoryBranch]
 	if err := c.doJSON(ctx, http.MethodGet, path, q, nil, &out); err != nil {
 		return out, err
 	}

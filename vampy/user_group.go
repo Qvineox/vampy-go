@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type UserGroupCounters struct {
 	TotalUsers     int `json:"totalUsers,omitempty"`

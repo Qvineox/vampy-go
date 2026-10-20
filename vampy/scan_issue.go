@@ -416,7 +416,6 @@ type ScanIssue struct {
 	AssociatedScanIssues *ScanIssueDetailAssociatedScanIssues `json:"associatedScanIssues,omitempty"`
 	AIRequests           []ScanIssueAIRequestResponse         `json:"aiRequests,omitempty"`
 	AIApplied            *ScanIssueDetailAIApplied            `json:"aiApplied,omitempty"`
-	FPScore              *FPScore                             `json:"fpScore,omitempty"`
 
 	// false positive score
 	FPScore *FPScore `json:"fpScore,omitempty"`
