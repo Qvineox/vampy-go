@@ -54,11 +54,11 @@ func (c *Client) ScanPipelinesGet(ctx context.Context, opts ScanPipelinesGetOpti
 	}
 
 	if opts.CreatedLte != nil {
-		q.Set("createdLte", *opts.CreatedLte)
+		q.Set("createdLte", opts.CreatedLte.Format(time.RFC3339))
 	}
 
 	if opts.CreatedGte != nil {
-		q.Set("createdGte", *opts.CreatedGte)
+		q.Set("createdGte", opts.CreatedGte.Format(time.RFC3339))
 	}
 
 	var out vampy.Page[vampy.ScanPipeline]
