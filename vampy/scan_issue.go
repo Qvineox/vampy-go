@@ -450,7 +450,7 @@ type ScanIssuesSchemaMetadata struct {
 type ScanIssueShort struct {
 	ID       uuid.UUID `json:"id,omitempty"`
 	Title    string    `json:"title,omitempty"`
-	Created  string    `json:"created,omitempty"`
+	Created  time.Time `json:"created"`
 	Status   string    `json:"status,omitempty"`
 	Severity Severity  `json:"severity,omitempty"`
 }
@@ -462,7 +462,7 @@ type ScanIssueShortWithBranch struct {
 
 type ScanIssueStatusChangeEntry struct {
 	ID        uuid.UUID                         `json:"id,omitempty"`
-	Created   string                            `json:"created,omitempty"`
+	Created   time.Time                         `json:"created"`
 	OldValue  *string                           `json:"oldValue,omitempty"`
 	NewValue  string                            `json:"newValue,omitempty"`
 	Automatic bool                              `json:"automatic,omitempty"`
@@ -510,7 +510,7 @@ type ScanPipelineCreateExtResponse struct {
 	ID         uuid.UUID          `json:"id,omitempty"`
 	ExternalID string             `json:"externalID,omitempty"`
 	Status     ScanPipelineStatus `json:"status,omitempty"`
-	Created    string             `json:"created,omitempty"`
+	Created    time.Time          `json:"created"`
 }
 
 type ScanPipelineCreateExt struct {

@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type AssetCreate struct {
 	Name             string                       `json:"name,omitempty"`
@@ -22,8 +25,8 @@ type AssetDetails struct {
 	Path                  string                       `json:"path,omitempty"`
 	IPs                   []string                     `json:"ips,omitempty"`
 	ParentID              *uuid.UUID                   `json:"parentID,omitempty"`
-	Created               string                       `json:"created,omitempty"`
-	Updated               string                       `json:"updated,omitempty"`
+	Created               time.Time                    `json:"created"`
+	Updated               time.Time                    `json:"updated"`
 	DefinedVariables      []OrchestrationScannerEnvVar `json:"definedVariables,omitempty"`
 	PredefinedVariables   []OrchestrationScannerEnvVar `json:"predefinedVariables,omitempty"`
 	LastOrchestrationScan OrchestrationScanDetail      `json:"lastOrchestrationScan,omitempty"`

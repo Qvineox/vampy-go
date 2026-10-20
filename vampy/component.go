@@ -26,8 +26,8 @@ type ComponentShort struct {
 	ID             uuid.UUID                     `json:"id,omitempty"`
 	Name           string                        `json:"name,omitempty"`
 	Description    string                        `json:"description,omitempty"`
-	Created        string                        `json:"created,omitempty"`
-	Updated        string                        `json:"updated,omitempty"`
+	Created        time.Time                     `json:"created"`
+	Updated        time.Time                     `json:"updated"`
 	RiskScore      *int                          `json:"riskScore,omitempty"`
 	ScanIssuesStat *ComponentShortScanIssuesStat `json:"scanIssuesStat,omitempty"`
 	Versions       []ComponentShortVersions      `json:"versions,omitempty"`
@@ -56,8 +56,8 @@ type ComponentVersion struct {
 	Version        string                        `json:"version,omitempty"`
 	ComponentID    uuid.UUID                     `json:"componentID,omitempty"`
 	Description    string                        `json:"description,omitempty"`
-	Created        string                        `json:"created,omitempty"`
-	Updated        string                        `json:"updated,omitempty"`
+	Created        time.Time                     `json:"created"`
+	Updated        time.Time                     `json:"updated"`
 	RiskScore      *int                          `json:"riskScore,omitempty"`
 	ScanIssuesStat *ComponentShortScanIssuesStat `json:"scanIssuesStat,omitempty"`
 	ActualVersion  string                        `json:"actualVersion,omitempty"`
@@ -76,8 +76,8 @@ type ComponentVersionShort struct {
 	Name          string    `json:"name,omitempty"`
 	Version       string    `json:"version,omitempty"`
 	ComponentID   uuid.UUID `json:"componentID,omitempty"`
-	Created       string    `json:"created,omitempty"`
-	Updated       string    `json:"updated,omitempty"`
+	Created       time.Time `json:"created"`
+	Updated       time.Time `json:"updated"`
 	ActualVersion string    `json:"actualVersion,omitempty"`
 	PackageURL    string    `json:"packageUrl,omitempty"`
 }

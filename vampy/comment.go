@@ -1,15 +1,18 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type CommentDetails struct {
 	ID               uuid.UUID                `json:"id,omitempty"`
 	Body             string                   `json:"body,omitempty"`
 	Status           CommentStatus            `json:"status,omitempty"`
 	Type             CommentType              `json:"type,omitempty"`
-	Created          string                   `json:"created,omitempty"`
-	Updated          string                   `json:"updated,omitempty"`
+	Created          time.Time                `json:"created"`
+	Updated          time.Time                `json:"updated"`
 	User             *CommentUser             `json:"user,omitempty"`
 	Rule             *CommentRule             `json:"rule,omitempty"`
 	ScanIssue        *ScanIssueShort          `json:"scanIssue,omitempty"`

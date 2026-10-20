@@ -32,7 +32,7 @@ type ArtifactImport struct {
 
 type ArtifactImportTask struct {
 	ID      string    `json:"id,omitempty"`
-	Created string    `json:"created,omitempty"`
+	Created time.Time `json:"created"`
 	TaskID  uuid.UUID `json:"taskID,omitempty"`
 }
 
@@ -50,7 +50,7 @@ type ArtifactShort struct {
 	Description    string       `json:"description,omitempty"`
 	DefaultVersion string       `json:"defaultVersion,omitempty"`
 	Updated        string       `json:"updated,omitempty"`
-	Created        string       `json:"created,omitempty"`
+	Created        time.Time    `json:"created"`
 	Type           ArtifactType `json:"type,omitempty"`
 }
 

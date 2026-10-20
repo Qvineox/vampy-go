@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type FindingCard struct {
 	Finding
@@ -18,7 +21,7 @@ type FindingCard struct {
 
 type Finding struct {
 	ID             uuid.UUID     `json:"id,omitempty"`
-	Created        string        `json:"created,omitempty"`
+	Created        time.Time     `json:"created"`
 	Status         FindingStatus `json:"status,omitempty"`
 	Parser         Parser        `json:"parser,omitempty"`
 	Title          string        `json:"title,omitempty"`

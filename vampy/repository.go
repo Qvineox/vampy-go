@@ -13,7 +13,7 @@ type RepositoriesCountCardData struct {
 type RepositoryBranch struct {
 	ID         uuid.UUID                       `json:"id,omitempty"`
 	Slug       string                          `json:"slug,omitempty"`
-	Created    string                          `json:"created,omitempty"`
+	Created    time.Time                       `json:"created"`
 	IsDefault  bool                            `json:"isDefault,omitempty"`
 	IsEmpty    bool                            `json:"isEmpty,omitempty"`
 	Repository *RepositoryBranchListRepository `json:"repository,omitempty"`
