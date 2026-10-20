@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type ArtifactDelete struct {
 	Artifacts []uuid.UUID `json:"artifacts,omitempty"`
@@ -69,7 +72,7 @@ type ArtifactVersion struct {
 	Digests        []string               `json:"digests,omitempty"`
 	Pushed         string                 `json:"pushed,omitempty"`
 	ScanIssuesStat *ProductScanIssuesStat `json:"scanIssuesStat,omitempty"`
-	LastScan       string                 `json:"lastScan,omitempty"`
+	LastScan       time.Time              `json:"lastScan,omitempty"`
 	PullsCount     *int                   `json:"pullsCount,omitempty"`
 	IsDefault      bool                   `json:"isDefault,omitempty"`
 	Artifact       *ArtifactShort         `json:"artifact,omitempty"`

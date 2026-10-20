@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type QualityGateCondition struct {
 	Enabled      bool          `json:"enabled,omitempty"`
@@ -24,15 +27,6 @@ const (
 	QualityGateConditionStatusPASSED  QualityGateConditionStatus = "PASSED"
 )
 
-type QualityGateCriticality string
-
-const (
-	QualityGateCriticalityLOW      QualityGateCriticality = "LOW"
-	QualityGateCriticalityMEDIUM   QualityGateCriticality = "MEDIUM"
-	QualityGateCriticalityHIGH     QualityGateCriticality = "HIGH"
-	QualityGateCriticalityCRITICAL QualityGateCriticality = "CRITICAL"
-)
-
 type QualityGateEdit struct {
 	Name       string                 `json:"name,omitempty"`
 	Enabled    bool                   `json:"enabled,omitempty"`
@@ -49,7 +43,7 @@ type QualityGateForRelation struct {
 type QualityGateForRelationLastResult struct {
 	ID             *uuid.UUID              `json:"id,omitempty"`
 	Status         QualityGateResultStatus `json:"status,omitempty"`
-	LastCalculated *string                 `json:"lastCalculated,omitempty"`
+	LastCalculated *time.Time              `json:"lastCalculated,omitempty"`
 }
 
 type QualityGateRelation struct {
@@ -71,7 +65,7 @@ const (
 type QualityGateResultDetails struct {
 	ID             uuid.UUID                        `json:"id,omitempty"`
 	Status         QualityGateResultStatus          `json:"status,omitempty"`
-	LastCalculated *string                          `json:"lastCalculated,omitempty"`
+	LastCalculated *time.Time                       `json:"lastCalculated,omitempty"`
 	Relation       *QualityGateRelation             `json:"relation,omitempty"`
 	Details        *QualityGateResultDetailsDetails `json:"details,omitempty"`
 }
@@ -79,7 +73,7 @@ type QualityGateResultDetails struct {
 type QualityGateResultDetailsDetails struct {
 	Slug         string                       `json:"slug,omitempty"`
 	Name         string                       `json:"name,omitempty"`
-	Criticality  QualityGateCriticality       `json:"criticality,omitempty"`
+	Criticality  Criticality                  `json:"criticality,omitempty"`
 	Conditions   []QualityGateConditionResult `json:"conditions,omitempty"`
 	ErrorMessage string                       `json:"errorMessage,omitempty"`
 }
@@ -87,7 +81,7 @@ type QualityGateResultDetailsDetails struct {
 type QualityGateResult struct {
 	ID             uuid.UUID               `json:"id,omitempty"`
 	Status         QualityGateResultStatus `json:"status,omitempty"`
-	LastCalculated string                  `json:"lastCalculated,omitempty"`
+	LastCalculated time.Time               `json:"lastCalculated,omitempty"`
 	Relation       *QualityGateRelation    `json:"relation,omitempty"`
 }
 
@@ -108,9 +102,9 @@ type QualityGate struct {
 	Name        string                 `json:"name"`
 	IsDefault   bool                   `json:"isDefault,omitempty"`
 	Enabled     bool                   `json:"enabled,omitempty"`
-	Created     string                 `json:"created,omitempty"`
-	Updated     *string                `json:"updated,omitempty"`
-	Criticality QualityGateCriticality `json:"criticality,omitempty"`
+	Created     time.Time              `json:"created,omitempty"`
+	Updated     *time.Time             `json:"updated,omitempty"`
+	Criticality Criticality            `json:"criticality,omitempty"`
 	Conditions  []QualityGateCondition `json:"conditions,omitempty"`
 }
 

@@ -12,7 +12,7 @@ type SpaceIntegration struct {
 	Service        IntegrationServiceType `json:"service"`
 	State          IntegrationState       `json:"state,omitempty"`
 	ServerID       uuid.UUID              `json:"serverID,omitempty"`
-	Created        string                 `json:"created,omitempty"`
+	Created        time.Time              `json:"created,omitempty"`
 	Roles          []IntegrationRole      `json:"roles,omitempty"`
 	IgnoreSSLCheck *bool                  `json:"ignoreSSLCheck,omitempty"`
 }
@@ -36,5 +36,5 @@ type SpaceIntegrationWithMetaMetaAI struct {
 type Space struct {
 	ID      uuid.UUID `json:"id,omitempty"`
 	Name    string    `json:"name"`
-	Created string    `json:"created,omitempty"`
+	Created time.Time `json:"created,omitempty"`
 }

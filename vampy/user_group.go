@@ -51,8 +51,8 @@ type UserGroup struct {
 	Slug        string            `json:"slug,omitempty"`
 	Description string            `json:"description,omitempty"`
 	Name        string            `json:"name,omitempty"`
-	Created     string            `json:"created,omitempty"`
-	Updated     string            `json:"updated,omitempty"`
+	Created     time.Time         `json:"created,omitempty"`
+	Updated     time.Time         `json:"updated,omitempty"`
 	IsDefault   bool              `json:"isDefault,omitempty"`
 	Role        *UserRoleShort    `json:"role,omitempty"`
 	Counters    UserGroupCounters `json:"counters,omitempty"`

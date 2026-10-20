@@ -10,18 +10,9 @@ type AssetCreate struct {
 	IPs              []string                     `json:"ips,omitempty"`
 	ProductID        uuid.UUID                    `json:"productID"`
 	Scope            AssetScope                   `json:"scope,omitempty"`
-	Criticality      AssetCriticality             `json:"criticality,omitempty"`
+	Criticality      Criticality                  `json:"criticality,omitempty"`
 	DefinedVariables []OrchestrationScannerEnvVar `json:"definedVariables,omitempty"`
 }
-
-type AssetCriticality string
-
-const (
-	AssetCriticalityLOW      AssetCriticality = "LOW"
-	AssetCriticalityMEDIUM   AssetCriticality = "MEDIUM"
-	AssetCriticalityHIGH     AssetCriticality = "HIGH"
-	AssetCriticalityCRITICAL AssetCriticality = "CRITICAL"
-)
 
 type AssetDetails struct {
 	Asset
@@ -50,7 +41,7 @@ type AssetPatch struct {
 	Name             string                       `json:"name,omitempty"`
 	Description      string                       `json:"description,omitempty"`
 	Scope            AssetScope                   `json:"scope,omitempty"`
-	Criticality      AssetCriticality             `json:"criticality,omitempty"`
+	Criticality      Criticality                  `json:"criticality,omitempty"`
 	DefinedVariables []OrchestrationScannerEnvVar `json:"definedVariables,omitempty"`
 }
 
@@ -65,7 +56,7 @@ type Asset struct {
 	ID                    uuid.UUID               `json:"id,omitempty"`
 	Name                  string                  `json:"name,omitempty"`
 	Scope                 AssetScope              `json:"scope,omitempty"`
-	Criticality           AssetCriticality        `json:"criticality,omitempty"`
+	Criticality           Criticality             `json:"criticality,omitempty"`
 	Host                  string                  `json:"host,omitempty"`
 	HostName              string                  `json:"hostName,omitempty"`
 	URI                   string                  `json:"uri,omitempty"`

@@ -166,7 +166,7 @@ type ScannerIntegration struct {
 	Roles          []IntegrationRole      `json:"roles,omitempty"`
 	State          IntegrationState       `json:"state,omitempty"`
 	ServerID       uuid.UUID              `json:"serverID,omitempty"`
-	Created        string                 `json:"created,omitempty"`
+	Created        time.Time              `json:"created,omitempty"`
 	IgnoreSSLCheck bool                   `json:"ignoreSSLCheck,omitempty"`
 	ServerCert     string                 `json:"serverCert,omitempty"`
 	CLI            ScannerIntegrationCLI  `json:"cli,omitempty"`

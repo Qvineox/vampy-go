@@ -77,8 +77,8 @@ type ScanPipelinesGetOptions struct {
 	InitiatorType    []vampy.ScanPipelineInitiatorType
 	ScanPipelineType []vampy.ScanPipelineType
 	RelationType     []vampy.ScanPipelineRelationType
-	CreatedLte       *string
-	CreatedGte       *string
+	CreatedLte       *time.Time
+	CreatedGte       *time.Time
 
 	vampy.Paging
 }

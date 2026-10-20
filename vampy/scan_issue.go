@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type BaseIssueStatus struct {
 	Name        string `json:"name,omitempty"`
@@ -203,8 +206,8 @@ type ScanIssueCountsStat struct {
 }
 
 type ScanIssueCreateResponse struct {
-	Status    string           `json:"status,omitempty"`
-	ScanIssue *ScanIssueDetail `json:"scanIssue,omitempty"`
+	Status    string     `json:"status,omitempty"`
+	ScanIssue *ScanIssue `json:"scanIssue,omitempty"`
 }
 
 type ScanIssueCreate struct {
@@ -227,28 +230,6 @@ type ScanIssueCreate struct {
 
 type ScanIssueDelete struct {
 	Issues []uuid.UUID `json:"issues,omitempty"`
-}
-
-type ScanIssueDetail struct {
-	ScanIssue
-	Data                 map[string]any                       `json:"data,omitempty"`
-	Assets               []Asset                              `json:"assets,omitempty"`
-	Description          string                               `json:"description,omitempty"`
-	CodeSnippet          string                               `json:"codeSnippet,omitempty"`
-	Solution             string                               `json:"solution,omitempty"`
-	References           []string                             `json:"references,omitempty"`
-	ArtifactVersion      *ArtifactVersionShort                `json:"artifactVersion,omitempty"`
-	Product              *ProductShort                        `json:"product,omitempty"`
-	ComponentVersion     *ComponentVersionShort               `json:"componentVersion,omitempty"`
-	FilePathVCSLink      *string                              `json:"filePathVCSLink,omitempty"`
-	CommitSHA            *ScanIssueDetailCommitSHA            `json:"commitSha,omitempty"`
-	GitBlame             *ScanIssueGitBlame                   `json:"gitBlame,omitempty"`
-	Duplicates           *ScanIssueDetailDuplicates           `json:"duplicates,omitempty"`
-	Comments             *ScanIssueDetailDuplicates           `json:"comments,omitempty"`
-	AssociatedScanIssues *ScanIssueDetailAssociatedScanIssues `json:"associatedScanIssues,omitempty"`
-	AIRequests           []ScanIssueAIRequestResponse         `json:"aiRequests,omitempty"`
-	AIApplied            *ScanIssueDetailAIApplied            `json:"aiApplied,omitempty"`
-	FPScore              *FPScoreDetail                       `json:"fpScore,omitempty"`
 }
 
 type ScanIssueDetailAIApplied struct {
@@ -416,6 +397,29 @@ type ScanIssue struct {
 	ExportRecords      []IssueExport              `json:"exportRecords,omitempty"`
 	Permissions        []ScanIssuePermissionValue `json:"permissions,omitempty"`
 	ScheduledStatus    *ScheduledStatus           `json:"scheduledStatus,omitempty"`
+
+	// details
+	Data                 map[string]any                       `json:"data,omitempty"`
+	Assets               []Asset                              `json:"assets,omitempty"`
+	Description          string                               `json:"description,omitempty"`
+	CodeSnippet          string                               `json:"codeSnippet,omitempty"`
+	Solution             string                               `json:"solution,omitempty"`
+	References           []string                             `json:"references,omitempty"`
+	ArtifactVersion      *ArtifactVersionShort                `json:"artifactVersion,omitempty"`
+	Product              *ProductShort                        `json:"product,omitempty"`
+	ComponentVersion     *ComponentVersionShort               `json:"componentVersion,omitempty"`
+	FilePathVCSLink      *string                              `json:"filePathVCSLink,omitempty"`
+	CommitSHA            *ScanIssueDetailCommitSHA            `json:"commitSha,omitempty"`
+	GitBlame             *ScanIssueGitBlame                   `json:"gitBlame,omitempty"`
+	Duplicates           *ScanIssueDetailDuplicates           `json:"duplicates,omitempty"`
+	Comments             *ScanIssueDetailDuplicates           `json:"comments,omitempty"`
+	AssociatedScanIssues *ScanIssueDetailAssociatedScanIssues `json:"associatedScanIssues,omitempty"`
+	AIRequests           []ScanIssueAIRequestResponse         `json:"aiRequests,omitempty"`
+	AIApplied            *ScanIssueDetailAIApplied            `json:"aiApplied,omitempty"`
+	FPScore              *FPScore                             `json:"fpScore,omitempty"`
+
+	// false positive score
+	FPScore *FPScore `json:"fpScore,omitempty"`
 }
 
 type ScanIssues struct {
@@ -486,7 +490,6 @@ const (
 
 type ScanIssueWithFPScore struct {
 	ScanIssue
-	FPScore *FPScore `json:"fpScore,omitempty"`
 }
 
 type ScanIssuesAIRequest struct {
@@ -569,10 +572,10 @@ type ScanPipelineJob struct {
 	ID             uuid.UUID                   `json:"id,omitempty"`
 	SpaceID        uuid.UUID                   `json:"spaceID,omitempty"`
 	ScanPipelineID uuid.UUID                   `json:"scanPipelineID,omitempty"`
-	Created        string                      `json:"created,omitempty"`
-	Updated        string                      `json:"updated,omitempty"`
-	Finished       string                      `json:"finished,omitempty"`
-	Duration       int                         `json:"duration,omitempty"`
+	Created        time.Time                   `json:"created,omitempty"`
+	Updated        time.Time                   `json:"updated,omitempty"`
+	Finished       time.Time                   `json:"finished,omitempty"`
+	Duration       time.Duration               `json:"duration,omitempty"`
 	Status         ScanPipelineJobStatus       `json:"status,omitempty"`
 	Error          string                      `json:"error,omitempty"`
 	ScanningTool   string                      `json:"scanningTool,omitempty"`
@@ -602,8 +605,8 @@ type ScanPipelineListExtItem struct {
 	ScanningTool         string                   `json:"scanningTool,omitempty"`
 	RelationType         ScanPipelineRelationType `json:"relationType,omitempty"`
 	RelationID           uuid.UUID                `json:"relationId,omitempty"`
-	Created              string                   `json:"created,omitempty"`
-	Finished             *string                  `json:"finished,omitempty"`
+	Created              time.Time                `json:"created,omitempty"`
+	Finished             *time.Time               `json:"finished,omitempty"`
 	AggregationCompleted bool                     `json:"aggregationCompleted,omitempty"`
 }
 
@@ -645,10 +648,10 @@ type ScanPipeline struct {
 	ID                   uuid.UUID                   `json:"id,omitempty"`
 	SpaceID              uuid.UUID                   `json:"spaceID,omitempty"`
 	ScanPipelineType     ScanPipelineType            `json:"scanPipelineType,omitempty"`
-	Created              string                      `json:"created,omitempty"`
-	Updated              string                      `json:"updated,omitempty"`
-	Finished             string                      `json:"finished,omitempty"`
-	Duration             int                         `json:"duration,omitempty"`
+	Created              time.Time                   `json:"created,omitempty"`
+	Updated              time.Time                   `json:"updated,omitempty"`
+	Finished             time.Time                   `json:"finished,omitempty"`
+	Duration             time.Duration               `json:"duration,omitempty"`
 	Status               ScanPipelineStatus          `json:"status,omitempty"`
 	Error                string                      `json:"error,omitempty"`
 	ScanningTool         string                      `json:"scanningTool,omitempty"`
@@ -676,8 +679,8 @@ type ScanPipelineStatusExt struct {
 	ExternalID           *string            `json:"externalID,omitempty"`
 	Status               ScanPipelineStatus `json:"status,omitempty"`
 	ScanningTool         string             `json:"scanningTool,omitempty"`
-	Created              string             `json:"created,omitempty"`
-	Finished             *string            `json:"finished,omitempty"`
+	Created              time.Time          `json:"created,omitempty"`
+	Finished             *time.Time         `json:"finished,omitempty"`
 	AggregationCompleted bool               `json:"aggregationCompleted,omitempty"`
 }
 
@@ -696,7 +699,7 @@ type ScanUploadRelation struct {
 
 type ScanUpload struct {
 	ID              uuid.UUID           `json:"id,omitempty"`
-	Created         string              `json:"created,omitempty"`
+	Created         time.Time           `json:"created,omitempty"`
 	Parser          Parser              `json:"parser,omitempty"`
 	TaskID          uuid.UUID           `json:"taskID,omitempty"`
 	Repository      any                 `json:"repository,omitempty"`

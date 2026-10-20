@@ -22,6 +22,8 @@ func (c *Client) RepositoryListGet(ctx context.Context, opts RepositoryListGetOp
 
 	if opts.SpaceID != nil {
 		q.Set("spaceID", opts.SpaceID.String())
+	} else if c.spaceID != uuid.Nil() {
+		q.Set("spaceID", c.spaceID.String())
 	}
 
 	if opts.ProductID != nil {
@@ -218,6 +220,10 @@ type RepositoryUserGroupsUnsetOptions struct {
 func (c *Client) RepositoryVCSLink(ctx context.Context, opts RepositoryVCSLinkOptions) (vampy.RepositoryDetails, error) {
 	path := fmt.Sprintf("/repositories/%s/vcs/link/", url.PathEscape(opts.RepositoryID.String()))
 
+	if opts.Body.SpaceID == uuid.Nil() {
+		opts.Body.SpaceID = c.spaceID
+	}
+
 	var out vampy.RepositoryDetails
 	if err := c.doJSON(ctx, http.MethodPost, path, nil, opts.Body, &out); err != nil {
 		return out, err
@@ -248,7 +254,7 @@ type RepositoryVCSUnlinkOptions struct {
 }
 
 // RepositoryBranchListGet Get list of repository branches
-func (c *Client) RepositoryBranchListGet(ctx context.Context, opts RepositoryBranchListGetOptions) (vampy.Page[vampy.RepositoryBranchList], error) {
+func (c *Client) RepositoryBranchListGet(ctx context.Context, opts RepositoryBranchListGetOptions) (vampy.Page[vampy.RepositoryBranch], error) {
 	path := fmt.Sprintf("/spaces/%s/repository_branches/", url.PathEscape(c.spaceID.String()))
 	q := url.Values{}
 

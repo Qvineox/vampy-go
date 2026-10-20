@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type ComponentDetails struct {
 	ComponentShort
@@ -28,7 +31,7 @@ type ComponentShort struct {
 	RiskScore      *int                          `json:"riskScore,omitempty"`
 	ScanIssuesStat *ComponentShortScanIssuesStat `json:"scanIssuesStat,omitempty"`
 	Versions       []ComponentShortVersions      `json:"versions,omitempty"`
-	LastAggregated string                        `json:"lastAggregated,omitempty"`
+	LastAggregated time.Time                     `json:"lastAggregated,omitempty"`
 	Permissions    []ComponentPermissionValue    `json:"permissions,omitempty"`
 }
 

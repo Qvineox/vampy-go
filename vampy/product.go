@@ -1,21 +1,15 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type ProductChangeRelations struct {
 	ComponentVersions []uuid.UUID `json:"componentVersions,omitempty"`
 	Repositories      []uuid.UUID `json:"repositories,omitempty"`
 }
-
-type ProductCriticality string
-
-const (
-	ProductCriticalityLOW      ProductCriticality = "LOW"
-	ProductCriticalityMEDIUM   ProductCriticality = "MEDIUM"
-	ProductCriticalityHIGH     ProductCriticality = "HIGH"
-	ProductCriticalityCRITICAL ProductCriticality = "CRITICAL"
-)
 
 type ProductDetail struct {
 	Product
@@ -30,7 +24,7 @@ type ProductDetail struct {
 type ProductEdit struct {
 	Name               string                 `json:"name,omitempty"`
 	Description        string                 `json:"description,omitempty"`
-	Criticality        ProductCriticality     `json:"criticality,omitempty"`
+	Criticality        Criticality            `json:"criticality,omitempty"`
 	IntegrationID      *uuid.UUID             `json:"integrationID,omitempty"`
 	IntegrationService IntegrationServiceType `json:"integrationService,omitempty"`
 	QualityGateID      *uuid.UUID             `json:"qualityGateID,omitempty"`
@@ -65,11 +59,11 @@ type Product struct {
 	Slug              string                   `json:"slug,omitempty"`
 	Created           string                   `json:"created,omitempty"`
 	Description       string                   `json:"description,omitempty"`
-	Criticality       ProductCriticality       `json:"criticality,omitempty"`
+	Criticality       Criticality              `json:"criticality,omitempty"`
 	RiskScore         *int                     `json:"riskScore,omitempty"`
 	RepositoriesCount int                      `json:"repositoriesCount,omitempty"`
 	ScanIssuesStat    *ProductScanIssuesStat   `json:"scanIssuesStat,omitempty"`
-	LastAggregated    string                   `json:"lastAggregated,omitempty"`
+	LastAggregated    time.Time                `json:"lastAggregated,omitempty"`
 	Users             []DetailPermissionUser   `json:"users,omitempty"`
 	Permissions       []ProductPermissionValue `json:"permissions,omitempty"`
 	QualityGate       *QualityGateForRelation  `json:"qualityGate,omitempty"`
@@ -83,11 +77,11 @@ type ProductScanIssuesStat struct {
 }
 
 type ProductShort struct {
-	ID          uuid.UUID          `json:"id,omitempty"`
-	Name        string             `json:"name,omitempty"`
-	Criticality ProductCriticality `json:"criticality,omitempty"`
-	Slug        string             `json:"slug,omitempty"`
-	Created     string             `json:"created,omitempty"`
+	ID          uuid.UUID   `json:"id,omitempty"`
+	Name        string      `json:"name,omitempty"`
+	Criticality Criticality `json:"criticality,omitempty"`
+	Slug        string      `json:"slug,omitempty"`
+	Created     string      `json:"created,omitempty"`
 }
 
 type ProductsCountCardData struct {

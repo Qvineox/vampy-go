@@ -1,7 +1,10 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type AvailabilityStatus struct {
 	Applicable bool                                  `json:"applicable,omitempty"`
@@ -17,8 +20,8 @@ type BackgroundTaskDetailsSubTasks struct {
 	TaskID      uuid.UUID            `json:"taskID,omitempty"`
 	Status      BackgroundTaskStatus `json:"status,omitempty"`
 	DisplayName string               `json:"displayName,omitempty"`
-	Created     string               `json:"created,omitempty"`
-	Updated     string               `json:"updated,omitempty"`
+	Created     time.Time            `json:"created,omitempty"`
+	Updated     time.Time            `json:"updated,omitempty"`
 }
 
 type BackgroundTaskMetaRulesCheck struct {
@@ -42,8 +45,8 @@ type BackgroundTask struct {
 	Options           *BackgroundTaskOptions `json:"options,omitempty"`
 	TotalSubTasks     int                    `json:"totalSubTasks,omitempty"`
 	CompletedSubTasks int                    `json:"completedSubTasks,omitempty"`
-	Created           string                 `json:"created,omitempty"`
-	Updated           string                 `json:"updated,omitempty"`
+	Created           time.Time              `json:"created,omitempty"`
+	Updated           time.Time              `json:"updated,omitempty"`
 	ErrorDetails      *string                `json:"errorDetails,omitempty"`
 	Meta              *BackgroundTaskMeta    `json:"meta,omitempty"`
 }
@@ -225,8 +228,8 @@ type FPClassifierSettings struct {
 type FPClassifierSnapshot struct {
 	ID                 uuid.UUID                               `json:"id,omitempty"`
 	Name               string                                  `json:"name,omitempty"`
-	Created            string                                  `json:"created,omitempty"`
-	Updated            string                                  `json:"updated,omitempty"`
+	Created            time.Time                               `json:"created,omitempty"`
+	Updated            time.Time                               `json:"updated,omitempty"`
 	SnapshotStats      *FPClassifierSnapshotStats              `json:"snapshotStats,omitempty"`
 	TrainingStatus     FPClassifierModelSnapshotTrainingStatus `json:"trainingStatus,omitempty"`
 	ScheduledAt        *string                                 `json:"scheduledAt,omitempty"`
@@ -283,26 +286,12 @@ type FPScoreClassifierAppliedDetail struct {
 	ShapValues []FPScoreShapValue         `json:"shapValues,omitempty"`
 }
 
-type FPScoreDetail struct {
+type FPScore struct {
 	Value             *int                            `json:"value,omitempty"`
 	Level             *string                         `json:"level,omitempty"`
 	Type              *FPScoreSourceType              `json:"type,omitempty"`
 	ClassifierApplied *FPScoreClassifierAppliedDetail `json:"classifierApplied,omitempty"`
 	AIApplied         *FPScoreAIAppliedDetail         `json:"aiApplied,omitempty"`
-}
-
-type FPScore struct {
-	Value             *int                      `json:"value,omitempty"`
-	Level             *string                   `json:"level,omitempty"`
-	Type              *FPScoreSourceType        `json:"type,omitempty"`
-	ClassifierApplied *FPScoreClassifierApplied `json:"classifierApplied,omitempty"`
-	AIApplied         *FPScoreAIApplied         `json:"aiApplied,omitempty"`
-}
-
-type FPScoreAIApplied struct {
-	Integration *SpaceIntegrationWithMeta `json:"integration,omitempty"`
-	Model       *string                   `json:"model,omitempty"`
-	AppliedAt   *string                   `json:"appliedAt,omitempty"`
 }
 
 type FPScoreClassifierApplied struct {

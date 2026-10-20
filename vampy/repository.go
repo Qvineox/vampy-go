@@ -1,13 +1,16 @@
 // Package vampy contains the entity types for the Vampy ASPM API.
 package vampy
 
-import "uuid"
+import (
+	"time"
+	"uuid"
+)
 
 type RepositoriesCountCardData struct {
 	SimpleCardValue
 }
 
-type RepositoryBranchList struct {
+type RepositoryBranch struct {
 	ID         uuid.UUID                       `json:"id,omitempty"`
 	Slug       string                          `json:"slug,omitempty"`
 	Created    string                          `json:"created,omitempty"`
@@ -20,13 +23,6 @@ type RepositoryBranchListRepository struct {
 	ID   uuid.UUID `json:"id,omitempty"`
 	Name string    `json:"name,omitempty"`
 	Slug string    `json:"slug,omitempty"`
-}
-
-type RepositoryBranch struct {
-	ID        uuid.UUID `json:"id,omitempty"`
-	Slug      string    `json:"slug,omitempty"`
-	Created   string    `json:"created,omitempty"`
-	IsDefault bool      `json:"isDefault,omitempty"`
 }
 
 type RepositoryBranchSyncRequest struct {
@@ -54,15 +50,6 @@ type RepositoryCreate struct {
 	Repository
 	ProductID *uuid.UUID `json:"productID,omitempty"`
 }
-
-type RepositoryCriticality string
-
-const (
-	RepositoryCriticalityLOW      RepositoryCriticality = "LOW"
-	RepositoryCriticalityMEDIUM   RepositoryCriticality = "MEDIUM"
-	RepositoryCriticalityHIGH     RepositoryCriticality = "HIGH"
-	RepositoryCriticalityCRITICAL RepositoryCriticality = "CRITICAL"
-)
 
 type RepositoryDetails struct {
 	Repository
@@ -113,13 +100,13 @@ type RepositoryLink struct {
 }
 
 type RepositoryPatch struct {
-	Criticality   RepositoryCriticality `json:"criticality,omitempty"`
-	Name          string                `json:"name,omitempty"`
-	URL           string                `json:"url,omitempty"`
-	Description   string                `json:"description,omitempty"`
-	QualityGateID *uuid.UUID            `json:"qualityGateID,omitempty"`
-	ScanProfileID *uuid.UUID            `json:"scanProfileID,omitempty"`
-	DefaultBranch *string               `json:"defaultBranch,omitempty"`
+	Criticality   Criticality `json:"criticality,omitempty"`
+	Name          string      `json:"name,omitempty"`
+	URL           string      `json:"url,omitempty"`
+	Description   string      `json:"description,omitempty"`
+	QualityGateID *uuid.UUID  `json:"qualityGateID,omitempty"`
+	ScanProfileID *uuid.UUID  `json:"scanProfileID,omitempty"`
+	DefaultBranch *string     `json:"defaultBranch,omitempty"`
 }
 
 type RepositoryPermissionValue string
@@ -143,15 +130,15 @@ type Repository struct {
 	ID               uuid.UUID                   `json:"id,omitempty"`
 	Type             RepositoryType              `json:"type,omitempty"`
 	Slug             string                      `json:"slug"`
-	Criticality      RepositoryCriticality       `json:"criticality,omitempty"`
+	Criticality      Criticality                 `json:"criticality,omitempty"`
 	Name             string                      `json:"name"`
-	Created          string                      `json:"created,omitempty"`
-	LastScan         string                      `json:"lastScan,omitempty"`
+	Created          time.Time                   `json:"created,omitempty"`
+	LastScan         time.Time                   `json:"lastScan,omitempty"`
 	Description      string                      `json:"description,omitempty"`
 	URL              string                      `json:"url"`
 	RiskScore        *int                        `json:"riskScore,omitempty"`
 	ScanIssuesStat   *ProductScanIssuesStat      `json:"scanIssuesStat,omitempty"`
-	LastAggregated   string                      `json:"lastAggregated,omitempty"`
+	LastAggregated   time.Time                   `json:"lastAggregated,omitempty"`
 	Users            []DetailPermissionUser      `json:"users,omitempty"`
 	Permissions      []RepositoryPermissionValue `json:"permissions,omitempty"`
 	Branches         []RepositoryBranch          `json:"branches,omitempty"`
@@ -161,12 +148,12 @@ type Repository struct {
 }
 
 type RepositoryShort struct {
-	ID          uuid.UUID             `json:"id,omitempty"`
-	Type        RepositoryType        `json:"type,omitempty"`
-	Slug        string                `json:"slug,omitempty"`
-	Criticality RepositoryCriticality `json:"criticality,omitempty"`
-	Name        string                `json:"name,omitempty"`
-	Created     string                `json:"created,omitempty"`
+	ID          uuid.UUID      `json:"id,omitempty"`
+	Type        RepositoryType `json:"type,omitempty"`
+	Slug        string         `json:"slug,omitempty"`
+	Criticality Criticality    `json:"criticality,omitempty"`
+	Name        string         `json:"name,omitempty"`
+	Created     string         `json:"created,omitempty"`
 }
 
 type RepositoryType string
