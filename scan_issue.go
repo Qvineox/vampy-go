@@ -29,7 +29,7 @@ type ScanIssueCreateOptions struct {
 }
 
 // ScanIssuesFilter Filter scan issues by params
-func (c *Client) ScanIssuesFilter(ctx context.Context, opts ScanIssuesFilterOptions) (vampy.Page[vampy.ScanIssueWithFPScore], error) {
+func (c *Client) ScanIssuesFilter(ctx context.Context, opts ScanIssuesFilterOptions) (vampy.Page[vampy.ScanIssue], error) {
 	path := "/scan_issues/filter/"
 	q := url.Values{}
 
@@ -40,7 +40,7 @@ func (c *Client) ScanIssuesFilter(ctx context.Context, opts ScanIssuesFilterOpti
 		q.Set("order", *opts.Order)
 	}
 
-	var out vampy.Page[vampy.ScanIssueWithFPScore]
+	var out vampy.Page[vampy.ScanIssue]
 	if err := c.doJSON(ctx, http.MethodPost, path, q, opts.Body, &out); err != nil {
 		return out, err
 	}
@@ -188,10 +188,10 @@ func (c *Client) ScanIssueSchemasGet(ctx context.Context) ([]vampy.ScanIssues, e
 }
 
 // ScanIssueDetailsGet Get information about ScanIssue
-func (c *Client) ScanIssueDetailsGet(ctx context.Context, opts ScanIssueDetailsGetOptions) (vampy.ScanIssueDetail, error) {
+func (c *Client) ScanIssueDetailsGet(ctx context.Context, opts ScanIssueDetailsGetOptions) (vampy.ScanIssue, error) {
 	path := fmt.Sprintf("/scan_issues/%s/", url.PathEscape(opts.ScanIssueID.String()))
 
-	var out vampy.ScanIssueDetail
+	var out vampy.ScanIssue
 	if err := c.doJSON(ctx, http.MethodGet, path, nil, nil, &out); err != nil {
 		return out, err
 	}

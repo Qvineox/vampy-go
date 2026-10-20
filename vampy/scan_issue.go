@@ -487,10 +487,6 @@ const (
 	ScanIssueTypeDEPENDENCYCHECK ScanIssueType = "DEPENDENCY_CHECK"
 )
 
-type ScanIssueWithFPScore struct {
-	ScanIssue
-}
-
 type ScanIssuesAIRequest struct {
 	Request       ScanIssueAIRequestType `json:"request"`
 	AIModel       *string                `json:"aiModel,omitempty"`
