@@ -324,8 +324,8 @@ type ScanIssueFilter struct {
 	CVEIDs                []string                        `json:"cveIDs,omitempty"`
 	FilePaths             []string                        `json:"filePaths,omitempty"`
 	Titles                []string                        `json:"titles,omitempty"`
-	ArtifactVersionIDs    []string                        `json:"artifactVersionIDs,omitempty"`
-	ArtifactIDs           []string                        `json:"artifactIDs,omitempty"`
+	ArtifactVersionIDs    []uuid.UUID                     `json:"artifactVersionIDs,omitempty"`
+	ArtifactIDs           []uuid.UUID                     `json:"artifactIDs,omitempty"`
 	OldIssues             *bool                           `json:"oldIssues,omitempty"`
 	AssociatedWithIssueID uuid.UUID                       `json:"associatedWithIssueID,omitempty"`
 	ScanPipelineID        uuid.UUID                       `json:"scanPipelineID,omitempty"`
