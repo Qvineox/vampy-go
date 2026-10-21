@@ -503,7 +503,8 @@ type ScanIssuesUpdate struct {
 }
 
 type ScanPipelineAggregatedData struct {
-	ByFindingState *NameBasedBySeverity `json:"by_finding_state,omitempty"`
+	NameBasedCardValue
+	ByFindingState []NameBasedBySeverity `json:"by_finding_state,omitempty"`
 }
 
 type ScanPipelineCreateExtResponse struct {
