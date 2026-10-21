@@ -32,6 +32,7 @@ type ScanIssueCreateOptions struct {
 func (c *Client) ScanIssuesFilter(ctx context.Context, opts ScanIssuesFilterOptions) (vampy.Page[vampy.ScanIssue], error) {
 	path := "/scan_issues/filter/"
 	q := url.Values{}
+	opts.Body.SpaceID = c.spaceID
 
 	q.Set("offset", strconv.Itoa(opts.Offset))
 	q.Set("limit", strconv.Itoa(opts.Limit))
