@@ -327,9 +327,9 @@ type ScanIssueFilter struct {
 	ArtifactVersionIDs    []uuid.UUID                     `json:"artifactVersionIDs,omitempty"`
 	ArtifactIDs           []uuid.UUID                     `json:"artifactIDs,omitempty"`
 	OldIssues             *bool                           `json:"oldIssues,omitempty"`
-	AssociatedWithIssueID uuid.UUID                       `json:"associatedWithIssueID,omitempty"`
-	ScanPipelineID        uuid.UUID                       `json:"scanPipelineID,omitempty"`
-	ScanPipelineJobID     uuid.UUID                       `json:"scanPipelineJobID,omitempty"`
+	AssociatedWithIssueID *uuid.UUID                      `json:"associatedWithIssueID,omitempty"`
+	ScanPipelineID        *uuid.UUID                      `json:"scanPipelineID,omitempty"`
+	ScanPipelineJobID     *uuid.UUID                      `json:"scanPipelineJobID,omitempty"`
 	FindingState          FindingState                    `json:"findingState,omitempty"`
 	FindingSeverity       Severity                        `json:"findingSeverity,omitempty"`
 	FPScore               *ScanIssueFPScoreFilter         `json:"fpScore,omitempty"`
