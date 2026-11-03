@@ -56,7 +56,7 @@ type RepositoryDetails struct {
 	Languages             map[string]any                 `json:"languages,omitempty"`
 	ExternalLink          *RepositoryDetailsExternalLink `json:"externalLink,omitempty"`
 	ScanProfile           *OrchestrationScanProfile      `json:"scanProfile,omitempty"`
-	LastOrchestrationScan OrchestrationScanDetail        `json:"lastOrchestrationScan,omitempty"`
+	LastOrchestrationScan OrchestrationScanDetail        `json:"lastOrchestrationScan"`
 	LastScanPipeline      *ScanPipeline                  `json:"lastScanPipeline,omitempty"`
 }
 
@@ -127,18 +127,18 @@ const (
 )
 
 type Repository struct {
-	ID               uuid.UUID                   `json:"id,omitempty"`
+	ID               *uuid.UUID                  `json:"id,omitempty"`
 	Type             RepositoryType              `json:"type,omitempty"`
 	Slug             string                      `json:"slug"`
 	Criticality      Criticality                 `json:"criticality,omitempty"`
 	Name             string                      `json:"name"`
-	Created          time.Time                   `json:"created,omitempty"`
-	LastScan         time.Time                   `json:"lastScan,omitempty"`
+	Created          *time.Time                  `json:"created,omitempty"`
+	LastScan         *time.Time                  `json:"lastScan,omitempty"`
 	Description      string                      `json:"description,omitempty"`
-	URL              string                      `json:"url"`
+	URL              string                      `json:"url,omitempty"`
 	RiskScore        *int                        `json:"riskScore,omitempty"`
 	ScanIssuesStat   *ProductScanIssuesStat      `json:"scanIssuesStat,omitempty"`
-	LastAggregated   time.Time                   `json:"lastAggregated,omitempty"`
+	LastAggregated   *time.Time                  `json:"lastAggregated,omitempty"`
 	Users            []DetailPermissionUser      `json:"users,omitempty"`
 	Permissions      []RepositoryPermissionValue `json:"permissions,omitempty"`
 	Branches         []RepositoryBranch          `json:"branches,omitempty"`
