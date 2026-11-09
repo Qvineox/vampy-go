@@ -109,6 +109,10 @@ func (c *Client) ScanIssuesAsyncExport(ctx context.Context, opts ScanIssuesAsync
 		q.Set("csvQuoting", string(*opts.CSVQuoting))
 	}
 
+	if opts.Body.SpaceID == uuid.Nil() {
+		opts.Body.SpaceID = c.spaceID
+	}
+
 	var out vampy.Report
 	if err := c.doJSON(ctx, http.MethodPost, path, q, opts.Body, &out); err != nil {
 		return out, err

@@ -65,7 +65,7 @@ type ArtifactVersionDelete struct {
 
 type ArtifactVersion struct {
 	ID             uuid.UUID              `json:"id,omitempty"`
-	Slug           uuid.UUID              `json:"slug,omitempty"`
+	Slug           string                 `json:"slug,omitempty"`
 	Digests        []string               `json:"digests,omitempty"`
 	Pushed         string                 `json:"pushed,omitempty"`
 	ScanIssuesStat *ProductScanIssuesStat `json:"scanIssuesStat,omitempty"`
