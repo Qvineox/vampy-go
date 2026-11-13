@@ -288,6 +288,9 @@ type ScanIssueExport struct {
 	IssueLink          *string            `json:"issueLink,omitempty"`
 	Solution           *string            `json:"solution,omitempty"`
 	CommitSHALastSeen  *string            `json:"commitShaLastSeen,omitempty"`
+	SourceType         string             `json:"sourceType"`
+
+	Comments []Comment `json:"comments"`
 }
 
 type ScanIssueFPScoreAIModelFilter struct {

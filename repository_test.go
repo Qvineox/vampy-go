@@ -47,3 +47,16 @@ func TestClient_CreateRepository(t *testing.T) {
 		createdRepositoryUUID = *repository.ID
 	})
 }
+
+func TestClient_ListRepositoryBranches(t *testing.T) {
+	t.Run("list repository branches", func(t *testing.T) {
+		opts := RepositoryBranchListGetOptions{
+			Order: new("-created"),
+			Limit: 1000,
+		}
+
+		branches, err := testClient.RepositoryBranchListGet(context.Background(), opts)
+		require.NoError(t, err)
+		require.NotEmpty(t, branches)
+	})
+}

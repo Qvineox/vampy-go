@@ -38,6 +38,9 @@ type Comment struct {
 	Body           string    `json:"body"`
 	External       bool      `json:"external,omitempty"`
 	ExportRecordID uuid.UUID `json:"exportRecordID,omitempty"`
+
+	Created time.Time `json:"created"`
+	Author  string    `json:"author"`
 }
 
 type CommentStatus string
